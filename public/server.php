@@ -12,6 +12,7 @@ autoload::register();
 
 use App\Database;
 use App\Config;
+use App\Table\Users;
 
 $page = "";
 
@@ -25,3 +26,10 @@ if (!empty($_GET["page"])) {
 
 }
 
+if($page == "setUser" OR $page == "setUser/"){
+  Users::setUser();
+}else if($page == "getUsers" OR $page == "getUsers/"){
+  users::getUsers();
+}else if($page === "removeUser" OR $page === "removeUser/"){
+  Users::removeUser();
+}

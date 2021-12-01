@@ -16,6 +16,9 @@ const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons
 
 // sample page routing
 const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+const CreateUserPage = Loadable(lazy(() => import('views/pages/users/createUser.page')))
+const ListUserPage = Loadable(lazy(() => import('views/pages/users/listUser.page')))
+const SendMessage = Loadable(lazy(() => import('views/pages/messenger/sendMessage.page')))
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -32,16 +35,16 @@ const MainRoutes = {
             element: <DashboardDefault />
         },
         {
-            path: '/utils/util-typography',
-            element: <UtilsTypography />
+            path: '/dashboard/contact/add',
+            element: <CreateUserPage />
         },
         {
-            path: '/utils/util-color',
-            element: <UtilsColor />
+            path: '/dashboard/contact/list',
+            element: <ListUserPage />
         },
         {
-            path: '/utils/util-shadow',
-            element: <UtilsShadow />
+            path: '/dashboard/message/send',
+            element: <SendMessage />
         },
         {
             path: '/icons/tabler-icons',
