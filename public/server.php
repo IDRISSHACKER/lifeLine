@@ -10,6 +10,7 @@ define("ROOT", dirname(__DIR__));
 require ROOT.'/'.'App/autoload.php';
 autoload::register();
 
+use App\Table\Admin;
 use App\Table\Users;
 use App\Table\Groupe;
 use App\Table\Messenger;
@@ -42,6 +43,8 @@ if($page === "setUser" OR $page === "setUser/"){
   Messenger::sendMessage();
 }else if($page === "getMessages" OR $page === "getMessages/"){
   Messenger::getMessages();
-}else if($page === "removeMessage" OR $page === "removeMessages"){
+}else if($page === "removeMessage" OR $page === "removeMessage/"){
   Messenger::removeMessage();
+}else if($page === "admin" OR $page === "admin/"){
+    Admin::getAdmin();
 }
