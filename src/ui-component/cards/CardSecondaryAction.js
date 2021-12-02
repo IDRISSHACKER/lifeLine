@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
-import { ButtonBase, Link, Tooltip } from '@mui/material';
-
+import { ButtonBase, Tooltip } from '@mui/material';
+import { Link as RouterLink } from 'react-router-dom';
 // project imports
 import Avatar from '../extended/Avatar';
 
@@ -14,7 +14,7 @@ const CardSecondaryAction = ({ title, link, icon }) => {
         <Tooltip title={title || 'Reference'} placement="left">
             <ButtonBase disableRipple>
                 {!icon && (
-                    <Avatar component={Link} href={link} target="_blank" alt="MUI Logo" size="badge" color="primary" outline>
+                    <Avatar component={RouterLink} to={link} alt="MUI Logo" size="badge" color="primary" outline>
                         <svg width="500" height="500" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clipPath="url(#clip0)">
                                 <path
@@ -40,7 +40,7 @@ const CardSecondaryAction = ({ title, link, icon }) => {
                     </Avatar>
                 )}
                 {icon && (
-                    <Avatar component={Link} href={link} target="_blank" size="badge" color="primary" outline>
+                    <Avatar sx={{p: 2}} component={RouterLink} to={link} size="badge" color="primary" outline>
                         {icon}
                     </Avatar>
                 )}

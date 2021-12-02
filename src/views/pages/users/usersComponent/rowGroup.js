@@ -25,13 +25,14 @@ import { red } from '@mui/material/colors';
 import { useDispatch } from 'react-redux';
 import { removeUser } from 'store/Action/users.action';
 import Info from "../../utils/Info"
+import { removeGroup } from 'store/Action/goupe.action';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Trash = ({ user }) => {
+const Trash = ({ group }) => {
     const [open, setOpen] = React.useState(false);
     const [delsuccess, setDelsuccess] = React.useState(false)
     const theme = useTheme();
@@ -47,8 +48,8 @@ const Trash = ({ user }) => {
     };
 
     const handleRemove = () => {
-        if(dispatch(removeUser(user.id))){
-            setDelsuccess(user.id)
+        if(dispatch(removeGroup(group.id))){
+            setDelsuccess(true)
         }
         setOpen(false)
     }
@@ -66,32 +67,28 @@ const Trash = ({ user }) => {
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle id="responsive-dialog-title">
-                    {"Confirmer la supression du contact"}
+                    {"Remove confirmation"}
                 </DialogTitle>
                 <DialogContent>
                     <Grid container spacing={3}>
                         <Grid item sm={12} lg={6}>
                             <DialogContentText>
-                                <Avatar sx={{ width: 70, height: 70 }}>
-                                    {user.name[0]}
-                                </Avatar>
-                                <Typography>{user.name} {user.surname}</Typography>
-                                <Typography>{user.phone}</Typography>
+                                <Typography>{group.title}</Typography>
                             </DialogContentText>
                         </Grid>
                         <Grid item sm={12} lg={6}>
                             <DialogContentText>
-                                {"Voulez vous suprimer ce numero ?"}
+                                {"Do you want to delete this tag ?"}
                             </DialogContentText>
                         </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus variant="outlined" color="secondary" onClick={handleClose}>
-                        Annuler
+                        close
                     </Button>
                     <Button variant="contained" color="error" onClick={handleRemove} autoFocus>
-                        suprimer
+                        Delete
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -99,24 +96,15 @@ const Trash = ({ user }) => {
     )
 }
 
-export default function RowUser({ user }, props) {
-    let variants = [purple[500], red[500], deepOrange[500]]
-    let every = random(0, 2)
-    const selected = variants[every]
+export default function RowGroup({ group }, props) {
 
     return (
         <TableRow {...props}>
-            <TableCell>
-                <Stack direction="row" spacing={2}>
-                    <Avatar sx={{ bgcolor: selected, color: "white" }}>{user.name[0]}</Avatar>
-                    <Typography sx={{ pt: { xs: 2, sm: 2, xl: 2 } }}>{user.name} {user.surname}</Typography>
-                </Stack>
-            </TableCell>
-            <TableCell>+{user.pays_id}{user.phone}</TableCell>
-            <TableCell>{user.email && user.email}</TableCell>
-            <TableCell>{user.title}</TableCell>
+            <TableCell>{group.title}</TableCell>
+            <TableCell>{group.description}{group.description.length === 0 && "-"} </TableCell>
+            <TableCell>{group.nbUser}</TableCell>
             <TableCell align="right">
-                <Trash user={user} />
+                <Trash group={group} />
             </TableCell>
         </TableRow>
     )

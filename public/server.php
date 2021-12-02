@@ -10,9 +10,9 @@ define("ROOT", dirname(__DIR__));
 require ROOT.'/'.'App/autoload.php';
 autoload::register();
 
-use App\Database;
-use App\Config;
 use App\Table\Users;
+use App\Table\Groupe;
+use App\Table\Messenger;
 
 $page = "";
 
@@ -26,10 +26,22 @@ if (!empty($_GET["page"])) {
 
 }
 
-if($page == "setUser" OR $page == "setUser/"){
+if($page === "setUser" OR $page === "setUser/"){
   Users::setUser();
-}else if($page == "getUsers" OR $page == "getUsers/"){
+}else if($page === "getUsers" OR $page === "getUsers/"){
   users::getUsers();
 }else if($page === "removeUser" OR $page === "removeUser/"){
   Users::removeUser();
+}else if($page === "getGroups" OR $page === "getGroups/"){
+  Groupe::getGroups();
+}else if($page == "setGroup" OR $page === "setGroup/"){
+  Groupe::setGroup();
+}else if($page === "removeGroup" OR $page === "removeGroup/"){
+  Groupe::removeGroup();
+}else if($page === "sendMessage" OR $page === "sendMessage/"){
+  Messenger::sendMessage();
+}else if($page === "getMessages" OR $page === "getMessages/"){
+  Messenger::getMessages();
+}else if($page === "removeMessage" OR $page === "removeMessages"){
+  Messenger::removeMessage();
 }

@@ -8,7 +8,7 @@ import {
     Grid
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
+import DeveloperModeTwoToneIcon from '@mui/icons-material/DeveloperModeTwoTone';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -25,13 +25,15 @@ import { red } from '@mui/material/colors';
 import { useDispatch } from 'react-redux';
 import { removeUser } from 'store/Action/users.action';
 import Info from "../../utils/Info"
+import { formatTitle } from 'utils/formatText';
+import { removeMessage } from 'store/Action/message.action';
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const Trash = ({ user }) => {
+const Trash = ({ msg }) => {
     const [open, setOpen] = React.useState(false);
     const [delsuccess, setDelsuccess] = React.useState(false)
     const theme = useTheme();
@@ -47,17 +49,24 @@ const Trash = ({ user }) => {
     };
 
     const handleRemove = () => {
-        if(dispatch(removeUser(user.id))){
-            setDelsuccess(user.id)
+        const data = new FormData()
+        data.append("id", msg.id)
+        if (dispatch(removeMessage(data))) {
+            setDelsuccess(1)
+            setTimeout(()=>setDelsuccess(0),2000)
         }
         setOpen(false)
     }
     return (
         <>
-            {delsuccess && <Info msg="Supression en cour..." type="success" />}
-            <IconButton color="error" onClick={handleClickOpen}>
-                <DeleteSweepIcon />
-            </IconButton>
+            {delsuccess === 1 && <Info msg="Message suprimé." type="success" />}
+            <Button
+                endIcon={<DeveloperModeTwoToneIcon />}
+                color="secondary"
+                variant="outlined"
+                onClick={handleClickOpen}>
+                Details
+            </Button>
             <Dialog
                 TransitionComponent={Transition}
                 fullScreen={fullScreen}
@@ -66,29 +75,20 @@ const Trash = ({ user }) => {
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle id="responsive-dialog-title">
-                    {"Confirmer la supression du contact"}
+                    {"Lecture du message"}
                 </DialogTitle>
                 <DialogContent>
                     <Grid container spacing={3}>
-                        <Grid item sm={12} lg={6}>
+                        <Grid item sm={12} lg={12}>
                             <DialogContentText>
-                                <Avatar sx={{ width: 70, height: 70 }}>
-                                    {user.name[0]}
-                                </Avatar>
-                                <Typography>{user.name} {user.surname}</Typography>
-                                <Typography>{user.phone}</Typography>
-                            </DialogContentText>
-                        </Grid>
-                        <Grid item sm={12} lg={6}>
-                            <DialogContentText>
-                                {"Voulez vous suprimer ce numero ?"}
+                                <p>{msg.content}</p>
                             </DialogContentText>
                         </Grid>
                     </Grid>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus variant="outlined" color="secondary" onClick={handleClose}>
-                        Annuler
+                        Fermer
                     </Button>
                     <Button variant="contained" color="error" onClick={handleRemove} autoFocus>
                         suprimer
@@ -99,7 +99,7 @@ const Trash = ({ user }) => {
     )
 }
 
-export default function RowUser({ user }, props) {
+export default function RowMsg({ msg }, props) {
     let variants = [purple[500], red[500], deepOrange[500]]
     let every = random(0, 2)
     const selected = variants[every]
@@ -108,15 +108,19 @@ export default function RowUser({ user }, props) {
         <TableRow {...props}>
             <TableCell>
                 <Stack direction="row" spacing={2}>
-                    <Avatar sx={{ bgcolor: selected, color: "white" }}>{user.name[0]}</Avatar>
-                    <Typography sx={{ pt: { xs: 2, sm: 2, xl: 2 } }}>{user.name} {user.surname}</Typography>
+                    <Avatar sx={{ bgcolor: selected, color: "white" }}>{msg.name[0]}</Avatar>
+                    <div>
+                        <Stack direction="column" spacing={1}>
+                            <Typography sx={{ pt: { xs: 0, sm: 0, xl: 0 } }}>{msg.name} {msg.surname}</Typography>
+                            <Typography>+{msg.pays_id}{msg.phone}</Typography>
+                        </Stack>
+                    </div>
                 </Stack>
             </TableCell>
-            <TableCell>+{user.pays_id}{user.phone}</TableCell>
-            <TableCell>{user.email && user.email}</TableCell>
-            <TableCell>{user.title}</TableCell>
+            <TableCell>{formatTitle(msg.content, 70)}</TableCell>
+            <TableCell>{msg.created_at}</TableCell>
             <TableCell align="right">
-                <Trash user={user} />
+                <Trash msg={msg} />
             </TableCell>
         </TableRow>
     )

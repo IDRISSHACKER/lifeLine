@@ -6,32 +6,41 @@ import {
     useMediaQuery,
     Box,
     Button,
-    Divider
+    Divider,
+    Stack,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select
 } from '@mui/material';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "store/Action/users.action";
 import Info from "../utils/Info";
 import { useNavigate } from "react-router";
+import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
+import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
 
 const CreateUser = () => {
     const theme = useTheme()
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const groups = useSelector(state => state.groupeReducer)
 
     const [nom, setNom] = useState("")
     const [prenom, setPrenom] = useState("")
     const [email, setEmail] = useState("")
     const [code, setCode] = useState("")
     const [phone, setPhone] = useState("")
+    const [groupSelected, setGroupSelected] = useState(0)
     const [createSuccessed, setCreateSuccessed] = useState(false)
     const [errored, setErrored] = useState(false)
 
-    const resetErr = ()=>setTimeout(()=>setErrored(false),6000)
+    const resetErr = () => setTimeout(() => setErrored(false), 6000)
     const handleSubmit = (e) => {
         e.preventDefault()
 
@@ -41,6 +50,7 @@ const CreateUser = () => {
         data.append("email", email)
         data.append("pays", code)
         data.append("phone", phone)
+        data.append("groupe_id", groupSelected)
 
         if (nom && prenom && code && phone) {
 
@@ -53,19 +63,31 @@ const CreateUser = () => {
                 setPhone("")
 
                 setCreateSuccessed(true)
-                setTimeout(()=>navigate("/dashboard/contact/list"),2000)
-            }else{
+                setTimeout(() => navigate("/dashboard/contact/list"), 2000)
+            } else {
                 setErrored(true)
                 resetErr()
             }
-        }else{
+        } else {
             setErrored(true)
             resetErr()
         }
     }
 
+
     return (
-        <MainCard title="Ajouter un contact" secondary={<SecondaryAction link="/dashboard/default" />}>
+        <MainCard title="Ajouter un contact"
+            secondary={
+                <SecondaryAction
+                    title="liste des contacts"
+                    link="/dashboard/contact/list"
+                    icon={<VerifiedUserOutlinedIcon
+                    />
+                    }
+                />
+            }
+        >
+
             <form noValidate onSubmit={handleSubmit}>
                 <div>
                     {createSuccessed && <Info msg="Contact ajouté avec success" type="success" />}
@@ -133,7 +155,26 @@ const CreateUser = () => {
                             sx={{ ...theme.typography.customInput }}
                         />
                     </Grid>
-                    <Divider />
+                    <Grid item xs={12} sm={12}>
+                        <Box sx={{ minWidth: 60 }}>
+                            <FormControl fullWidth>
+                                <InputLabel id="demo-simple-select-label">Select one group</InputLabel>
+                                <Select
+                                    sx={{ p: 1 }}
+                                    labelId="demo-simple-select-label"
+                                    id="demo-simple-select"
+                                    value={groupSelected}
+                                    onChange={(e) => setGroupSelected(e.target.value)}
+                                    label="Qtt"
+                                    size="small"
+                                >
+                                    {groups && groups.map((group, index) => (
+                                        <MenuItem value={group.id}>{group.title}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </Grid>
                     <Grid item xs={12} sm={8}>
                     </Grid>
                     <Grid item xs={12} sm={4}>
@@ -146,6 +187,9 @@ const CreateUser = () => {
                                     type="submit"
                                     variant="contained"
                                     color="secondary"
+                                    startIcon={
+                                        <CloudDoneOutlinedIcon />
+                                    }
                                 >
                                     Ajouter le contact
                                 </Button>
@@ -154,7 +198,7 @@ const CreateUser = () => {
                     </Grid>
                 </Grid>
             </form>
-        </MainCard>
+        </MainCard >
     )
 };
 

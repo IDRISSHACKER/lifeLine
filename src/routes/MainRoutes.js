@@ -19,7 +19,9 @@ const SamplePage = Loadable(lazy(() => import('views/sample-page')));
 const CreateUserPage = Loadable(lazy(() => import('views/pages/users/createUser.page')))
 const ListUserPage = Loadable(lazy(() => import('views/pages/users/listUser.page')))
 const SendMessage = Loadable(lazy(() => import('views/pages/messenger/sendMessage.page')))
-
+const SendedMessage = Loadable(lazy(() => import('views/pages/messenger/messsageSended.page')))
+const NewCtg = Loadable(lazy(() => import('views/pages/users/newCtg.page')))
+const ListGroupPage = Loadable(lazy(() => import('views/pages/users/listGroup.page')))
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -47,12 +49,16 @@ const MainRoutes = {
             element: <SendMessage />
         },
         {
-            path: '/icons/tabler-icons',
-            element: <UtilsTablerIcons />
+            path: '/dashboard/message/sended',
+            element: <SendedMessage />
         },
         {
-            path: '/icons/material-icons',
-            element: <UtilsMaterialIcons />
+            path: '/dashboard/users/newCtg',
+            element: <NewCtg />
+        },
+        {
+            path: '/dashboard/users/groups',
+            element: <ListGroupPage />
         },
         {
             path: '/sample-page',

@@ -11,7 +11,7 @@ use App\App;
 class Users extends Table{
 
     public static function getUsers(){
-        $users = self::query("SELECT * FROM users ORDER BY users.id DESC");
+        $users = self::query("SELECT users.id, users.name, users.surname, users.pays_id, users.email, users.phone, users.groupe_id, users.created_at, groupe.title FROM users LEFT JOIN groupe ON users.groupe_id = groupe.id ORDER BY users.id DESC");
 
         echo json_encode($users);
     }
@@ -29,9 +29,10 @@ class Users extends Table{
             $pays = htmlspecialchars($_POST['pays']);
             $phone = htmlspecialchars($_POST['phone']);
             $email = htmlspecialchars($_POST['email']);
+            $group = htmlspecialchars($_POST['groupe_id']);
 
-            if(self::save("INSERT INTO users(name, surname, phone, pays_id, email) VALUES(?,?,?,?,?)",
-                [$name, $username, $phone, $pays, $email])){
+            if(self::save("INSERT INTO users(name, surname, phone, pays_id, email, groupe_id) VALUES(?,?,?,?,?,?)",
+                [$name, $username, $phone, $pays, $email, $group])){
 
                 return [
                     "msg"=>"Inscription reusis",
