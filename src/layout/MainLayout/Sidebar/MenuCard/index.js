@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
-
+import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 // material-ui
+import {Link as RouterLink} from "react-router-dom"
 import { styled, useTheme } from '@mui/material/styles';
 import {
     Avatar,
@@ -13,7 +15,8 @@ import {
     ListItemAvatar,
     ListItemText,
     Typography,
-    linearProgressClasses
+    linearProgressClasses,
+    Button,
 } from '@mui/material';
 
 // assets
@@ -60,7 +63,7 @@ function LinearProgressWithLabel({ value, ...others }) {
                 <Grid container justifyContent="space-between">
                     <Grid item>
                         <Typography variant="h6" sx={{ color: theme.palette.primary[800] }}>
-                            Progress
+                            Completion de votre profil
                         </Typography>
                     </Grid>
                     <Grid item>
@@ -69,7 +72,7 @@ function LinearProgressWithLabel({ value, ...others }) {
                 </Grid>
             </Grid>
             <Grid item>
-                <BorderLinearProgress variant="determinate" {...others} />
+                <BorderLinearProgress value={value} variant="determinate" {...others} />
             </Grid>
         </Grid>
     );
@@ -85,6 +88,7 @@ const MenuCard = () => {
     const theme = useTheme();
 
     return (
+        <RouterLink className="customLink" to="/dashboard/settings">
         <CardStyle>
             <CardContent sx={{ p: 2 }}>
                 <List sx={{ p: 0, m: 0 }}>
@@ -102,23 +106,22 @@ const MenuCard = () => {
                                     marginRight: '12px'
                                 }}
                             >
-                                <TableChartOutlinedIcon fontSize="inherit" />
+                                <SettingsApplicationsIcon fontSize="inherit" />
                             </Avatar>
                         </ListItemAvatar>
                         <ListItemText
                             sx={{ mt: 0 }}
                             primary={
-                                <Typography variant="subtitle1" sx={{ color: theme.palette.primary[800] }}>
-                                    Get Extra Space
-                                </Typography>
+                                <Button endIcon={<ArrowForwardIosIcon/>} fullWidth> Parametre</Button>
                             }
-                            secondary={<Typography variant="caption"> 28/23 GB</Typography>}
+                            secondary={<Typography variant="caption"></Typography>}
                         />
                     </ListItem>
                 </List>
-                <LinearProgressWithLabel value={80} />
+                <LinearProgressWithLabel value={30} />
             </CardContent>
         </CardStyle>
+        </RouterLink>
     );
 };
 

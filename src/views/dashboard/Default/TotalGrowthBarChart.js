@@ -15,30 +15,28 @@ import SkeletonTotalGrowthBarChart from 'ui-component/cards/Skeleton/TotalGrowth
 import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 
-// chart data
-import chartData from './chart-data/total-growth-bar-chart';
 
 const status = [
     {
-        value: 'today',
-        label: 'Today'
+        value: 'all',
+        label: 'All time'
     },
-    {
-        value: 'month',
-        label: 'This Month'
-    },
-    {
-        value: 'year',
-        label: 'This Year'
-    }
 ];
 
 // ==============================|| DASHBOARD DEFAULT - TOTAL GROWTH BAR CHART ||============================== //
 
 const TotalGrowthBarChart = ({ isLoading }) => {
-    const [value, setValue] = useState('today');
+    const [value, setValue] = useState('all');
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
+    const msg = useSelector(state => state.messengerReducer)
+    const chartDay = useSelector(state=>state.chartDayReducer)
+    const month = []
+    const data = []
+    chartDay.forEach((chart)=>{
+        month.push(chart.created_at)
+        data.push(chart.nb)
+    })
 
     const { navType } = customization;
     const { primary } = theme.palette.text;
@@ -50,6 +48,78 @@ const TotalGrowthBarChart = ({ isLoading }) => {
     const primaryDark = theme.palette.primary.dark;
     const secondaryMain = theme.palette.secondary.main;
     const secondaryLight = theme.palette.secondary.light;
+
+
+    const chartData = {
+        height: 350,
+        type: 'area',
+        options: {
+            chart: {
+                type: 'area',
+                height: 350,
+                zoom: {
+                  enabled: false
+                }
+              },
+            responsive: [
+                {
+                    breakpoint: 480,
+                    options: {
+                        legend: {
+                            position: 'bottom',
+                            offsetX: -10,
+                            offsetY: 0
+                        }
+                    }
+                }
+            ],
+            plotOptions: {
+                bar: {
+                    horizontal: false,
+                    columnWidth: '50%'
+                }
+            },
+            
+            xaxis: {
+                type: 'datetime',
+                categories: month
+            },
+            legend: {
+                show: true,
+                fontSize: '14px',
+                fontFamily: `'Roboto', sans-serif`,
+                position: 'bottom',
+                offsetX: 20,
+                labels: {
+                    useSeriesColors: false
+                },
+                markers: {
+                    width: 16,
+                    height: 16,
+                    radius: 5
+                },
+                itemMargin: {
+                    horizontal: 15,
+                    vertical: 8
+                }
+            },
+            fill: {
+                type: 'solid'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            grid: {
+                show: true
+            }
+        },
+        series: [
+            {
+                name: 'Message',
+                data
+            }
+        ]
+    }
 
     useEffect(() => {
         const newChartData = {
@@ -100,10 +170,10 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                                 <Grid item>
                                     <Grid container direction="column" spacing={1}>
                                         <Grid item>
-                                            <Typography variant="subtitle2">Total Growth</Typography>
+                                            <Typography variant="subtitle2">Statitiques d'envoi de message</Typography>
                                         </Grid>
                                         <Grid item>
-                                            <Typography variant="h3">$2,324.00</Typography>
+                                            <Typography variant="h3">Group by Day</Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>
@@ -131,7 +201,9 @@ const TotalGrowthBarChart = ({ isLoading }) => {
             )}
         </>
     );
+
 };
+
 
 TotalGrowthBarChart.propTypes = {
     isLoading: PropTypes.bool

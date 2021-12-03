@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-
+import {useSelector} from "react-redux"
+import {Link as RouterLink} from "react-router-dom"
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
 import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
@@ -9,7 +10,7 @@ import MainCard from 'ui-component/cards/MainCard';
 import TotalIncomeCard from 'ui-component/cards/Skeleton/TotalIncomeCard';
 
 // assets
-import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
+import VerifiedUserSharpIcon from '@mui/icons-material/VerifiedUserSharp';
 
 // styles
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -43,7 +44,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const TotalIncomeDarkCard = ({ isLoading }) => {
     const theme = useTheme();
-
+    const contacts = useSelector(state=>state.usersReducer)
     return (
         <>
             {isLoading ? (
@@ -55,6 +56,8 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                             <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
                                 <ListItemAvatar>
                                     <Avatar
+                                        component={RouterLink} 
+                                        to="/dashboard/contact/list"
                                         variant="rounded"
                                         sx={{
                                             ...theme.typography.commonAvatar,
@@ -63,7 +66,7 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                                             color: '#fff'
                                         }}
                                     >
-                                        <TableChartOutlinedIcon fontSize="inherit" />
+                                        <VerifiedUserSharpIcon fontSize="inherit" />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
@@ -74,12 +77,12 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                                     }}
                                     primary={
                                         <Typography variant="h4" sx={{ color: '#fff' }}>
-                                            $203k
+                                            {contacts.length}
                                         </Typography>
                                     }
                                     secondary={
                                         <Typography variant="subtitle2" sx={{ color: 'primary.light', mt: 0.25 }}>
-                                            Total Income
+                                            Contacts
                                         </Typography>
                                     }
                                 />

@@ -22,6 +22,7 @@ const SendMessage = Loadable(lazy(() => import('views/pages/messenger/sendMessag
 const SendedMessage = Loadable(lazy(() => import('views/pages/messenger/messsageSended.page')))
 const NewCtg = Loadable(lazy(() => import('views/pages/users/newCtg.page')))
 const ListGroupPage = Loadable(lazy(() => import('views/pages/users/listGroup.page')))
+const SettingsPage = Loadable(lazy(() => import('views/pages/setting/Setting.page')))
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -61,8 +62,8 @@ const MainRoutes = {
             element: <ListGroupPage />
         },
         {
-            path: '/sample-page',
-            element: <SamplePage />
+            path: '/dashboard/settings',
+            element: <SettingsPage />
         }
     ]
 };

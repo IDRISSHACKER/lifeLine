@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-
+import {Link as RouterLink} from "react-router-dom"
 // material-ui
 import { useTheme, styled } from '@mui/material/styles';
 import { Avatar, Box, List, ListItem, ListItemAvatar, ListItemText, Typography } from '@mui/material';
@@ -9,7 +9,8 @@ import MainCard from 'ui-component/cards/MainCard';
 import TotalIncomeCard from 'ui-component/cards/Skeleton/TotalIncomeCard';
 
 // assets
-import StorefrontTwoToneIcon from '@mui/icons-material/StorefrontTwoTone';
+import BookmarkBorderOutlinedIcon from '@mui/icons-material/BookmarkBorderOutlined';
+import { useSelector } from 'react-redux';
 
 // styles
 const CardWrapper = styled(MainCard)(({ theme }) => ({
@@ -41,6 +42,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const TotalIncomeLightCard = ({ isLoading }) => {
     const theme = useTheme();
+    const groupes = useSelector(state=>state.groupeReducer)
 
     return (
         <>
@@ -53,6 +55,8 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                             <ListItem alignItems="center" disableGutters sx={{ py: 0 }}>
                                 <ListItemAvatar>
                                     <Avatar
+                                        component={RouterLink}
+                                        to="/dashboard/users/groups"
                                         variant="rounded"
                                         sx={{
                                             ...theme.typography.commonAvatar,
@@ -61,7 +65,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                                             color: theme.palette.warning.dark
                                         }}
                                     >
-                                        <StorefrontTwoToneIcon fontSize="inherit" />
+                                        <BookmarkBorderOutlinedIcon fontSize="inherit" />
                                     </Avatar>
                                 </ListItemAvatar>
                                 <ListItemText
@@ -70,7 +74,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                                         mt: 0.45,
                                         mb: 0.45
                                     }}
-                                    primary={<Typography variant="h4">$203k</Typography>}
+                                    primary={<Typography variant="h4">{groupes.length}</Typography>}
                                     secondary={
                                         <Typography
                                             variant="subtitle2"
@@ -79,7 +83,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                                                 mt: 0.5
                                             }}
                                         >
-                                            Total Income
+                                            Groupes
                                         </Typography>
                                     }
                                 />

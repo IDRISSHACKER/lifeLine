@@ -11,21 +11,13 @@ require ROOT.'/'.'App/autoload.php';
 autoload::register();
 
 use App\Table\Admin;
+use App\table\Chart;
 use App\Table\Users;
 use App\Table\Groupe;
+use App\Table\Image;
 use App\Table\Messenger;
 
-$page = "";
-
-if (!empty($_GET["page"])) {
-
-  $page = $_GET["page"];
-
-}else{
-
-  $page = "home/";
-
-}
+$page = !empty($_GET["page"]) ? $_GET["page"] : "home/";
 
 if($page === "setUser" OR $page === "setUser/"){
   Users::setUser();
@@ -47,4 +39,12 @@ if($page === "setUser" OR $page === "setUser/"){
   Messenger::removeMessage();
 }else if($page === "admin" OR $page === "admin/"){
     Admin::getAdmin();
+}else if($page === "updateAdmin" OR $page === "updateAdmin/"){
+  Admin::updateAdmin();
+}else if($page === "chartMonth" OR $page === "chartMonth/"){
+  Chart::chartSaleByMonth();
+}else if($page === "chartDay" OR $page === "chartDay/"){
+  Chart::chartSaleByDay();
+}else if($page === "setAvatar" OR $page === "setAvatar/"){
+  Image::setImage();
 }

@@ -19,3 +19,11 @@ export const updateAdmin = (data) => {
             .catch(err => console.log(err))
     }
 }
+
+export const updateAvatar = (data) => {
+    return (dispatch) => {
+        return axios.post(set.APP_URL + '?page=setAvatar', data)
+            .then(res => dispatch({ type: type.SET_IMAGE_REQUESTED, payload: res.data }))
+            .catch(err => console.log(err))
+    }
+}

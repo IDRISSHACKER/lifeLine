@@ -18,6 +18,8 @@ import FileCopyTwoToneIcon from '@mui/icons-material/FileCopyOutlined';
 import PictureAsPdfTwoToneIcon from '@mui/icons-material/PictureAsPdfOutlined';
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 import { useSelector } from 'react-redux';
+import settings from 'utils/settings';
+const set = new settings().init()
 
 const CardWrapper = styled(MainCard)(({ theme }) => ({
     backgroundColor: theme.palette.secondary.dark,
@@ -58,9 +60,10 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 // ===========================|| DASHBOARD DEFAULT - EARNING CARD ||=========================== //
 
 const EarningCard = ({ isLoading }) => {
-    const admin = useSelector(state=>state.adminReducer)
+    const admin = useSelector(state => state.adminReducer)
     const theme = useTheme();
-
+    const User1 = `${set.APP_FOLDER}/files/avatar/${admin.avatar}`
+    
     const [anchorEl, setAnchorEl] = useState(null);
 
     const handleClick = (event) => {
@@ -82,18 +85,39 @@ const EarningCard = ({ isLoading }) => {
                             <Grid item>
                                 <Grid container justifyContent="space-between">
                                     <Grid item>
-                                        <Avatar
-                                            variant="rounded"
-                                            sx={{
-                                                ...theme.typography.commonAvatar,
-                                                ...theme.typography.largeAvatar,
-                                                backgroundColor: theme.palette.secondary[800],
-                                                mt: 1
-                                            }}
-                                        >
-                                            <AdminPanelSettingsOutlinedIcon sx={{color:"white"}}/>
-                                        </Avatar>
+                                        <Grid container>
+                                            <Grid item lg={6}>
+                                                <Avatar
+                                                    src={User1}
+                                                    variant="rounded"
+                                                    sx={{
+                                                        ...theme.typography.commonAvatar,
+                                                        ...theme.typography.largeAvatar,
+                                                        backgroundColor: theme.palette.secondary[800],
+                                                        mt: 1,
+                                                        width:60,
+                                                        height:60
+                                                    }}
+                                                >
+                                                    <AdminPanelSettingsOutlinedIcon sx={{ color: "white" }} />
+                                                </Avatar>
+                                            </Grid>
+                                            <Grid item lg={6}>
+                                                <Avatar
+                                                    variant="rounded"
+                                                    sx={{
+                                                        ...theme.typography.commonAvatar,
+                                                        ...theme.typography.largeAvatar,
+                                                        backgroundColor: theme.palette.secondary[800],
+                                                        mt: 1
+                                                    }}
+                                                >
+                                                    <AdminPanelSettingsOutlinedIcon sx={{ color: "white" }} />
+                                                </Avatar>
+                                            </Grid>
+                                        </Grid>
                                     </Grid>
+
                                     <Grid item>
                                         <Avatar
                                             variant="rounded"
@@ -142,7 +166,7 @@ const EarningCard = ({ isLoading }) => {
                                         color: theme.palette.secondary[200]
                                     }}
                                 >
-                                    {admin && admin.email} <Chip sx={{color: "white"}} label={ <span>+{admin.pays_id}{admin && admin.phone}</span>}/>
+                                    <Chip sx={{ color: "white" }} label={<span>Administrator</span>} />
                                 </Typography>
                             </Grid>
                         </Grid>

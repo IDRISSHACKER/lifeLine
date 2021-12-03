@@ -34,6 +34,8 @@ import { setMessages } from "store/Action/message.action";
 import Info from "../utils/Info";
 import { useNavigate } from "react-router-dom";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
+import { getChartMonth } from "store/Action/chartMonth.action";
+import { getChartDay } from "store/Action/chartDay.action";
 
 const SendMessage = () => {
     const [checked, setChecked] = useState([]);
@@ -55,6 +57,8 @@ const SendMessage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
+        dispatch(getChartMonth())
+        dispatch(getChartDay())
 
         const data = new FormData()
 
@@ -77,6 +81,10 @@ const SendMessage = () => {
             setErr(1)
             setTimeout(() => setErr(0), 2000)
         }
+        dispatch(getChartMonth())
+        dispatch(getChartDay())
+        dispatch(getChartMonth())
+        dispatch(getChartDay())
     }
 
     const handleToggle = (value) => () => {

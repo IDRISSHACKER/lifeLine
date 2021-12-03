@@ -34,14 +34,17 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
 import UpgradePlanCard from './UpgradePlanCard';
-import User1 from 'assets/images/users/user-round.svg';
+import settings from 'utils/settings';
 
 // assets
 import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
 
 // ==============================|| PROFILE MENU ||============================== //
+const set = new settings().init()
 
 const ProfileSection = () => {
+    const admin = useSelector(state => state.adminReducer)
+    const User1 = `${set.APP_FOLDER}/files/avatar/${admin.avatar}`
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
     const navigate = useNavigate();
@@ -157,12 +160,12 @@ const ProfileSection = () => {
                                     <Box sx={{ p: 2 }}>
                                         <Stack>
                                             <Stack direction="row" spacing={0.5} alignItems="center">
-                                                <Typography variant="h4">Bonjour,</Typography>
+                                                <Typography variant="h4">Hi,</Typography>
                                                 <Typography component="span" variant="h4" sx={{ fontWeight: 400 }}>
-                                                    Life Line
+                                                    {admin.name} {admin.surname}
                                                 </Typography>
                                             </Stack>
-                                            <Typography variant="subtitle2">Administration</Typography>
+                                            <Typography variant="subtitle2">{admin.email}</Typography>
                                         </Stack>
                                         <Divider />
                                     </Box>

@@ -27,7 +27,7 @@ import { removeUser } from 'store/Action/users.action';
 import Info from "../../utils/Info"
 import { formatTitle } from 'utils/formatText';
 import { removeMessage } from 'store/Action/message.action';
-
+import MoreIcon from '@mui/icons-material/More';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -61,7 +61,7 @@ const Trash = ({ msg }) => {
         <>
             {delsuccess === 1 && <Info msg="Message suprimé." type="success" />}
             <Button
-                endIcon={<DeveloperModeTwoToneIcon />}
+                endIcon={<MoreIcon />}
                 color="secondary"
                 variant="outlined"
                 onClick={handleClickOpen}>

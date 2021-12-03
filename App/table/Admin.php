@@ -22,7 +22,8 @@ class Admin extends Table{
         $email = $_POST['email'];
         $phone = $_POST['phone'];
         $pays_id = $_POST['pays_id'];
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $changed  = $_POST["changed"];
+        $password = $changed === "1" ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $_POST['password'];
 
         self::save("UPDATE `admin` SET `admin`.`name` = ?, `admin`.`surname` = ?, `admin`.`email` = ?, `admin`.`phone` = ?, `admin`.`pays_id` = ?, `admin`.`password` = ? WHERE `admin`.`id` = '$id'",[$name, $surname, $email, $phone, $pays_id, $password]);
 
