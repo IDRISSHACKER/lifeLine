@@ -149,3 +149,16 @@
         cursor: pointer;
     }
 }
+
+.iconTrash{
+
+    background: lighten(rgb(152, 17, 175),20);
+    padding: 20px;
+    height: 100%;
+
+    .icon{
+
+        color: white;
+        font-size: 7rem;
+    }
+}

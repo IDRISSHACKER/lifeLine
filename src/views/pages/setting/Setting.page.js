@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import GridViewIcon from '@mui/icons-material/GridView';
-import { Avatar, Grid, Divider, CardActions, Button, TextField, Typography } from '@mui/material'
+import { Avatar, Grid, Divider, CardActions, Button, TextField, Typography, Tooltip, Card, CardContent } from '@mui/material'
 import ListSubheader from '@mui/material/ListSubheader';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -19,10 +19,12 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import BeenhereIcon from '@mui/icons-material/Beenhere';
 import GppBadIcon from '@mui/icons-material/GppBad';
 import LoadingButton from '@mui/lab/LoadingButton';
-
 import Info from '../utils/Info';
 import { getAdmin, updateAdmin, updateAvatar } from 'store/Action/admin.action';
 import settings from 'utils/settings';
+import { lazy } from 'yup';
+import ResetStat from './settingComponent/resetStat';
+import OtherSettings from './settingComponent/otherSetting';
 const set = new settings().init()
 
 const Item = ({ icon, txt }) => {
@@ -39,8 +41,7 @@ const Setting = () => {
     const admin = useSelector(state => state.adminReducer)
     const dispatch = useDispatch()
     const imgCont = useRef("")
-    const User1 = `${set.APP_FOLDER}/files/avatar/${admin.avatar}`
-
+    let User1 = `${set.APP_FOLDER}/files/avatar/${admin.avatar}`
     const [edit, setEdit] = useState(0)
     const [success, setSuccess] = useState(0)
     const [successAvatar, setSuccessAvatar] = useState(0)
@@ -81,29 +82,31 @@ const Setting = () => {
             try {
                 const src = URL.createObjectURL(e.target.files[0])
                 imgCont.current.innerHTML = `<img alt='avatar' src='${src}' class='MuiAvatar-img css-1pqm26d-MuiAvatar-img'>`
-                if(dispatch(updateAvatar(fFile))){
+                if (dispatch(updateAvatar(fFile))) {
                     dispatch(getAdmin())
                     dispatch(getAdmin())
 
                     setSuccessAvatar(1)
-                    setTimeout(()=>setSuccessAvatar(0),2000)
+                    setTimeout(() => setSuccessAvatar(0), 2000)
                 }
 
-            }catch (err) {
+            } catch (err) {
 
             }
 
         }
+        setTimeout(() => {
+            dispatch(getAdmin())
+            dispatch(getAdmin())
+        }, 3000)
 
-        dispatch(getAdmin())
-        dispatch(getAdmin())
     }
 
     return (
-        <Grid container>
+        <Grid container spacing={2}>
             <Grid item xs={12} md={6} lg={!edit ? 4 : 6}>
                 {success === 1 && <Info msg="Profil mise à jour" />}
-                {successAvatar === 1 && <Info msg="Votre avatar à été mise à jour !" />}
+                {successAvatar === 1 && <Info msg="Votre avatar à été mise à jour !" autocomplete="off" />}
                 <form onSubmit={handleUpdate}>
                     <MainCard title={<div>
                         <span>Profil </span>
@@ -119,12 +122,14 @@ const Setting = () => {
                             component="nav"
                             aria-labelledby="nested-list-subheader"
                             subheader={
-                                <div className="avatarCount">
-                                    <input onChange={handleUpdateAvatar} className="avatarInput" id="avatar" type="file" name="avatar" />
-                                    <label className="avatarLabel" htmlFor="avatar">
-                                        <Avatar ref={imgCont} src={User1} alt="avatar" sx={{ width: !edit ? 200 : 100, height: !edit ? 200 : 100, ml: !edit ? 10 : 30, mb: 4 }} />
-                                    </label>
-                                </div>
+                                <Tooltip title="Choose new avatar">
+                                    <div className="avatarCount">
+                                        <input accept="image/jpeg, image/jpg, image/png, image/svg" onChange={handleUpdateAvatar} className="avatarInput" id="avatar" type="file" name="avatar" />
+                                        <label className="avatarLabel" htmlFor="avatar">
+                                            <Avatar ref={imgCont} src={User1} alt="avatar" sx={{ width: !edit ? 200 : 100, height: !edit ? 200 : 100, ml: !edit ? 10 : 30, mb: 4 }} />
+                                        </label>
+                                    </div>
+                                </Tooltip>
                             }
                         >
                             <Divider />
@@ -163,10 +168,10 @@ const Setting = () => {
                                 {edit === 1 &&
                                     <Grid container direction="row" spacing={2}>
                                         <Grid item xs={4} sm={4} lg={2}>
-                                            <TextField onChange={(e) => setPays_id(e.target.value)} value={pays_id} fullWidth />
+                                            <TextField name="phone_id" type="number" onChange={(e) => setPays_id(e.target.value)} value={pays_id} fullWidth />
                                         </Grid>
                                         <Grid item xs={8} sm={8} lg={10}>
-                                            <TextField onChange={(e) => setPhone(e.target.value)} value={phone} fullWidth />
+                                            <TextField type="number" name='telephone' id="telephone" onChange={(e) => setPhone(e.target.value)} value={phone} fullWidth />
                                         </Grid>
                                     </Grid>
                                 }
@@ -180,7 +185,7 @@ const Setting = () => {
                                 {edit === 1 &&
                                     <Grid container direction="row" spacing={2}>
                                         <Grid item xs={12} sm={12} lg={12} >
-                                            <TextField type="password" onChange={(e) => setPassword(e.target.value)} value={password} fullWidth />
+                                            <TextField name="password" id="pass" type="password" onChange={(e) => setPassword(e.target.value)} value={password} fullWidth />
                                             <Typography sx={{ pt: 1 }} color="error" variant="subtitle2">! Laisser vide si vous ne voulez pas modifier</Typography>
                                         </Grid>
                                     </Grid>
@@ -239,8 +244,15 @@ const Setting = () => {
                     </MainCard>
                 </form>
             </Grid>
-            <Grid item xs={12} md={6} lg={8}>
-
+            <Grid item xs={12} md={6} lg={!edit ? 8 : 6}>
+                <Grid container spacing={2}>
+                    <Grid item xs={12} lg={12}>
+                        <ResetStat />
+                    </Grid>
+                    <Grid item xs={12} lg={12}>
+                        <OtherSettings />
+                    </Grid>
+                </Grid>
             </Grid>
         </Grid>
     )
