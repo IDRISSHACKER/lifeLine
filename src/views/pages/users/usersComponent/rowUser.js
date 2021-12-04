@@ -40,7 +40,6 @@ import { getGroups } from 'store/Action/goupe.action';
 
 const Edit = ({ user }) => {
     const dispatch = useDispatch()
-    const theme = useTheme();
     const groups = useSelector(state => state.groupeReducer)
     const [open, setOpen] = React.useState(false);
     const [edited, setEdited] = React.useState(false)

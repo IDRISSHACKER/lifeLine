@@ -1,6 +1,5 @@
-import { useEffect, useState, forwardRef } from "react"
+import { useState, forwardRef } from "react"
 import { Card, CardContent, Grid, Typography, Button } from "@mui/material"
-import ModelTrainingIcon from '@mui/icons-material/ModelTraining';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -110,10 +109,6 @@ const Reset = () => {
 }
 
 export default function ResetStat() {
-
-    const handleReset = (e) => {
-        e.preventDefault()
-    }
 
     return (
         <Card>

@@ -1,19 +1,11 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import {useSelector} from "react-redux"
-// material-ui
 import { useTheme, styled } from '@mui/material/styles';
 import { Avatar, Box, Button, Grid, Typography } from '@mui/material';
 import {Link as RouterLink} from "react-router-dom"
-// third-party
-import Chart from 'react-apexcharts';
-
-// project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SkeletonTotalOrderCard from 'ui-component/cards/Skeleton/EarningCard';
-
-
-// assets
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 
@@ -58,8 +50,6 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
         }
     }
 }));
-
-// ==============================|| DASHBOARD - TOTAL ORDER LINE CHART CARD ||============================== //
 
 const TotalOrderLineChartCard = ({ isLoading }) => {
     const theme = useTheme();

@@ -29,8 +29,6 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Checkbox from '@mui/material/Checkbox';
 import Avatar from '@mui/material/Avatar';
 import { useDispatch, useSelector } from 'react-redux'
-import Scrollbar from "../utils/ScrollBar";
-import SimpleBarReact from 'simplebar-react';
 import { setMessages } from "store/Action/message.action";
 import Info from "../utils/Info";
 import AdminCompose from "../utils/AdminCompose";
@@ -122,6 +120,7 @@ const SendMessage = () => {
 
     useEffect(() => {
         setContacts(users)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const handleSelect = (e) => {

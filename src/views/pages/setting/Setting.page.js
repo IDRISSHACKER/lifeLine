@@ -24,16 +24,6 @@ import OtherSettings from './settingComponent/otherSetting';
 import Illustration from './settingComponent/illustration';
 const set = new settings().init()
 
-const Item = ({ icon, txt }) => {
-    return (
-        <ListItemButton>
-            <ListItemIcon>
-                {icon}
-            </ListItemIcon>
-            <ListItemText primary={txt} />
-        </ListItemButton>
-    )
-}
 const Setting = () => {
     const admin = useSelector(state => state.adminReducer)
     const dispatch = useDispatch()

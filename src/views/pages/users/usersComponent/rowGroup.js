@@ -1,7 +1,6 @@
 import {
     TableCell,
     TableRow,
-    Avatar,
     Stack,
     Typography,
     Button,
@@ -21,12 +20,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import * as React from 'react';
 import Slide from '@mui/material/Slide';
-import { random } from 'lodash';
-import { deepOrange } from '@mui/material/colors';
-import { purple } from '@mui/material/colors';
-import { red } from '@mui/material/colors';
 import { useDispatch } from 'react-redux';
-import { removeUser } from 'store/Action/users.action';
 import Info from "../../utils/Info"
 import { removeGroup } from 'store/Action/goupe.action';
 import { updateGroup } from 'store/Action/goupe.action';
@@ -39,53 +33,53 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 
-function Edit({group}) {
-  const dispatch = useDispatch()
-  const [open, setOpen] = React.useState(false)
-  const [title, setTitle] = React.useState(group.title)
-  const [description, setDescription] = React.useState(group.description)
-  const [updated, setUpdated] = React.useState(0)
-  const [load, setLoad] = React.useState(0)
+function Edit({ group }) {
+    const dispatch = useDispatch()
+    const [open, setOpen] = React.useState(false)
+    const [title, setTitle] = React.useState(group.title)
+    const [description, setDescription] = React.useState(group.description)
+    const [updated, setUpdated] = React.useState(0)
+    const [load, setLoad] = React.useState(0)
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+    const handleClickOpen = () => {
+        setOpen(true);
+    };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+    const handleClose = () => {
+        setOpen(false);
+    };
 
     const handleCloseLoad = () => {
         setLoad(false);
         setUpdated(1)
-        setTimeout(()=>setUpdated(0),2000)
+        setTimeout(() => setUpdated(0), 2000)
     };
 
-  const handleUpdate = (e)=>{
-      e.preventDefault()
-    setOpen(0)
-      if(title){
-          setLoad(1)
-          const data = new FormData()
-          data.append("id", group.id)
-          data.append("title", title)
-          data.append("description", description)
+    const handleUpdate = (e) => {
+        e.preventDefault()
+        setOpen(0)
+        if (title) {
+            setLoad(1)
+            const data = new FormData()
+            data.append("id", group.id)
+            data.append("title", title)
+            data.append("description", description)
 
-          if(dispatch(updateGroup(data))){
-              setTimeout(()=>{
+            if (dispatch(updateGroup(data))) {
+                setTimeout(() => {
                     handleCloseLoad()
                     dispatch(getUsers())
-                },2000)
-          }
-      }
-  }
+                }, 2000)
+            }
+        }
+    }
 
-  return (
-    <div>
-                  <IconButton color="secondary" onClick={handleClickOpen}>
+    return (
+        <div>
+            <IconButton color="secondary" onClick={handleClickOpen}>
                 <ModeEditOutlineIcon />
             </IconButton>
-      {updated === 1 && <Info msg="Contact mise à jour avec success" type="success" />}
+            {updated === 1 && <Info msg="Contact mise à jour avec success" type="success" />}
             <Backdrop
                 sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                 open={load}
@@ -93,36 +87,36 @@ function Edit({group}) {
                 <CircularProgress color="inherit" /><br />
                 <Typography> Mise à jour en cour...</Typography>
             </Backdrop>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Editer le group</DialogTitle>
-        <form onSubmit={handleUpdate}>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Title"
-            type="text"
-            fullWidth
-            value={title}
-            onChange={e=>setTitle(e.target.value)}
-            
-          />
-         <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Description"
-            type="text"
-            fullWidth
-            value={description}
-            multiline
-            rows={5}
-            onChange={e=>setDescription(e.target.value)}
-            
-          />
-        </DialogContent>
-        <DialogActions>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Editer le group</DialogTitle>
+                <form onSubmit={handleUpdate}>
+                    <DialogContent>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Title"
+                            type="text"
+                            fullWidth
+                            value={title}
+                            onChange={e => setTitle(e.target.value)}
+
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Description"
+                            type="text"
+                            fullWidth
+                            value={description}
+                            multiline
+                            rows={5}
+                            onChange={e => setDescription(e.target.value)}
+
+                        />
+                    </DialogContent>
+                    <DialogActions>
                         <Button autoFocus variant="outlined" color="secondary" onClick={handleClose}>
                             Annuler
                         </Button>
@@ -130,10 +124,10 @@ function Edit({group}) {
                             update
                         </Button>
                     </DialogActions>
-        </form>
-      </Dialog>
-    </div>
-  );
+                </form>
+            </Dialog>
+        </div>
+    );
 }
 
 const Trash = ({ group }) => {
@@ -152,7 +146,7 @@ const Trash = ({ group }) => {
     };
 
     const handleRemove = () => {
-        if(dispatch(removeGroup(group.id))){
+        if (dispatch(removeGroup(group.id))) {
             setDelsuccess(true)
         }
         setOpen(false)

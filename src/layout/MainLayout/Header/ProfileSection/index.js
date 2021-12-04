@@ -1,46 +1,28 @@
 import { useState, useRef, useEffect } from 'react';
-
-import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
-// material-ui
 import { useTheme } from '@mui/material/styles';
 import {
     Avatar,
     Box,
-    Card,
-    CardContent,
-    Chip,
     ClickAwayListener,
     Divider,
-    Grid,
-    InputAdornment,
     List,
     ListItemButton,
     ListItemIcon,
     ListItemText,
-    OutlinedInput,
     Paper,
     Popper,
     Stack,
-    Switch,
+    Chip,
     Typography
 } from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-// third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
-
-// project imports
 import MainCard from 'ui-component/cards/MainCard';
 import Transitions from 'ui-component/extended/Transitions';
-import UpgradePlanCard from './UpgradePlanCard';
 import settings from 'utils/settings';
+import { IconLogout, IconSettings } from '@tabler/icons';
+import {Link as RouterLink} from "react-router-dom"
 
-// assets
-import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
-
-// ==============================|| PROFILE MENU ||============================== //
 const set = new settings().init()
 
 const ProfileSection = () => {
@@ -48,22 +30,14 @@ const ProfileSection = () => {
     const User1 = `${set.APP_FOLDER}/files/avatar/${admin.avatar}`
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
-    const navigate = useNavigate();
 
-    const [sdm, setSdm] = useState(true);
-    const [value, setValue] = useState('');
-    const [notification, setNotification] = useState(false);
-    const [selectedIndex, setSelectedIndex] = useState(-1);
+
+    const [selectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
-    const [closing, setClosing] = useState(0)
-    /**
-     * anchorRef is used on different componets and specifying one type leads to other components throwing an error
-     * */
+
     const anchorRef = useRef(null);
     const handleLogout = () => {
         localStorage.setItem("connected",0);
-        //navigate("/login")
-        setClosing(1)
         setTimeout(()=>{
             window.location = "/login"
         },200)
@@ -76,14 +50,6 @@ const ProfileSection = () => {
         setOpen(false);
     };
 
-    const handleListItemClick = (event, index, route = '') => {
-        setSelectedIndex(index);
-        handleClose(event);
-
-        if (route && route !== '') {
-            navigate(route);
-        }
-    };
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };

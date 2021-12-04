@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import SettingsApplicationsIcon from '@mui/icons-material/SettingsApplications';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-// material-ui
 import {Link as RouterLink} from "react-router-dom"
 import { styled, useTheme } from '@mui/material/styles';
 import { useSelector } from "react-redux"
@@ -19,11 +18,6 @@ import {
     linearProgressClasses,
     Button,
 } from '@mui/material';
-
-// assets
-import TableChartOutlinedIcon from '@mui/icons-material/TableChartOutlined';
-
-// styles
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     height: 10,
     borderRadius: 30,
@@ -52,9 +46,6 @@ const CardStyle = styled(Card)(({ theme }) => ({
         right: '-96px'
     }
 }));
-
-// ==============================|| PROGRESS BAR WITH LABEL ||============================== //
-
 function LinearProgressWithLabel({ value, ...others }) {
     const theme = useTheme();
 
@@ -82,8 +73,6 @@ function LinearProgressWithLabel({ value, ...others }) {
 LinearProgressWithLabel.propTypes = {
     value: PropTypes.number
 };
-
-// ==============================|| SIDEBAR MENU Card ||============================== //
 
 const MenuCard = () => {
     const theme = useTheme();

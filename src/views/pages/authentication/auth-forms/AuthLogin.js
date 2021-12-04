@@ -1,17 +1,14 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate } from "react-router-dom"
 import Avatar from '@mui/material/Avatar';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 import settings from 'utils/settings';
-// material-ui
 import { useTheme } from '@mui/material/styles';
 import {
     Box,
     Button,
     Checkbox,
-    Divider,
     FormControl,
     FormControlLabel,
     FormHelperText,
@@ -20,22 +17,14 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
-    Typography,
-    useMediaQuery
+    Typography
 } from '@mui/material';
-
-// third party
 import * as Yup from 'yup';
 import { Formik } from 'formik';
-
-// project imports
 import useScriptRef from 'hooks/useScriptRef';
 import AnimateButton from 'ui-component/extended/AnimateButton';
-
-// assets
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import Info from "views/pages/utils/Info";
@@ -43,14 +32,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
 
 const set = new settings().init()
-// ============================|| FIREBASE - LOGIN ||============================ //
-
 const FirebaseLogin = ({ ...others }) => {
-    const navigate = useNavigate();
     const theme = useTheme();
     const scriptedRef = useScriptRef();
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const customization = useSelector((state) => state.customization);
     const admin = useSelector(state => state.adminReducer)
     const [checked, setChecked] = useState(true);
     const [load, setLoad] = useState(false)
@@ -58,9 +42,6 @@ const FirebaseLogin = ({ ...others }) => {
     const [success, setSuccess] = useState(false)
     const avatar = `${set.APP_FOLDER}/files/avatar/${admin.avatar}`
 
-    const googleHandler = async () => {
-        console.error('Login');
-    };
 
     const [showPassword, setShowPassword] = useState(false);
     const handleClickShowPassword = () => {
