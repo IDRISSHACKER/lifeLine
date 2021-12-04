@@ -13,12 +13,15 @@ import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import RowGroup from "./usersComponent/rowGroup"
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import Empty from '../utils/Empty'
 
 const ListGroup = () => {
     const groups = useSelector(state => state.groupeReducer)
 
     return (
-        <MainCard title={<div>
+        <div>
+
+        {groups.length > 0 && <MainCard title={<div>
             <span>Groups of Contacts </span>
             <Chip label={groups.length} variant="filled" />
         </div>} secondary={
@@ -50,7 +53,9 @@ const ListGroup = () => {
             <div>
 
             </div>
-        </MainCard>
+        </MainCard>}
+        {groups.length === 0 && <Empty text="Vous n'avez aucun groupe à afficher !" buttonText="Ajouter un groupe" buttonUrl="/dashboard/users/newCtg"/>}
+        </div>
     )
 };
 

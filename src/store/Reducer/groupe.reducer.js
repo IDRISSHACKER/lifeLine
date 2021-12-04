@@ -8,6 +8,8 @@ export default function groupeReducer(state = initialState, action){
             return action.payload
         case type.SET_GROUP_REQUESTED:
             return action.payload
+        case type.UPDATE_GROUP_REQUESTED:
+            return action.payload
         case type.REMOVE_GROUP_REQUESTED:
             return action.payload
         default:

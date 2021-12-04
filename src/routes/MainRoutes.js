@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-
+import { Navigate } from "react-router-dom"
 // project imports
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
@@ -25,45 +25,51 @@ const ListGroupPage = Loadable(lazy(() => import('views/pages/users/listGroup.pa
 const SettingsPage = Loadable(lazy(() => import('views/pages/setting/Setting.page')))
 // ==============================|| MAIN ROUTING ||============================== //
 
+const status = localStorage.getItem("connected") ? parseInt(localStorage.getItem("connected")) : 0 
+
 const MainRoutes = {
     path: '/',
     element: <MainLayout />,
     children: [
         {
             path: '/',
-            element: <DashboardDefault />
+            element: status ? <Navigate to="/dashboard/default" /> : <Navigate to="/login" />
         },
         {
             path: '/dashboard/default',
-            element: <DashboardDefault />
+            element: status ? <DashboardDefault /> : <Navigate to="/login" />
         },
         {
             path: '/dashboard/contact/add',
-            element: <CreateUserPage />
+            element: status ? <CreateUserPage /> : <Navigate to="/login" />
         },
         {
             path: '/dashboard/contact/list',
-            element: <ListUserPage />
+            element: status ? <ListUserPage /> : <Navigate to="/login" />
         },
         {
             path: '/dashboard/message/send',
-            element: <SendMessage />
+            element: status ? <SendMessage /> : <Navigate to="/login" />
         },
         {
             path: '/dashboard/message/sended',
-            element: <SendedMessage />
+            element: status ? <SendedMessage /> : <Navigate to="/login" />
         },
         {
             path: '/dashboard/users/newCtg',
-            element: <NewCtg />
+            element: status ? <NewCtg /> : <Navigate to="/login" />
         },
         {
             path: '/dashboard/users/groups',
-            element: <ListGroupPage />
+            element: status ? <ListGroupPage /> : <Navigate to="/login" />
         },
         {
             path: '/dashboard/settings',
-            element: <SettingsPage />
+            element: status ? <SettingsPage /> : <Navigate to="/login" />
+        },
+        {
+            path: '*',
+            element: status ? <Navigate to="/dashboard/default" /> : <Navigate to="/login" />
         }
     ]
 };

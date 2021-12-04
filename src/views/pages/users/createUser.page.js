@@ -11,7 +11,11 @@ import {
     FormControl,
     InputLabel,
     MenuItem,
-    Select
+    Select,
+    Typography,
+    Card,
+    CardContent,
+    CardActions
 } from '@mui/material';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 // project imports
@@ -23,6 +27,8 @@ import Info from "../utils/Info";
 import { useNavigate } from "react-router";
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined';
 import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
+import imgSvg from "assets/images/icons/undraw_message_sent_re_q2kl.svg"
+import {Link as RouterLink} from "react-router-dom"
 
 const CreateUser = () => {
     const theme = useTheme()
@@ -76,6 +82,8 @@ const CreateUser = () => {
 
 
     return (
+        <Grid container spacing={2}>
+        <Grid item sx={12} lg={8}>
         <MainCard title="Ajouter un contact"
             secondary={
                 <SecondaryAction
@@ -199,6 +207,25 @@ const CreateUser = () => {
                 </Grid>
             </form>
         </MainCard >
+        </Grid>
+        <Grid item sx={12} lg={4}>
+            <Card>
+            <CardContent>
+            <Box sx={{ml:0}}>
+                <div>
+                    <img style={{maxWidth:300}} src={imgSvg} alt="" />
+                    <Typography variant="subtitle2" sx={{mt:2}}>
+                        Veillez remplir minitieusement les informations, elle seront utilisées lors de l'envoi des messages.
+                    </Typography>
+                </div>
+            </Box>
+            </CardContent>
+            <CardActions sx={{mt:10}}>
+                <Button component={RouterLink} to="/dashboard/users/newCtg"  fullWidth color="error">Ajouter un groupe</Button>
+            </CardActions>
+            </Card>
+        </Grid>
+        </Grid>
     )
 };
 

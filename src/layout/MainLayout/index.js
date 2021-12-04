@@ -117,8 +117,9 @@ const MainLayout = () => {
                 <Outlet />
                 <Box sx={{ '& > :not(style)': { m: 1 } }}>
                 <SpeedDial
+                    elevation={4}
                     ariaLabel="SpeedDial basic example"
-                    sx={{ position: 'absolute', bottom: 16, right: 16 }}
+                    sx={{ position: 'fixed', bottom: 16, right: 16 }}
                     icon={<ChatIcon />}
                     onClick={()=>navigate("/dashboard/message/send")}
                 >

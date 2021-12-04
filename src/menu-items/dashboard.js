@@ -3,8 +3,8 @@ import GroupAddOutlinedIcon from '@mui/icons-material/GroupAddOutlined';
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined"
 import MessageOutlinedIcon from "@mui/icons-material/MessageOutlined"
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined"
-
-const icons = { IconDashboard, IconUser, IconUserPlus, GroupAddOutlinedIcon, GroupsOutlinedIcon, MessageOutlinedIcon, SendOutlinedIcon };
+import SettingsIcon from '@mui/icons-material/Settings';
+const icons = { IconDashboard, IconUser, IconUserPlus, GroupAddOutlinedIcon, GroupsOutlinedIcon, MessageOutlinedIcon, SendOutlinedIcon, SettingsIcon };
 
 const dashboard = {
     id: 'dashboard',
@@ -65,6 +65,14 @@ const dashboard = {
             type: 'item',
             url: '/dashboard/users/newCtg',
             icon: icons.GroupAddOutlinedIcon,
+            breadcrumbs: false
+        },
+        {
+            id: 'setting',
+            title: 'Settings',
+            type: 'item',
+            url: '/dashboard/settings',
+            icon: icons.SettingsIcon,
             breadcrumbs: false
         }
     ]

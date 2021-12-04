@@ -4,6 +4,7 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 // material-ui
 import {Link as RouterLink} from "react-router-dom"
 import { styled, useTheme } from '@mui/material/styles';
+import { useSelector } from "react-redux"
 import {
     Avatar,
     Card,
@@ -63,7 +64,7 @@ function LinearProgressWithLabel({ value, ...others }) {
                 <Grid container justifyContent="space-between">
                     <Grid item>
                         <Typography variant="h6" sx={{ color: theme.palette.primary[800] }}>
-                            Completion de votre profil
+                            Progression
                         </Typography>
                     </Grid>
                     <Grid item>
@@ -86,6 +87,7 @@ LinearProgressWithLabel.propTypes = {
 
 const MenuCard = () => {
     const theme = useTheme();
+    const admin = useSelector(state => state.adminReducer)
 
     return (
         <RouterLink className="customLink" to="/dashboard/settings">
@@ -112,13 +114,13 @@ const MenuCard = () => {
                         <ListItemText
                             sx={{ mt: 0 }}
                             primary={
-                                <Button endIcon={<ArrowForwardIosIcon/>} fullWidth> Parametre</Button>
+                                <Button endIcon={<ArrowForwardIosIcon/>} fullWidth> You Profil</Button>
                             }
                             secondary={<Typography variant="caption"></Typography>}
                         />
                     </ListItem>
                 </List>
-                <LinearProgressWithLabel value={30} />
+                <LinearProgressWithLabel value={admin.avatar === "default.svg" ? 20 : admin.name === "root" ? 60 : 100} />
             </CardContent>
         </CardStyle>
         </RouterLink>

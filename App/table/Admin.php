@@ -23,11 +23,29 @@ class Admin extends Table{
         $phone = $_POST['phone'];
         $pays_id = $_POST['pays_id'];
         $changed  = $_POST["changed"];
-        $password = $changed === "1" ? password_hash($_POST['password'], PASSWORD_DEFAULT) : $_POST['password'];
+        $password = $_POST['password'];
 
         self::save("UPDATE `admin` SET `admin`.`name` = ?, `admin`.`surname` = ?, `admin`.`email` = ?, `admin`.`phone` = ?, `admin`.`pays_id` = ?, `admin`.`password` = ? WHERE `admin`.`id` = '$id'",[$name, $surname, $email, $phone, $pays_id, $password]);
 
         self::getAdmin();
+    }
+
+    public static function reset(){
+        self::save("DELETE FROM users");
+        self::save("DELETE FROM messages");
+        self::save("DELETE FROM groupe");
+        $id = 1;
+        $name = "root";
+        $surname = "root";
+        $email = "root@gmail.com";
+        $phone = "693342860";
+        $pays_id = "237";
+        $avatar = "default.svg";
+        $password = "root";
+
+        self::save("UPDATE `admin` SET `admin`.`name` = ?, `admin`.`surname` = ?, `admin`.`email` = ?, `admin`.`phone` = ?, `admin`.`pays_id` = ?, `admin`.`avatar` = ?, `admin`.`password` = ? WHERE `admin`.`id` = '$id'",[$name, $surname, $email, $phone, $pays_id, $avatar, $password]);
+
+        echo json_encode("success");
     }
 
 

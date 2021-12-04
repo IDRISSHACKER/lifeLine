@@ -5,7 +5,10 @@ import {
     Stack,
     Typography,
     Button,
-    Grid
+    Grid,
+    Backdrop,
+    CircularProgress,
+    TextField
 } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import DeleteSweepIcon from '@mui/icons-material/DeleteSweep';
@@ -26,11 +29,112 @@ import { useDispatch } from 'react-redux';
 import { removeUser } from 'store/Action/users.action';
 import Info from "../../utils/Info"
 import { removeGroup } from 'store/Action/goupe.action';
-
+import { updateGroup } from 'store/Action/goupe.action';
+import { getUsers } from 'store/Action/users.action';
+import BackupTwoToneIcon from '@mui/icons-material/BackupTwoTone';
+import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
 });
+
+
+function Edit({group}) {
+  const dispatch = useDispatch()
+  const [open, setOpen] = React.useState(false)
+  const [title, setTitle] = React.useState(group.title)
+  const [description, setDescription] = React.useState(group.description)
+  const [updated, setUpdated] = React.useState(0)
+  const [load, setLoad] = React.useState(0)
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+    const handleCloseLoad = () => {
+        setLoad(false);
+        setUpdated(1)
+        setTimeout(()=>setUpdated(0),2000)
+    };
+
+  const handleUpdate = (e)=>{
+      e.preventDefault()
+    setOpen(0)
+      if(title){
+          setLoad(1)
+          const data = new FormData()
+          data.append("id", group.id)
+          data.append("title", title)
+          data.append("description", description)
+
+          if(dispatch(updateGroup(data))){
+              setTimeout(()=>{
+                    handleCloseLoad()
+                    dispatch(getUsers())
+                },2000)
+          }
+      }
+  }
+
+  return (
+    <div>
+                  <IconButton color="secondary" onClick={handleClickOpen}>
+                <ModeEditOutlineIcon />
+            </IconButton>
+      {updated === 1 && <Info msg="Contact mise à jour avec success" type="success" />}
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={load}
+            >
+                <CircularProgress color="inherit" /><br />
+                <Typography> Mise à jour en cour...</Typography>
+            </Backdrop>
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Editer le group</DialogTitle>
+        <form onSubmit={handleUpdate}>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Title"
+            type="text"
+            fullWidth
+            value={title}
+            onChange={e=>setTitle(e.target.value)}
+            
+          />
+         <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Description"
+            type="text"
+            fullWidth
+            value={description}
+            multiline
+            rows={5}
+            onChange={e=>setDescription(e.target.value)}
+            
+          />
+        </DialogContent>
+        <DialogActions>
+                        <Button autoFocus variant="outlined" color="secondary" onClick={handleClose}>
+                            Annuler
+                        </Button>
+                        <Button startIcon={<BackupTwoToneIcon />} variant="contained" color="secondary" type="submit" autoFocus>
+                            update
+                        </Button>
+                    </DialogActions>
+        </form>
+      </Dialog>
+    </div>
+  );
+}
 
 const Trash = ({ group }) => {
     const [open, setOpen] = React.useState(false);
@@ -104,7 +208,10 @@ export default function RowGroup({ group }, props) {
             <TableCell>{group.description}{group.description.length === 0 && "-"} </TableCell>
             <TableCell>{group.nbUser}</TableCell>
             <TableCell align="right">
-                <Trash group={group} />
+                <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
+                    <Edit group={group} />
+                    <Trash group={group} />
+                </Stack>
             </TableCell>
         </TableRow>
     )

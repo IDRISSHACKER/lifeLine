@@ -38,7 +38,7 @@ if($page === "setUser" OR $page === "setUser/"){
 }else if($page === "removeMessage" OR $page === "removeMessage/"){
   Messenger::removeMessage();
 }else if($page === "admin" OR $page === "admin/"){
-    Admin::getAdmin();
+  Admin::getAdmin();
 }else if($page === "updateAdmin" OR $page === "updateAdmin/"){
   Admin::updateAdmin();
 }else if($page === "chartMonth" OR $page === "chartMonth/"){
@@ -47,4 +47,10 @@ if($page === "setUser" OR $page === "setUser/"){
   Chart::chartSaleByDay();
 }else if($page === "setAvatar" OR $page === "setAvatar/"){
   Image::setImage();
+}else if($page === "reset" OR $page === "reset/"){
+  Admin::reset();
+}else if($page === "updateUser" OR $page === "updateUser/"){
+  Users::updateUser();
+}else if($page === "updateGroup" OR $page ==="updateGroup/"){
+  Groupe::updateGroup();
 }

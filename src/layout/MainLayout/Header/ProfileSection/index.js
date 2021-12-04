@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 // material-ui
@@ -26,7 +26,8 @@ import {
     Switch,
     Typography
 } from '@mui/material';
-
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 // third-party
 import PerfectScrollbar from 'react-perfect-scrollbar';
 
@@ -54,12 +55,18 @@ const ProfileSection = () => {
     const [notification, setNotification] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
     const [open, setOpen] = useState(false);
+    const [closing, setClosing] = useState(0)
     /**
      * anchorRef is used on different componets and specifying one type leads to other components throwing an error
      * */
     const anchorRef = useRef(null);
-    const handleLogout = async () => {
-        console.log('Logout');
+    const handleLogout = () => {
+        localStorage.setItem("connected",0);
+        //navigate("/login")
+        setClosing(1)
+        setTimeout(()=>{
+            window.location = "/login"
+        },200)
     };
 
     const handleClose = (event) => {
@@ -190,7 +197,9 @@ const ProfileSection = () => {
                                                 <ListItemButton
                                                     sx={{ borderRadius: `${customization.borderRadius}px` }}
                                                     selected={selectedIndex === 0}
-                                                    onClick={(event) => handleListItemClick(event, 0, '/user/account-profile/profile1')}
+                                                    component={RouterLink} 
+                                                    to="/dashboard/settings"
+                                                    onClick={(e)=>setOpen(false)}
                                                 >
                                                     <ListItemIcon>
                                                         <IconSettings stroke={1.5} size="1.3rem" />

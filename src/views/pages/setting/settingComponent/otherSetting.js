@@ -7,8 +7,9 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Switch from '@mui/material/Switch';
 import WifiIcon from '@mui/icons-material/Wifi';
 import BluetoothIcon from '@mui/icons-material/Bluetooth';
-import { Card } from '@mui/material';
-import { IosShare } from '@mui/icons-material';
+import { Card, Button } from '@mui/material';
+import GitHubIcon from '@mui/icons-material/GitHub';
+import DataObjectIcon from '@mui/icons-material/DataObject';
 
 export default function OtherSettings() {
   const [checked, setChecked] = React.useState(['wifi']);
@@ -30,21 +31,21 @@ export default function OtherSettings() {
     <Card>
       <List
         sx={{ width: '100%', maxWidth: 900, bgcolor: 'background.paper' }}
-        subheader={<ListSubheader>Settings</ListSubheader>}
+        subheader={<ListSubheader>Liens utiles</ListSubheader>}
       >
         <ListItem>
           <ListItemIcon>
-            <WifiIcon />
+            <GitHubIcon />
           </ListItemIcon>
           <ListItemText id="switch-list-label-wifi" primary="Ouvrir le deppôt github" />
-          <Button>ouvrir github</Button>
+          <Button href="https://github.com/idriss-coder/lifeLine" target="_blank" className="githubBtn" variant="contained" color="info" startIcon={<GitHubIcon />}>ouvrir github .</Button>
         </ListItem>
         <ListItem>
           <ListItemIcon>
-            <BluetoothIcon />
+            <DataObjectIcon />
           </ListItemIcon>
           <ListItemText id="switch-list-label-bluetooth" primary="Effectuer un rechargement" />
-          <Button>ouvrir l'api</Button>
+          <Button  href="https://github.com/idriss-coder/lifeLine" target="_blank" color="secondary" variant="contained" startIcon={<DataObjectIcon />} >ouvrir api sms</Button>
         </ListItem>
       </List>
     </Card>

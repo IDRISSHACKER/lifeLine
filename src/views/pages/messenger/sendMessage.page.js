@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import {Link as RouterLink } from "react-router-dom"
 import { useTheme } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import {
@@ -32,10 +33,13 @@ import Scrollbar from "../utils/ScrollBar";
 import SimpleBarReact from 'simplebar-react';
 import { setMessages } from "store/Action/message.action";
 import Info from "../utils/Info";
+import AdminCompose from "../utils/AdminCompose";
 import { useNavigate } from "react-router-dom";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import { getChartMonth } from "store/Action/chartMonth.action";
 import { getChartDay } from "store/Action/chartDay.action";
+import PerfectScrollbar from 'react-perfect-scrollbar';
+import {ReactComponent as EmptyImg} from "assets/images/icons/undraw_empty_cart_co35.svg"
 
 const SendMessage = () => {
     const [checked, setChecked] = useState([]);
@@ -57,8 +61,6 @@ const SendMessage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        dispatch(getChartMonth())
-        dispatch(getChartDay())
 
         const data = new FormData()
 
@@ -72,6 +74,8 @@ const SendMessage = () => {
                 setMessage("")
                 setChecked([])
                 setCheckAll(0)
+                dispatch(getChartMonth())
+                dispatch(getChartDay())
                 setTimeout(() => navigate("/dashboard/message/sended"), 2000)
             } else {
                 setErr(1)
@@ -81,10 +85,10 @@ const SendMessage = () => {
             setErr(1)
             setTimeout(() => setErr(0), 2000)
         }
-        dispatch(getChartMonth())
-        dispatch(getChartDay())
-        dispatch(getChartMonth())
-        dispatch(getChartDay())
+        setTimeout(()=>{
+            dispatch(getChartMonth())
+            dispatch(getChartDay())
+        },1500)
     }
 
     const handleToggle = (value) => () => {
@@ -141,15 +145,7 @@ const SendMessage = () => {
 
 
     return (
-        <MainCard title="Nouveau message"
-            secondary={
-                <SecondaryAction
-                    title="Messages envoyés"
-                    link="/dashboard/message/sended"
-                    icon={<SendOutlinedIcon />}
-                />
-            }
-        >
+        <div>
             <div>
                 {success === 1 && <Info msg="Message(s) envoyé(s) avec success" type="success" />}
                 {err === 1 && <Info msg="Ereur lors de l'envoi du message" type="error" />}
@@ -157,9 +153,18 @@ const SendMessage = () => {
             <form noValidate onSubmit={handleSubmit}>
                 <Grid container spacing={matchDownSM ? 0 : 2}>
                     <Grid item xs={12} sm={8}>
-                        <Card variant="outlined">
-                            <CardHeader title="Message" subheader="Entrez le contenu de votre message" />
-                            <CardContent>
+                        <MainCard title="Nouveau message"
+                         elevation={1}
+                        secondary={
+                            <SecondaryAction
+                                title="Messages envoyés"
+                                link="/dashboard/message/sended"
+                                icon={<SendOutlinedIcon />}
+                            />}>
+                            <div>
+                                <AdminCompose />
+                            </div>
+                            <CardContent sx={{mt:0, pt:0, mb:0, pb:2}}>
                                 <TextField
                                     fullWidth
                                     margin="normal"
@@ -172,7 +177,7 @@ const SendMessage = () => {
                                     sx={{ ...theme.typography.customInput }}
                                 />
                             </CardContent>
-                            <CardActions>
+                            <CardActions sx={{mt:0, pt:0}}>
                                 <Box>
                                     <AnimateButton>
                                         <Button
@@ -189,10 +194,10 @@ const SendMessage = () => {
                                     </AnimateButton>
                                 </Box>
                             </CardActions>
-                        </Card>
+                        </MainCard>
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <Card variant='elevation'>
+                        <Card elevation={2}>
                             <CardHeader title={
                                 <div>
                                     <span>Selectionner  les contacts </span>
@@ -200,7 +205,7 @@ const SendMessage = () => {
                                 </div>
                             } />
                             <div>
-                                <Box sx={{ minWidth: 60 }}>
+                                <Box sx={{ minWidth: 60, ml:3, mr:3 }}>
                                     <FormControl fullWidth>
                                         <InputLabel id="demo-simple-select-label"></InputLabel>
                                         <Select
@@ -222,7 +227,9 @@ const SendMessage = () => {
                             </div>
                             <div>
                                 <br />
-                                <Scrollbar sx={{ height: "240px" }}>
+                                <Box>
+                                <PerfectScrollbar style={{ height: '100%', maxHeight: '350px', overflowX: 'hidden' }}>
+                                    <Box>
                                     <List disablePadding>
                                         {contacts && contacts.map((value) => {
                                             const labelId = `checkbox-list-secondary-label-${value}`;
@@ -249,7 +256,12 @@ const SendMessage = () => {
                                             );
                                         })}
                                     </List>
-                                </Scrollbar>
+                                    <Box sx={{ml:7}}>
+                                        {contacts.length === 0 && <EmptyImg style={{width:200,height:"auto"}} />}
+                                    </Box>
+                                    </Box>
+                                </PerfectScrollbar>
+                                </Box>
                             </div>
                             <form>
                                 <CardActions>
@@ -264,12 +276,13 @@ const SendMessage = () => {
                                 </CardActions>
                             </form>
                         </Card>
+                        {contacts.length === 0 && <Button variant="contained" size="small" sx={{mt:2, ml:{lg:17,sm:5}}} component={RouterLink} to="/dashboard/contact/add" color="error">Ajouter un contact</Button>}
                     </Grid>
-                    <Grid item xs={12} sm={4}>
+                    <Grid item xs={12} sm={4} lg={4}>
                     </Grid>
                 </Grid>
             </form>
-        </MainCard>
+            </div>
     )
 };
 

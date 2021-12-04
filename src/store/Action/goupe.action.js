@@ -20,6 +20,14 @@ export const setGroup = (data) => {
     }
 }
 
+export const updateGroup = (data) => {
+    return (dispatch) => {
+        return axios.post(set.APP_URL + '?page=updateGroup', data)
+            .then(res => dispatch({ type: type.UPDATE_GROUP_REQUESTED, payload: res.data }))
+            .catch(err => console.log(err))
+    }
+}
+
 export const removeGroup = (id) => {
     const data = new FormData();
     data.append("id", id)

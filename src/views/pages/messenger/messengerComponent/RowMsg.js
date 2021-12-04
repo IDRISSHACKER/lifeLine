@@ -28,6 +28,8 @@ import Info from "../../utils/Info"
 import { formatTitle } from 'utils/formatText';
 import { removeMessage } from 'store/Action/message.action';
 import MoreIcon from '@mui/icons-material/More';
+import { formatDistanceToNow } from 'date-fns';
+import TextField from '@mui/material/TextField';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -53,7 +55,7 @@ const Trash = ({ msg }) => {
         data.append("id", msg.id)
         if (dispatch(removeMessage(data))) {
             setDelsuccess(1)
-            setTimeout(()=>setDelsuccess(0),2000)
+            setTimeout(() => setDelsuccess(0), 2000)
         }
         setOpen(false)
     }
@@ -118,7 +120,7 @@ export default function RowMsg({ msg }, props) {
                 </Stack>
             </TableCell>
             <TableCell>{formatTitle(msg.content, 70)}</TableCell>
-            <TableCell>{msg.created_at}</TableCell>
+            <TableCell>{formatDistanceToNow(new Date(msg.created_at))}</TableCell>
             <TableCell align="right">
                 <Trash msg={msg} />
             </TableCell>

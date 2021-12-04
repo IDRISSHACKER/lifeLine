@@ -20,7 +20,6 @@ class Users extends Table{
         return self::query("SELECT users.phone FROM users WHERE phone = ?",[$tel]);  
     }
 
-
     public static function setUser(){
         $tel = htmlspecialchars($_POST['phone']);
         if(count(self::getPhone($tel))==0){
@@ -57,19 +56,18 @@ class Users extends Table{
         
     }
 
-
     public static function updateUser(){
-        if($_SESSION["id"]){
-            $id = $_SESSION['id'];
-            $name = $_POST['name'];
-            $username = $_POST['name'];
-            $pseudo = $_POST['name'];
-            $email = $_POST['name'];
-            $tel = $_POST['name'];
+        $id = $_POST['id'];
+        $name = $_POST['name'];
+        $surname = $_POST['surname'];
+        $email = $_POST['email'];
+        $phone = $_POST['phone'];
+        $pays_id = $_POST['pays_id'];
+        $group_id = $_POST['groupe_id'];
 
-            self::query("UPDATE users set name = ?, username = ?, pseudo = ?, email = ?, tel = ? WHERE id = $id",
-                [$name, $username, $pseudo, $tel]);
-        }
+        self::save("UPDATE `users` SET `users`.`name` = ?, `users`.`surname` = ?, `users`.`email` = ?, `users`.`phone` = ?, `users`.`pays_id` = ?, `users`.`groupe_id` = ? WHERE `users`.`id` = '$id'",[$name, $surname, $email, $phone, $pays_id, $group_id]);
+
+        self::getUsers();
     }
 
     public static function removeUser(){

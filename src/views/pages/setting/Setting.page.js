@@ -3,14 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import GridViewIcon from '@mui/icons-material/GridView';
-import { Avatar, Grid, Divider, CardActions, Button, TextField, Typography, Tooltip, Card, CardContent } from '@mui/material'
-import ListSubheader from '@mui/material/ListSubheader';
+import { Avatar, Grid, Divider, CardActions, Button, TextField, Typography, Tooltip } from '@mui/material'
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import DraftsIcon from '@mui/icons-material/Drafts';
-import SendIcon from '@mui/icons-material/Send';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import PermPhoneMsgIcon from '@mui/icons-material/PermPhoneMsg';
@@ -22,9 +19,9 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import Info from '../utils/Info';
 import { getAdmin, updateAdmin, updateAvatar } from 'store/Action/admin.action';
 import settings from 'utils/settings';
-import { lazy } from 'yup';
 import ResetStat from './settingComponent/resetStat';
 import OtherSettings from './settingComponent/otherSetting';
+import Illustration from './settingComponent/illustration';
 const set = new settings().init()
 
 const Item = ({ icon, txt }) => {
@@ -106,8 +103,8 @@ const Setting = () => {
         <Grid container spacing={2}>
             <Grid item xs={12} md={6} lg={!edit ? 4 : 6}>
                 {success === 1 && <Info msg="Profil mise à jour" />}
-                {successAvatar === 1 && <Info msg="Votre avatar à été mise à jour !" autocomplete="off" />}
-                <form onSubmit={handleUpdate}>
+                {successAvatar === 1 && <Info msg="Votre avatar à été mise à jour !" />}
+                <form onSubmit={handleUpdate} autocomplete="off">
                     <MainCard title={<div>
                         <span>Profil </span>
                     </div>} secondary={
@@ -251,6 +248,9 @@ const Setting = () => {
                     </Grid>
                     <Grid item xs={12} lg={12}>
                         <OtherSettings />
+                    </Grid>
+                    <Grid item xs={12} lg={12}>
+                        <Illustration />
                     </Grid>
                 </Grid>
             </Grid>

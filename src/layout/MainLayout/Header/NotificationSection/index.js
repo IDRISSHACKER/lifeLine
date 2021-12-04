@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import {ReactComponent as ImageEmpty}  from "assets/images/icons/undraw_empty_cart_co35.svg"
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -151,21 +152,10 @@ const NotificationSection = () => {
                                             <Grid container alignItems="center" justifyContent="space-between" sx={{ pt: 2, px: 2 }}>
                                                 <Grid item>
                                                     <Stack direction="row" spacing={2}>
-                                                        <Typography variant="subtitle1">All Notification</Typography>
-                                                        <Chip
-                                                            size="small"
-                                                            label="01"
-                                                            sx={{
-                                                                color: theme.palette.background.default,
-                                                                bgcolor: theme.palette.warning.dark
-                                                            }}
-                                                        />
+                                                        <Typography variant="subtitle1"> Notification </Typography>
                                                     </Stack>
                                                 </Grid>
                                                 <Grid item>
-                                                    <Typography component={Link} to="#" variant="subtitle2" color="primary">
-                                                        Mark as all read
-                                                    </Typography>
                                                 </Grid>
                                             </Grid>
                                         </Grid>
@@ -176,22 +166,7 @@ const NotificationSection = () => {
                                                 <Grid container direction="column" spacing={2}>
                                                     <Grid item xs={12}>
                                                         <Box sx={{ px: 2, pt: 0.25 }}>
-                                                            <TextField
-                                                                id="outlined-select-currency-native"
-                                                                select
-                                                                fullWidth
-                                                                value={value}
-                                                                onChange={handleChange}
-                                                                SelectProps={{
-                                                                    native: true
-                                                                }}
-                                                            >
-                                                                {status.map((option) => (
-                                                                    <option key={option.value} value={option.value}>
-                                                                        {option.label}
-                                                                    </option>
-                                                                ))}
-                                                            </TextField>
+                                                            <ImageEmpty className="illus"/>
                                                         </Box>
                                                     </Grid>
                                                     <Grid item xs={12} p={0}>
@@ -205,7 +180,7 @@ const NotificationSection = () => {
                                     <Divider />
                                     <CardActions sx={{ p: 1.25, justifyContent: 'center' }}>
                                         <Button size="small" disableElevation>
-                                            View All
+                                            Aucune notifaction
                                         </Button>
                                     </CardActions>
                                 </MainCard>

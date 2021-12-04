@@ -10,6 +10,7 @@ import {
     Paper,
     Chip
 } from '@mui/material';
+import Empty from '../utils/Empty'
 
 const SecondaryAction = React.lazy(() => import('ui-component/cards/CardSecondaryAction'))
 const RowUser = React.lazy(() => import("./usersComponent/rowUser"))
@@ -21,7 +22,8 @@ const ListUser = () => {
 
     return (
         <React.Suspense fallback={<p>loading</p>}>
-            <MainCard title={<div>
+            <div>
+            {users.length > 0 && <MainCard title={<div>
                 <span>Vos Contacts </span>
                 <Chip label={users.length} variant="filled" />
             </div>} secondary={
@@ -54,7 +56,9 @@ const ListUser = () => {
                 <div>
 
                 </div>
-            </MainCard>
+            </MainCard>}
+            {users.length === 0 && <Empty text="Vous n'avez aucun utilisateur à aficher dans votre repertoire !" buttonText="Ajouter un utilisateur" buttonUrl="/dashboard/contact/add"/>}
+        </div>
         </React.Suspense>
     )
 };

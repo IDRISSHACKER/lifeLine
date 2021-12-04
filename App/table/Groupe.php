@@ -34,16 +34,18 @@ class Groupe extends Table
 
    }
 
-   public static function editGroup(){
-    $ctg_id     = $_POST['id'];
-    $ctg_title  = $_POST['title'];
-    $ctg_desc   = $_POST['description'];
+   public static function updateGroup(){
+    $id     = $_POST['id'];
+    $title  = $_POST['title'];
+    $description   = $_POST['description'];
 
-    self::save("UPDATE `category` SET `category`.`category_name` = ?, `category`.`category_desc` = ? WHERE `category`.`id` = $ctg_id",[$ctg_title, $ctg_desc]);
+    self::save("UPDATE `groupe` SET `groupe`.`title` = ?, `groupe`.`description` = ? WHERE `groupe`.`id` = $id",[$title, $description]);
 
-    echo json_encode(self::getCategories());
+    self::getGroups();
 
    }
+
+   
 
   public static function removeGroup(){
 

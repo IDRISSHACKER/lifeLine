@@ -13,12 +13,14 @@ import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
 import RowMsg from './messengerComponent/RowMsg';
 import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined';
+import Empty from '../utils/Empty'
 
 const MessageSended = () => {
     const messages = useSelector(state => state.messengerReducer)
 
     return (
-        <MainCard title={<div>
+        <div>
+        {messages.length > 0 && <MainCard title={<div>
             <span>Message envoyés </span>
             <Chip label={messages.length} variant="filled" />
         </div>}
@@ -51,7 +53,9 @@ const MessageSended = () => {
             <div>
                 
             </div>
-        </MainCard>
+        </MainCard>}
+        {messages.length === 0 &&  <Empty text="Aucun messages à afficher dans votre boite de messages envoyés" buttonText="Envoyer un message" buttonUrl="/dashboard/message/send" />}
+        </div>
     )
 };
 

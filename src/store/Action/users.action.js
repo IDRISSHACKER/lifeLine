@@ -20,6 +20,14 @@ export const setUser = (data) => {
     }
 }
 
+export const updateUser = (data) => {
+    return (dispatch) => {
+        return axios.post(set.APP_URL + '?page=updateUser', data)
+            .then(res => dispatch({ type: type.UPDATE_USER_REQUESTED, payload: res.data }))
+            .catch(err => console.log(err))
+    }
+}
+
 export const removeUser = (id) => {
     const data = new FormData();
     data.append("id", id)

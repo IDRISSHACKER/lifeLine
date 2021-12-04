@@ -8,6 +8,8 @@ export default function usersReducer(state = initialState, action){
             return action.payload
         case type.SET_USERS_REQUESTED:
             return action.payload
+        case type.UPDATE_USER_REQUESTED:
+            return action.payload
         case type.REMOVE_USERS_REQUESTED:
             return action.payload
         default:

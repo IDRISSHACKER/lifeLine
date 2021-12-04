@@ -1,6 +1,10 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-
+import { useNavigate } from "react-router-dom"
+import Avatar from '@mui/material/Avatar';
+import Chip from '@mui/material/Chip';
+import Stack from '@mui/material/Stack';
+import settings from 'utils/settings';
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
@@ -16,7 +20,6 @@ import {
     InputAdornment,
     InputLabel,
     OutlinedInput,
-    Stack,
     Typography,
     useMediaQuery
 } from '@mui/material';
@@ -33,16 +36,27 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import Google from 'assets/images/icons/social-google.svg';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
+import Info from "views/pages/utils/Info";
+import LoadingButton from '@mui/lab/LoadingButton';
+import SaveIcon from '@mui/icons-material/Save';
 
+const set = new settings().init()
 // ============================|| FIREBASE - LOGIN ||============================ //
 
 const FirebaseLogin = ({ ...others }) => {
+    const navigate = useNavigate();
     const theme = useTheme();
     const scriptedRef = useScriptRef();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const customization = useSelector((state) => state.customization);
+    const admin = useSelector(state => state.adminReducer)
     const [checked, setChecked] = useState(true);
+    const [load, setLoad] = useState(false)
+    const [err, setErr] = useState(false)
+    const [success, setSuccess] = useState(false)
+    const avatar = `${set.APP_FOLDER}/files/avatar/${admin.avatar}`
 
     const googleHandler = async () => {
         console.error('Login');
@@ -59,18 +73,35 @@ const FirebaseLogin = ({ ...others }) => {
 
     return (
         <>
+            {success === 1 && <Info msg="Connexion reusis" type="success" />}
+            {err === 1 && <Info msg="email ou mot de passe invalide !" type="error" />}
+            <Backdrop
+                sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                open={load}
+            >
+                <CircularProgress color="inherit" /><br />
+                <Typography> Connexion en cour....</Typography>
+            </Backdrop>
+
+
             <Grid container direction="column" justifyContent="center" spacing={2}>
                 <Grid item xs={12} container alignItems="center" justifyContent="center">
                     <Box sx={{ mb: 2 }}>
-                        <Typography variant="subtitle1">Se connecter avec votre adresse email</Typography>
+                        <Stack direction="row" spacing={1} >
+                            <Chip           
+                                avatar={<Avatar alt={admin.name} src={avatar} />}
+                                label={admin.name+" "+admin.surname}
+                                variant="outlined"
+                            />
+                        </Stack>
                     </Box>
                 </Grid>
             </Grid>
 
             <Formik
                 initialValues={{
-                    email: 'info@codedthemes.com',
-                    password: '123456',
+                    email: '',
+                    password: '',
                     submit: null
                 }}
                 validationSchema={Yup.object().shape({
@@ -80,8 +111,21 @@ const FirebaseLogin = ({ ...others }) => {
                 onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
                     try {
                         if (scriptedRef.current) {
-                            setStatus({ success: true });
-                            setSubmitting(false);
+                            if (values.email === admin.email && values.password === admin.password) {
+                                setStatus({ success: true });
+                                setSubmitting(false);
+                                setLoad(true)
+                                localStorage.setItem("connected", 1)
+                                setSuccess(1)
+                                setLoad(1)
+                                setTimeout(() => window.location = "/dashboard/login", 2000)
+                            } else {
+                                setStatus({ success: false });
+                                setErrors({ submit: "Identifiants invalides" });
+                                setSubmitting(false);
+                                setErr(1)
+                                setTimeout(() => setErr(2), 2000)
+                            }
                         }
                     } catch (err) {
                         console.error(err);
@@ -94,9 +138,9 @@ const FirebaseLogin = ({ ...others }) => {
                 }}
             >
                 {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-                    <form noValidate onSubmit={handleSubmit} {...others}>
+                    <form noValidate autocomplete="off" onSubmit={handleSubmit} {...others}>
                         <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address / Username</InputLabel>
+                            <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel>
                             <OutlinedInput
                                 id="outlined-adornment-email-login"
                                 type="email"
@@ -106,6 +150,7 @@ const FirebaseLogin = ({ ...others }) => {
                                 onChange={handleChange}
                                 label="Email Address"
                                 inputProps={{}}
+                                autocomplete="off"
                             />
                             {touched.email && errors.email && (
                                 <FormHelperText error id="standard-weight-helper-text-email-login">
@@ -172,7 +217,7 @@ const FirebaseLogin = ({ ...others }) => {
                         )}
 
                         <Box sx={{ mt: 2 }}>
-                            <AnimateButton>
+                            {success === false && <AnimateButton>
                                 <Button
                                     disableElevation
                                     disabled={isSubmitting}
@@ -184,7 +229,17 @@ const FirebaseLogin = ({ ...others }) => {
                                 >
                                     Connexion
                                 </Button>
-                            </AnimateButton>
+                            </AnimateButton>}
+                            {success === 1 && <LoadingButton
+                                loading
+                                loadingPosition="start"
+                                startIcon={<SaveIcon />}
+                                variant="contained"
+                                fullWidth
+                                size="larges"
+                            >
+                                connexion
+                            </LoadingButton>}
                         </Box>
                     </form>
                 )}
