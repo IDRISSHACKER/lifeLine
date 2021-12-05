@@ -13,12 +13,7 @@ const MessageSended = () => {
     return (
         <div>
             {messages.length > 0 && (
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1.5 }}
-                    whileHover={{ scale: 1.005 }}
-                >
+
                     <MainCard
                         title={
                             <div>
@@ -45,7 +40,6 @@ const MessageSended = () => {
                         </TableContainer>
                         <div></div>
                     </MainCard>
-                </motion.div>
             )}
             {messages.length === 0 && (
                 <Empty

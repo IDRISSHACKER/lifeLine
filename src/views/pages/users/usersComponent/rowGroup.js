@@ -27,6 +27,7 @@ import { updateGroup } from 'store/Action/goupe.action';
 import { getUsers } from 'store/Action/users.action';
 import BackupTwoToneIcon from '@mui/icons-material/BackupTwoTone';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
+import {motion} from "framer-motion"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -89,6 +90,12 @@ function Edit({ group }) {
             </Backdrop>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Editer le group</DialogTitle>
+                <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 1 }}
+                                whileHover={{ scale: 1.2 }}
+                            >
                 <form onSubmit={handleUpdate}>
                     <DialogContent>
                         <TextField
@@ -125,6 +132,7 @@ function Edit({ group }) {
                         </Button>
                     </DialogActions>
                 </form>
+                </motion.div>
             </Dialog>
         </div>
     );
@@ -198,9 +206,36 @@ export default function RowGroup({ group }, props) {
 
     return (
         <TableRow {...props}>
-            <TableCell>{group.title}</TableCell>
-            <TableCell>{group.description}{group.description.length === 0 && "-"} </TableCell>
-            <TableCell>{group.nbUser}</TableCell>
+            <TableCell>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    whileHover={{ scale: 1.2 }}
+                >
+                    {group.title}
+                </motion.div>
+            </TableCell>
+            <TableCell>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    whileHover={{ scale: 1.2 }}
+                >
+                    {group.description}{group.description.length === 0 && "-"}
+                </motion.div>
+            </TableCell>
+            <TableCell>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    whileHover={{ scale: 1.2 }}
+                >
+                    {group.nbUser}
+                </motion.div>
+            </TableCell>
             <TableCell align="right">
                 <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
                     <Edit group={group} />

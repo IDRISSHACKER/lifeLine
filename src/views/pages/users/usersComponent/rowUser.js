@@ -37,6 +37,7 @@ import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import BackupTwoToneIcon from '@mui/icons-material/BackupTwoTone';
 import { updateUser } from 'store/Action/users.action';
 import { getGroups } from 'store/Action/goupe.action';
+import { motion } from "framer-motion"
 
 const Edit = ({ user }) => {
     const dispatch = useDispatch()
@@ -62,7 +63,7 @@ const Edit = ({ user }) => {
     const handleCloseLoad = () => {
         setLoad(false);
         setEdited(1)
-        setTimeout(()=>setEdited(0),2000)
+        setTimeout(() => setEdited(0), 2000)
     };
 
     const handleUpdate = (e) => {
@@ -78,15 +79,15 @@ const Edit = ({ user }) => {
             data.append("pays_id", pays_id)
             data.append("groupe_id", groupSelected)
 
-            if(dispatch(updateUser(data))){
+            if (dispatch(updateUser(data))) {
                 setLoad(1)
                 dispatch(getUsers())
                 dispatch(getGroups())
-                setTimeout(()=>{
+                setTimeout(() => {
                     handleCloseLoad()
                     dispatch(getUsers())
                     dispatch(getGroups())
-                },2000)
+                }, 2000)
             }
         }
     }
@@ -101,10 +102,16 @@ const Edit = ({ user }) => {
                 <CircularProgress color="inherit" /><br />
                 <Typography> Mise à jour en cour...</Typography>
             </Backdrop>
-
-            <IconButton color="secondary" onClick={handleClickOpen}>
-                <ModeEditOutlineIcon />
-            </IconButton>
+            <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+                whileHover={{ scale: 1.2 }}
+            >
+                <IconButton color="secondary" onClick={handleClickOpen}>
+                    <ModeEditOutlineIcon />
+                </IconButton>
+            </motion.div>
             <Dialog open={open} onClose={handleClose}>
                 <form onSubmit={handleUpdate} autocomplete="off">
                     <DialogTitle>Mise à jour du contact</DialogTitle>
@@ -232,13 +239,46 @@ export default function RowUser({ user }, props) {
         <TableRow {...props}>
             <TableCell>
                 <Stack direction="row" spacing={2}>
-                    <Avatar sx={{ bgcolor: selected, color: "white" }}>{user.name[0]}</Avatar>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1 }}
+                        whileHover={{ scale: 1.3 }}
+                    >
+                        <Avatar sx={{ bgcolor: selected, color: "white" }}>{user.name[0]}</Avatar>
+                    </motion.div>
                     <Typography sx={{ pt: { xs: 2, sm: 2, xl: 2 } }}>{user.name} {user.surname}</Typography>
                 </Stack>
             </TableCell>
-            <TableCell>+{user.pays_id}{user.phone}</TableCell>
-            <TableCell>{user.email && user.email}</TableCell>
-            <TableCell>{user.title}</TableCell>
+            <TableCell>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 2 }}
+                    whileHover={{ scale: 1.2 }}
+                >
+                    +{user.pays_id}{user.phone}
+                </motion.div>
+            </TableCell>
+            <TableCell>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    whileHover={{ scale: 1.2 }}
+                >
+                    {user.email && user.email}
+                </motion.div>
+            </TableCell>
+            <TableCell>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 2 }}
+                    transition={{ duration: 1 }}
+                    whileHover={{ scale: 1.2 }}
+                >{user.title}
+                </motion.div>
+            </TableCell>
             <TableCell align="right">
                 <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>
                     <Edit user={user} />

@@ -108,21 +108,47 @@ export default function RowMsg({ msg }, props) {
             <TableCell>
                 <Stack direction="row" spacing={2}>
                     <motion.div
-                        transition={{ duration: 1.1 }}
-                        whileHover={{ scale: 1.3}}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 3 }}
+                        whileHover={{ scale: 1.3 }}
                     >
                         <Avatar sx={{ bgcolor: selected, color: "white" }}>{msg.name[0]}</Avatar>
                     </motion.div>
                     <div>
-                        <Stack direction="column" spacing={1}>
-                            <Typography sx={{ pt: { xs: 0, sm: 0, xl: 0 } }}>{msg.name} {msg.surname}</Typography>
-                            <Typography>+{msg.pays_id}{msg.phone}</Typography>
-                        </Stack>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 2 }}
+                            whileHover={{ scale: 1.1 }}
+                        >
+                            <Stack direction="column" spacing={1}>
+                                <Typography sx={{ pt: { xs: 0, sm: 0, xl: 0 } }}>{msg.name} {msg.surname}</Typography>
+                                <Typography>+{msg.pays_id}{msg.phone}</Typography>
+                            </Stack>
+                        </motion.div>
                     </div>
                 </Stack>
             </TableCell>
-            <TableCell>{formatTitle(msg.content, 70)}</TableCell>
-            <TableCell>{formatDistanceToNow(new Date(msg.created_at))}</TableCell>
+            <TableCell>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    whileHover={{ scale: 1.1 }}
+                >
+                    {formatTitle(msg.content, 70)}
+                </motion.div>
+            </TableCell>
+            <TableCell>
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                    whileHover={{ scale: 1.1 }}
+                >{formatDistanceToNow(new Date(msg.created_at))}
+                </motion.div>
+            </TableCell>
             <TableCell align="right">
                 <Trash msg={msg} />
             </TableCell>

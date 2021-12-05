@@ -12,12 +12,6 @@ const ListGroup = () => {
 
     return (
         <div>
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 1.5 }}
-                whileHover={{ scale: 1.005 }}
-            >
                 {groups.length > 0 && (
                     <MainCard
                         title={
@@ -49,7 +43,6 @@ const ListGroup = () => {
                 {groups.length === 0 && (
                     <Empty text="Vous n'avez aucun groupe à afficher !" buttonText="Ajouter un groupe" buttonUrl="/dashboard/users/newCtg" />
                 )}
-            </motion.div>
         </div>
     );
 };

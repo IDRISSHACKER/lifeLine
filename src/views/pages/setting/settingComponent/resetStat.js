@@ -19,7 +19,8 @@ import { getChartDay } from "store/Action/chartDay.action";
 import { getGroups } from "store/Action/goupe.action";
 import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
-import {ReactComponent as Logo} from "assets/images/icons/undraw_blank_canvas_re_2hwy.svg"
+import { ReactComponent as Logo } from "assets/images/icons/undraw_blank_canvas_re_2hwy.svg"
+import { motion } from "framer-motion"
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -45,7 +46,7 @@ const Reset = () => {
     const handleCloseLoad = () => {
         setLoad(false);
         setDelsuccess(1)
-        setTimeout(()=>setDelsuccess(0),2000)
+        setTimeout(() => setDelsuccess(0), 2000)
     };
 
     const handleRemove = () => {
@@ -57,7 +58,7 @@ const Reset = () => {
             dispatch(getAdmin())
             dispatch(getGroups())
             setLoad(1)
-            setTimeout(()=>{
+            setTimeout(() => {
                 handleCloseLoad()
                 dispatch(getMessages())
                 dispatch(getUsers())
@@ -65,7 +66,7 @@ const Reset = () => {
                 dispatch(getChartMonth())
                 dispatch(getAdmin())
                 dispatch(getGroups())
-            },5000)
+            }, 5000)
         }
         setOpen(false)
     }
@@ -114,17 +115,31 @@ export default function ResetStat() {
         <Card>
             <Grid container>
                 <Grid item xs={12} md={3} lg={3}>
-                    <div className="iconTrash">
-                        <Logo className="icon" />
-                    </div>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 1.5 }}
+                        whileHover={{ scale: 1.02 }}
+                    >
+                        <div className="iconTrash">
+                            <Logo className="icon" />
+                        </div>
+                    </motion.div>
                 </Grid>
                 <Grid item xs={12} md={9} lg={9}>
                     <CardContent>
-                        <Typography variant="h4">Restorer l'application</Typography>
-                        <Typography variant="body1">
-                            <p>{msg}</p>
-                        </Typography>
-                        <br />
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 3 }}
+                            whileHover={{ scale: 1.02 }}
+                        >
+                            <Typography variant="h4">Restorer l'application</Typography>
+                            <Typography variant="body1">
+                                <p>{msg}</p>
+                            </Typography>
+                            <br />
+                        </motion.div>
                         <Reset />
                     </CardContent>
                 </Grid>

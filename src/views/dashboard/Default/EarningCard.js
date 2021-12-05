@@ -96,23 +96,6 @@ const EarningCard = ({ isLoading }) => {
                                             </Grid>
                                         </Grid>
                                     </Grid>
-
-                                    <Grid item>
-                                        <Avatar
-                                            variant="rounded"
-                                            sx={{
-                                                ...theme.typography.commonAvatar,
-                                                ...theme.typography.mediumAvatar,
-                                                backgroundColor: theme.palette.secondary.dark,
-                                                color: theme.palette.secondary[200],
-                                                zIndex: 1
-                                            }}
-                                            aria-controls="menu-earning-card"
-                                            aria-haspopup="true"
-                                        >
-                                            <MoreHorizIcon fontSize="inherit" />
-                                        </Avatar>
-                                    </Grid>
                                 </Grid>
                             </Grid>
                             <Grid item>

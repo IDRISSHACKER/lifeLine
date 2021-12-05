@@ -70,7 +70,8 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                         <Grid container direction="column">
                             <Grid item>
                                 <Grid container justifyContent="space-between">
-                                    <Grid item>
+                                    <Grid item component={RouterLink}
+                                            to="/dashboard/message/sended">
                                         <Avatar
                                             variant="rounded"
                                             sx={{

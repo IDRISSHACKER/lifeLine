@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router';
 import { setGroup } from 'store/Action/goupe.action';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
-import {motion} from "framer-motion"
+import { motion } from "framer-motion"
 
 const NewCtg = () => {
     const theme = useTheme();
@@ -51,12 +51,6 @@ const NewCtg = () => {
     };
 
     return (
-        <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
-        whileHover={{ scale: 1.005 }}
-    >
         <MainCard
             title="Ajouter un groupe"
             secondary={<SecondaryAction title="List group" link="/dashboard/users/groups" icon={<ListAltOutlinedIcon />} />}
@@ -66,54 +60,60 @@ const NewCtg = () => {
                     {createSuccessed && <Info msg="Groupe créer avec success" type="success" />}
                     {errored && <Info msg="Erreur lors de l'ajout du groupe" type="error" />}
                 </div>
-                <Grid container spacing={matchDownSM ? 0 : 2}>
-                    <Grid item xs={12} sm={12}>
-                        <TextField
-                            fullWidth
-                            label="Titre du group "
-                            margin="normal"
-                            name="title"
-                            type="text"
-                            value={title}
-                            onChange={(e) => setTitle(e.target.value)}
-                            sx={{ ...theme.typography.customInput }}
-                        />
+                <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1.5 }}
+                    whileHover={{ scale: 1.005 }}
+                >
+                    <Grid container spacing={matchDownSM ? 0 : 2}>
+                        <Grid item xs={12} sm={12}>
+                            <TextField
+                                fullWidth
+                                label="Titre du group "
+                                margin="normal"
+                                name="title"
+                                type="text"
+                                value={title}
+                                onChange={(e) => setTitle(e.target.value)}
+                                sx={{ ...theme.typography.customInput }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={12}>
+                            <TextField
+                                multiline
+                                rows={6}
+                                fullWidth
+                                label="Description (optionel)"
+                                margin="normal"
+                                name="description"
+                                type="text"
+                                value={description}
+                                onChange={(e) => setDescription(e.target.value)}
+                                sx={{ ...theme.typography.customInput }}
+                            />
+                        </Grid>
+                        <Grid item xs={12} sm={4}>
+                            <Box sx={{ mt: 2 }}>
+                                <AnimateButton>
+                                    <Button
+                                        disableElevation
+                                        fullWidth
+                                        size="large"
+                                        type="submit"
+                                        variant="contained"
+                                        color="secondary"
+                                        startIcon={<CloudDoneOutlinedIcon />}
+                                    >
+                                        Ajouter le groupe
+                                    </Button>
+                                </AnimateButton>
+                            </Box>
+                        </Grid>
                     </Grid>
-                    <Grid item xs={12} sm={12}>
-                        <TextField
-                            multiline
-                            rows={6}
-                            fullWidth
-                            label="Description (optionel)"
-                            margin="normal"
-                            name="description"
-                            type="text"
-                            value={description}
-                            onChange={(e) => setDescription(e.target.value)}
-                            sx={{ ...theme.typography.customInput }}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={4}>
-                        <Box sx={{ mt: 2 }}>
-                            <AnimateButton>
-                                <Button
-                                    disableElevation
-                                    fullWidth
-                                    size="large"
-                                    type="submit"
-                                    variant="contained"
-                                    color="secondary"
-                                    startIcon={<CloudDoneOutlinedIcon />}
-                                >
-                                    Ajouter le groupe
-                                </Button>
-                            </AnimateButton>
-                        </Box>
-                    </Grid>
-                </Grid>
+                </motion.div>
             </form>
         </MainCard>
-        </motion.div>
     );
 };
 
