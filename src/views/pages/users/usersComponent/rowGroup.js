@@ -27,7 +27,7 @@ import { updateGroup } from 'store/Action/goupe.action';
 import { getUsers } from 'store/Action/users.action';
 import BackupTwoToneIcon from '@mui/icons-material/BackupTwoTone';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
-import {motion} from "framer-motion"
+import { motion } from "framer-motion"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -91,47 +91,46 @@ function Edit({ group }) {
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Editer le group</DialogTitle>
                 <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                transition={{ duration: 1 }}
-                                whileHover={{ scale: 1.2 }}
-                            >
-                <form onSubmit={handleUpdate}>
-                    <DialogContent>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="Title"
-                            type="text"
-                            fullWidth
-                            value={title}
-                            onChange={e => setTitle(e.target.value)}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 1 }}
+                >
+                    <form onSubmit={handleUpdate}>
+                        <DialogContent>
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Title"
+                                type="text"
+                                fullWidth
+                                value={title}
+                                onChange={e => setTitle(e.target.value)}
 
-                        />
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="Description"
-                            type="text"
-                            fullWidth
-                            value={description}
-                            multiline
-                            rows={5}
-                            onChange={e => setDescription(e.target.value)}
+                            />
+                            <TextField
+                                autoFocus
+                                margin="dense"
+                                id="name"
+                                label="Description"
+                                type="text"
+                                fullWidth
+                                value={description}
+                                multiline
+                                rows={5}
+                                onChange={e => setDescription(e.target.value)}
 
-                        />
-                    </DialogContent>
-                    <DialogActions>
-                        <Button autoFocus variant="outlined" color="secondary" onClick={handleClose}>
-                            Annuler
-                        </Button>
-                        <Button startIcon={<BackupTwoToneIcon />} variant="contained" color="secondary" type="submit" autoFocus>
-                            update
-                        </Button>
-                    </DialogActions>
-                </form>
+                            />
+                        </DialogContent>
+                        <DialogActions>
+                            <Button autoFocus variant="outlined" color="secondary" onClick={handleClose}>
+                                Annuler
+                            </Button>
+                            <Button startIcon={<BackupTwoToneIcon />} variant="contained" color="secondary" type="submit" autoFocus>
+                                update
+                            </Button>
+                        </DialogActions>
+                    </form>
                 </motion.div>
             </Dialog>
         </div>
@@ -155,13 +154,14 @@ const Trash = ({ group }) => {
 
     const handleRemove = () => {
         if (dispatch(removeGroup(group.id))) {
-            setDelsuccess(true)
+            setDelsuccess(1)
+            setTimeout(() => setDelsuccess(0), 2000)
         }
         setOpen(false)
     }
     return (
         <>
-            {delsuccess && <Info msg="Supression en cour..." type="success" />}
+            {delsuccess === 1 && <Info msg="Groupe retiré avec success" type="success" />}
             <IconButton color="error" onClick={handleClickOpen}>
                 <DeleteSweepIcon />
             </IconButton>
