@@ -30,6 +30,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Info from "views/pages/utils/Info";
 import LoadingButton from '@mui/lab/LoadingButton';
 import SaveIcon from '@mui/icons-material/Save';
+import { motion } from "framer-motion"
 
 const set = new settings().init()
 const FirebaseLogin = ({ ...others }) => {
@@ -69,11 +70,18 @@ const FirebaseLogin = ({ ...others }) => {
                 <Grid item xs={12} container alignItems="center" justifyContent="center">
                     <Box sx={{ mb: 2 }}>
                         <Stack direction="row" spacing={1} >
-                            <Chip           
-                                avatar={<Avatar alt={admin.name} src={avatar} />}
-                                label={admin.name+" "+admin.surname}
-                                variant="outlined"
-                            />
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration: 1 }}
+                                whileHover={{ scale: 1.2 }}
+                            >
+                                <Chip
+                                    avatar={<Avatar alt={admin.name} src={avatar} />}
+                                    label={admin.name + " " + admin.surname}
+                                    variant="outlined"
+                                />
+                            </motion.div>
                         </Stack>
                     </Box>
                 </Grid>

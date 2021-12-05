@@ -38,6 +38,7 @@ import { getChartMonth } from 'store/Action/chartMonth.action';
 import { getChartDay } from 'store/Action/chartDay.action';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { ReactComponent as EmptyImg } from 'assets/images/icons/undraw_empty_cart_co35.svg';
+import { motion } from "framer-motion"
 
 const SendMessage = () => {
     const [checked, setChecked] = useState([]);
@@ -151,143 +152,170 @@ const SendMessage = () => {
             <form noValidate onSubmit={handleSubmit}>
                 <Grid container spacing={matchDownSM ? 0 : 2}>
                     <Grid item xs={12} sm={8}>
-                        <MainCard
-                            title="Nouveau message"
-                            elevation={1}
-                            secondary={
-                                <SecondaryAction title="Messages envoyés" link="/dashboard/message/sended" icon={<SendOutlinedIcon />} />
-                            }
+                        <motion.div
                         >
-                            <div>
-                                <AdminCompose />
-                            </div>
-                            <CardContent sx={{ mt: 0, pt: 0, mb: 0, pb: 2 }}>
-                                <TextField
-                                    fullWidth
-                                    margin="normal"
-                                    name="message"
-                                    type="text"
-                                    multiline
-                                    rows={12}
-                                    value={message}
-                                    onChange={(e) => setMessage(e.target.value)}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </CardContent>
-                            <CardActions sx={{ mt: 0, pt: 0 }}>
-                                <Box>
-                                    <AnimateButton>
-                                        <Button
-                                            endIcon={<SendIcon />}
-                                            disableElevation
-                                            fullWidth
-                                            size="large"
-                                            type="submit"
-                                            variant="contained"
-                                            color="secondary"
-                                        >
-                                            Envoyer le message
-                                        </Button>
-                                    </AnimateButton>
-                                </Box>
-                            </CardActions>
-                        </MainCard>
+                            <MainCard
+                                title="Nouveau message"
+                                elevation={1}
+                                secondary={
+                                    <SecondaryAction title="Messages envoyés" link="/dashboard/message/sended" icon={<SendOutlinedIcon />} />
+                                }
+                            >
+                                <div>
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 1.5 }}
+                                    whileHover={{ scale: 1.03 }}
+                                >
+                                    <AdminCompose />
+                                    </motion.div>
+                                </div>
+                                <CardContent sx={{ mt: 0, pt: 0, mb: 0, pb: 2 }}>
+                                    <TextField
+                                        autoFocus
+                                        fullWidth
+                                        margin="normal"
+                                        name="message"
+                                        type="text"
+                                        multiline
+                                        rows={12}
+                                        value={message}
+                                        onChange={(e) => setMessage(e.target.value)}
+                                        sx={{ ...theme.typography.customInput }}
+                                    />
+                                </CardContent>
+                                <CardActions sx={{ mt: 0, pt: 0 }}>
+                                    <Box>
+                                        <AnimateButton>
+                                            <Button
+                                                endIcon={<SendIcon />}
+                                                disableElevation
+                                                fullWidth
+                                                size="large"
+                                                type="submit"
+                                                variant="contained"
+                                                color="secondary"
+                                            >
+                                                Envoyer le message
+                                            </Button>
+                                        </AnimateButton>
+                                    </Box>
+                                </CardActions>
+                            </MainCard>
+                        </motion.div>
                     </Grid>
                     <Grid item xs={12} sm={4}>
-                        <Card elevation={2}>
-                            <CardHeader
-                                title={
-                                    <div>
-                                        <span>Selectionner les contacts </span>
-                                        <Chip label={checked.length} />
-                                    </div>
-                                }
-                            />
-                            <div>
-                                <Box sx={{ minWidth: 60, ml: 3, mr: 3 }}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label"></InputLabel>
-                                        <Select
-                                            sx={{ p: 1 }}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={groupSelected}
-                                            onChange={handleSelect}
-                                            label="Qtt"
-                                            size="small"
-                                        >
-                                            <MenuItem value={0}>All contact</MenuItem>
-                                            {groups &&
-                                                groups.map((group, index) => (
-                                                    <MenuItem key={index} value={group.id}>
-                                                        {group.title}
-                                                    </MenuItem>
-                                                ))}
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </div>
-                            <div>
-                                <br />
-                                <Box>
-                                    <PerfectScrollbar style={{ height: '100%', maxHeight: '350px', overflowX: 'hidden' }}>
-                                        <Box>
-                                            <List disablePadding>
-                                                {contacts &&
-                                                    contacts.map((value) => {
-                                                        const labelId = `checkbox-list-secondary-label-${value}`;
-                                                        return (
-                                                            <ListItem
-                                                                key={value}
-                                                                secondaryAction={
-                                                                    <Checkbox
-                                                                        edge="end"
-                                                                        onChange={handleToggle(value)}
-                                                                        checked={checked.indexOf(value) !== -1}
-                                                                        inputProps={{ 'aria-labelledby': labelId }}
-                                                                    />
-                                                                }
-                                                                disablePadding
-                                                            >
-                                                                <ListItemButton>
-                                                                    <ListItemAvatar>
-                                                                        <Avatar>{value.name[0]}</Avatar>
-                                                                    </ListItemAvatar>
-                                                                    <ListItemText
-                                                                        id={labelId}
-                                                                        primary={`+${value.pays_id}${value.phone}`}
-                                                                        secondary={value.name + ' ' + value.surname}
-                                                                    />
-                                                                </ListItemButton>
-                                                            </ListItem>
-                                                        );
-                                                    })}
-                                            </List>
-                                            <Box sx={{ ml: 7 }}>
-                                                {contacts.length === 0 && <EmptyImg style={{ width: 200, height: 'auto' }} />}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1.5 }}
+                            whileHover={{ scale: 1.02 }}
+                        >
+                            <Card elevation={2}>
+                                <CardHeader
+                                    title={
+                                        <div>
+                                            <span>
+                                                Selectionner les contacts
+                                                <Chip label={checked.length} />
+                                            </span>
+                                        </div>
+                                    }
+                                />
+                                <div>
+                                    <Box sx={{ minWidth: 60, ml: 3, mr: 3 }}>
+                                        <FormControl fullWidth>
+                                            <InputLabel id="demo-simple-select-label"></InputLabel>
+                                            <Select
+                                                sx={{ p: 1 }}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={groupSelected}
+                                                onChange={handleSelect}
+                                                label="Qtt"
+                                                size="small"
+                                            >
+                                                <MenuItem value={0}>All contact</MenuItem>
+                                                {groups &&
+                                                    groups.map((group, index) => (
+                                                        <MenuItem key={index} value={group.id}>
+                                                            {group.title}
+                                                        </MenuItem>
+                                                    ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
+                                </div>
+                                <div>
+                                    <br />
+                                    <Box>
+                                        <PerfectScrollbar style={{ height: '100%', maxHeight: '350px', overflowX: 'hidden' }}>
+                                            <Box>
+                                                <List disablePadding>
+                                                    {contacts &&
+                                                        contacts.map((value) => {
+                                                            const labelId = `checkbox-list-secondary-label-${value}`;
+                                                            return (
+                                                                <ListItem
+                                                                    key={value}
+                                                                    secondaryAction={
+                                                                        <Checkbox
+                                                                            edge="end"
+                                                                            onChange={handleToggle(value)}
+                                                                            checked={checked.indexOf(value) !== -1}
+                                                                            inputProps={{ 'aria-labelledby': labelId }}
+                                                                        />
+                                                                    }
+                                                                    disablePadding
+                                                                >
+                                                                    <ListItemButton>
+                                                                        <ListItemAvatar>
+                                                                            <Avatar>{value.name[0]}</Avatar>
+                                                                        </ListItemAvatar>
+                                                                        <ListItemText
+                                                                            id={labelId}
+                                                                            primary={`+${value.pays_id}${value.phone}`}
+                                                                            secondary={value.name + ' ' + value.surname}
+                                                                        />
+                                                                    </ListItemButton>
+                                                                </ListItem>
+                                                            );
+                                                        })}
+                                                </List>
+                                                <Box sx={{ ml: 7 }}>
+                                                    {contacts.length === 0 && <EmptyImg style={{ width: 200, height: 'auto' }} />}
+                                                </Box>
                                             </Box>
-                                        </Box>
-                                    </PerfectScrollbar>
-                                </Box>
-                            </div>
-                            <form>
-                                <CardActions>
-                                    <Checkbox id="all" aria-label="dsdd" checked={checkAll} onChange={handleToggleAll} key="all" />
-                                    <label htmlFor="all">{!checkAll ? 'Select all contact' : 'Unselect all contact'}</label>
-                                </CardActions>
-                            </form>
-                        </Card>
+                                        </PerfectScrollbar>
+                                    </Box>
+                                </div>
+                                <form>
+                                    <CardActions>
+                                        <Checkbox id="all" aria-label="dsdd" checked={checkAll} onChange={handleToggleAll} key="all" />
+                                        <label htmlFor="all">{!checkAll ? 'Select all contact' : 'Unselect all contact'}</label>
+                                    </CardActions>
+                                </form>
+                            </Card>
+                        </motion.div>
                         {contacts.length === 0 && (
-                            <Button
-                                variant="contained"
-                                size="small"
-                                sx={{ mt: 2, ml: { lg: 17, sm: 5 } }}
-                                component={RouterLink}
-                                to="/dashboard/contact/add"
-                                color="error"
+                            <motion.div
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                transition={{ duration:1.1}}
+                                whileHover={{ scale: 1.1 }}
                             >
-                                Ajouter un contact
-                            </Button>
+                                <Button
+                                    variant="contained"
+                                    size="small"
+                                    sx={{ mt: 2, ml: { lg: 17, sm: 5 } }}
+                                    component={RouterLink}
+                                    to="/dashboard/contact/add"
+                                    color="error"
+                                >
+                                    Ajouter un contact
+                                </Button>
+                            </motion.div>
                         )}
                     </Grid>
                     <Grid item xs={12} sm={4} lg={4}></Grid>

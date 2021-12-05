@@ -2,7 +2,8 @@ import { useSelector } from 'react-redux';
 
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline, StyledEngineProvider } from '@mui/material';
-
+//
+import { AnimatePresence } from 'framer-motion';
 // routing
 import Routes from 'routes';
 
@@ -21,7 +22,9 @@ const App = () => {
             <ThemeProvider theme={themes(customization)}>
                 <CssBaseline />
                 <NavigationScroll>
-                    <Routes />
+                    <AnimatePresence>
+                        <Routes />
+                    </AnimatePresence>
                 </NavigationScroll>
             </ThemeProvider>
         </StyledEngineProvider>

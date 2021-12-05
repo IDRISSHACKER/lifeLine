@@ -179,7 +179,9 @@
 .empty{
 
     max-width: 500px;
-    margin: auto;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
 
     .img{
 
@@ -187,4 +189,15 @@
         height:auto;
         margin:auto;
     }
+
+    .emptyBox{
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.imgLoving{
+
+    width: 100%;
 }

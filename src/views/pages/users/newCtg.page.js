@@ -12,6 +12,7 @@ import { useNavigate } from 'react-router';
 import { setGroup } from 'store/Action/goupe.action';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
+import {motion} from "framer-motion"
 
 const NewCtg = () => {
     const theme = useTheme();
@@ -50,6 +51,12 @@ const NewCtg = () => {
     };
 
     return (
+        <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5 }}
+        whileHover={{ scale: 1.005 }}
+    >
         <MainCard
             title="Ajouter un groupe"
             secondary={<SecondaryAction title="List group" link="/dashboard/users/groups" icon={<ListAltOutlinedIcon />} />}
@@ -106,6 +113,7 @@ const NewCtg = () => {
                 </Grid>
             </form>
         </MainCard>
+        </motion.div>
     );
 };
 

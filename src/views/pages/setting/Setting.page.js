@@ -22,6 +22,8 @@ import settings from 'utils/settings';
 import ResetStat from './settingComponent/resetStat';
 import OtherSettings from './settingComponent/otherSetting';
 import Illustration from './settingComponent/illustration';
+import { motion } from "framer-motion"
+
 const set = new settings().init()
 
 const Setting = () => {
@@ -109,14 +111,21 @@ const Setting = () => {
                             component="nav"
                             aria-labelledby="nested-list-subheader"
                             subheader={
-                                <Tooltip title="Choose new avatar">
-                                    <div className="avatarCount">
-                                        <input accept="image/jpeg, image/jpg, image/png, image/svg" onChange={handleUpdateAvatar} className="avatarInput" id="avatar" type="file" name="avatar" />
-                                        <label className="avatarLabel" htmlFor="avatar">
-                                            <Avatar ref={imgCont} src={User1} alt="avatar" sx={{ width: !edit ? 200 : 100, height: !edit ? 200 : 100, ml: !edit ? 10 : 30, mb: 4 }} />
-                                        </label>
-                                    </div>
-                                </Tooltip>
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ duration: 2 }}
+                                    whileHover={{ scale: 1.3 }}
+                                >
+                                    <Tooltip title="Choose new avatar">
+                                        <div className="avatarCount">
+                                            <input accept="image/jpeg, image/jpg, image/png, image/svg" onChange={handleUpdateAvatar} className="avatarInput" id="avatar" type="file" name="avatar" />
+                                            <label className="avatarLabel" htmlFor="avatar">
+                                                <Avatar ref={imgCont} src={User1} alt="avatar" sx={{ width: !edit ? 200 : 100, height: !edit ? 200 : 100, ml: !edit ? 10 : 30, mb: 4 }} />
+                                            </label>
+                                        </div>
+                                    </Tooltip>
+                                </motion.div>
                             }
                         >
                             <Divider />
@@ -237,10 +246,24 @@ const Setting = () => {
                         <ResetStat />
                     </Grid>
                     <Grid item xs={12} lg={12}>
-                        <OtherSettings />
+                        <motion.div
+                            initial={{ opacity: 0.5 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 1.5 }}
+                            whileHover={{ scale: 1.02 }}
+                        >
+                            <OtherSettings />
+                        </motion.div>
                     </Grid>
                     <Grid item xs={12} lg={12}>
-                        <Illustration />
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ duration: 2 }}
+                            whileHover={{ scale: 1.02 }}
+                        >
+                            <Illustration />
+                        </motion.div>
                     </Grid>
                 </Grid>
             </Grid>

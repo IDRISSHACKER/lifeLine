@@ -26,6 +26,7 @@ import { formatTitle } from 'utils/formatText';
 import { removeMessage } from 'store/Action/message.action';
 import MoreIcon from '@mui/icons-material/More';
 import { formatDistanceToNow } from 'date-fns';
+import { motion } from "framer-motion"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -106,7 +107,12 @@ export default function RowMsg({ msg }, props) {
         <TableRow {...props}>
             <TableCell>
                 <Stack direction="row" spacing={2}>
-                    <Avatar sx={{ bgcolor: selected, color: "white" }}>{msg.name[0]}</Avatar>
+                    <motion.div
+                        transition={{ duration: 1.1 }}
+                        whileHover={{ scale: 1.3}}
+                    >
+                        <Avatar sx={{ bgcolor: selected, color: "white" }}>{msg.name[0]}</Avatar>
+                    </motion.div>
                     <div>
                         <Stack direction="column" spacing={1}>
                             <Typography sx={{ pt: { xs: 0, sm: 0, xl: 0 } }}>{msg.name} {msg.surname}</Typography>
