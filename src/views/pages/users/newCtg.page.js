@@ -69,6 +69,7 @@ const NewCtg = () => {
                     <Grid container spacing={matchDownSM ? 0 : 2}>
                         <Grid item xs={12} sm={12}>
                             <TextField
+                                autoFocus
                                 fullWidth
                                 label="Titre du group "
                                 margin="normal"

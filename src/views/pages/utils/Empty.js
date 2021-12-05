@@ -6,10 +6,11 @@ export default function Empty({ text, buttonText, buttonUrl }, props) {
 
 
     return (
+        <div className="cont">
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.5 }}
+            initial={{ opacity: 0,  x:'-100vw', scale: 1.3 }}
+            animate={{ opacity: 1, x: 0, scale:1 }}
+            transition={{ type:'spring', stiffness: 120 }}
             whileHover={{ scale: 1.03 }}
         >
             <div className="empty">
@@ -20,5 +21,6 @@ export default function Empty({ text, buttonText, buttonUrl }, props) {
                 </Box>
             </div>
         </motion.div>
+        </div>
     )
 }

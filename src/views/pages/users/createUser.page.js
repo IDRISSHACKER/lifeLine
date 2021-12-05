@@ -93,6 +93,7 @@ const CreateUser = () => {
                         <Grid container spacing={matchDownSM ? 0 : 2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
+                                    autoFocus
                                     fullWidth
                                     label="Nom"
                                     margin="normal"

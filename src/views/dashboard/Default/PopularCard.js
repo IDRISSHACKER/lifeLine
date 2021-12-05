@@ -38,35 +38,6 @@ const PopularCard = ({ isLoading }) => {
                                     <Grid item>
                                         <Typography variant="h4">Statistique</Typography>
                                     </Grid>
-                                    <Grid item>
-                                        <MoreHorizOutlinedIcon
-                                            fontSize="small"
-                                            sx={{
-                                                color: theme.palette.primary[200],
-                                                cursor: 'pointer'
-                                            }}
-                                            aria-controls="menu-popular-card"
-                                            aria-haspopup="true"
-                                            onClick={handleClick}
-                                        />
-                                        <Menu
-                                            id="menu-popular-card"
-                                            anchorEl={anchorEl}
-                                            keepMounted
-                                            open={Boolean(anchorEl)}
-                                            onClose={handleClose}
-                                            variant="selectedMenu"
-                                            anchorOrigin={{
-                                                vertical: 'bottom',
-                                                horizontal: 'right'
-                                            }}
-                                            transformOrigin={{
-                                                vertical: 'top',
-                                                horizontal: 'right'
-                                            }}
-                                        >
-                                        </Menu>
-                                    </Grid>
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} sx={{ pt: '16px !important' }}>
@@ -80,10 +51,10 @@ const PopularCard = ({ isLoading }) => {
                             <Grid item xs={12}>
                                 <Grid container direction="column">
                                    <Grid item>
-                                       <Button component={RouterLink} target="_blank" to="https://github.com/idriss_coder/lifeline" startIcon={<CellWifiIcon/>} color="error">Recharger mes messages</Button>
+                                       <Button component={RouterLink} target="_blank" to="https://github.com/idriss-coder/lifeline" startIcon={<CellWifiIcon/>} color="error">Recharger mes messages</Button>
                                    </Grid>
                                    <Grid item>
-                                       <Button target="_blank"  href="https://github.com/idriss_coder/lifeline"  startIcon={<GitHubIcon/>} color="secondary">Depot github</Button>
+                                       <Button target="_blank"  href="https://github.com/idriss-coder/lifeline"  startIcon={<GitHubIcon/>} color="secondary">Depot github</Button>
                                    </Grid>
                                 </Grid>
                                 <Divider sx={{ my: 1.5 }} />
