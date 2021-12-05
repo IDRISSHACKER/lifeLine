@@ -65,7 +65,7 @@ const CreateUser = () => {
                 setPhone('');
 
                 setCreateSuccessed(true);
-                setTimeout(() => navigate('/dashboard/contact/list'), 2000);
+                //setTimeout(() => navigate('/dashboard/contact/list'), 2000);
             } else {
                 setErrored(true);
                 resetErr();
