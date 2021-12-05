@@ -68,7 +68,7 @@ const Setting = () => {
             fFile.append("img", file)
             try {
                 const src = URL.createObjectURL(e.target.files[0])
-                imgCont.current.innerHTML = `<img alt='avatar' src='${src}' class='MuiAvatar-img css-1pqm26d-MuiAvatar-img'>`
+                imgCont.current.innerHTML = ` <img alt='avatar' src='${src}' class='MuiAvatar-img css-1pqm26d-MuiAvatar-img'>`
                 if (dispatch(updateAvatar(fFile))) {
                     dispatch(getAdmin())
                     dispatch(getAdmin())

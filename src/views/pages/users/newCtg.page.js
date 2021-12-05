@@ -1,71 +1,59 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect } from 'react';
 import { useTheme } from '@mui/material/styles';
-import {
-    Grid,
-    TextField,
-    useMediaQuery,
-    Box,
-    Button,
-    Divider
-} from '@mui/material';
+import { Grid, TextField, useMediaQuery, Box, Button, Divider } from '@mui/material';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 // project imports
 import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
-import { useDispatch } from "react-redux";
-import { setUser } from "store/Action/users.action";
-import Info from "../utils/Info";
-import { useNavigate } from "react-router";
-import { setGroup } from "store/Action/goupe.action";
+import { useDispatch } from 'react-redux';
+import { setUser } from 'store/Action/users.action';
+import Info from '../utils/Info';
+import { useNavigate } from 'react-router';
+import { setGroup } from 'store/Action/goupe.action';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
 
 const NewCtg = () => {
-    const theme = useTheme()
+    const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [createSuccessed, setCreateSuccessed] = useState(false)
-    const [errored, setErrored] = useState(false)
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [createSuccessed, setCreateSuccessed] = useState(false);
+    const [errored, setErrored] = useState(false);
 
-    const resetErr = () => setTimeout(() => setErrored(false), 6000)
+    const resetErr = () => setTimeout(() => setErrored(false), 6000);
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        const data = new FormData()
-        data.append("title", title)
-        data.append("description", description)
+        const data = new FormData();
+        data.append('title', title);
+        data.append('description', description);
 
         if (title) {
-
             if (dispatch(setGroup(data))) {
+                setTitle('');
+                setDescription('');
 
-                setTitle("")
-                setDescription("")
-
-                setCreateSuccessed(true)
-                setTimeout(() => navigate("/dashboard/users/groups"), 2000)
+                setCreateSuccessed(true);
+                setTimeout(() => navigate('/dashboard/users/groups'), 2000);
             } else {
-                setErrored(true)
-                resetErr()
+                setErrored(true);
+                resetErr();
             }
         } else {
-            setErrored(true)
-            resetErr()
+            setErrored(true);
+            resetErr();
         }
-    }
+    };
 
     return (
-        <MainCard title="Ajouter un groupe" secondary={
-            <SecondaryAction
-                title="List group"
-                link="/dashboard/users/groups"
-                icon={<ListAltOutlinedIcon />}
-            />
-        }>
+        <MainCard
+            title="Ajouter un groupe"
+            secondary={<SecondaryAction title="List group" link="/dashboard/users/groups" icon={<ListAltOutlinedIcon />} />}
+        >
             <form noValidate onSubmit={handleSubmit}>
                 <div>
                     {createSuccessed && <Info msg="Groupe créer avec success" type="success" />}
@@ -75,7 +63,7 @@ const NewCtg = () => {
                     <Grid item xs={12} sm={12}>
                         <TextField
                             fullWidth
-                            label="Titre du groupe"
+                            label="Titre du group "
                             margin="normal"
                             name="title"
                             type="text"
@@ -118,7 +106,7 @@ const NewCtg = () => {
                 </Grid>
             </form>
         </MainCard>
-    )
+    );
 };
 
 export default NewCtg;

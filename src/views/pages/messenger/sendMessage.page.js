@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react"
-import {Link as RouterLink } from "react-router-dom"
+import { useState, useEffect } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
 import SendIcon from '@mui/icons-material/Send';
 import {
@@ -28,66 +28,66 @@ import ListItemText from '@mui/material/ListItemText';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import Checkbox from '@mui/material/Checkbox';
 import Avatar from '@mui/material/Avatar';
-import { useDispatch, useSelector } from 'react-redux'
-import { setMessages } from "store/Action/message.action";
-import Info from "../utils/Info";
-import AdminCompose from "../utils/AdminCompose";
-import { useNavigate } from "react-router-dom";
-import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import { getChartMonth } from "store/Action/chartMonth.action";
-import { getChartDay } from "store/Action/chartDay.action";
+import { useDispatch, useSelector } from 'react-redux';
+import { setMessages } from 'store/Action/message.action';
+import Info from '../utils/Info';
+import AdminCompose from '../utils/AdminCompose';
+import { useNavigate } from 'react-router-dom';
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
+import { getChartMonth } from 'store/Action/chartMonth.action';
+import { getChartDay } from 'store/Action/chartDay.action';
 import PerfectScrollbar from 'react-perfect-scrollbar';
-import {ReactComponent as EmptyImg} from "assets/images/icons/undraw_empty_cart_co35.svg"
+import { ReactComponent as EmptyImg } from 'assets/images/icons/undraw_empty_cart_co35.svg';
 
 const SendMessage = () => {
     const [checked, setChecked] = useState([]);
-    const [groupSelected, setGroupSelected] = useState(0)
-    const [contacts, setContacts] = useState([])
-    const [checkAll, setCheckAll] = useState(0)
-    const [success, setSuccess] = useState(0)
-    const [err, setErr] = useState(0)
+    const [groupSelected, setGroupSelected] = useState(0);
+    const [contacts, setContacts] = useState([]);
+    const [checkAll, setCheckAll] = useState(0);
+    const [success, setSuccess] = useState(0);
+    const [err, setErr] = useState(0);
 
-    const theme = useTheme()
+    const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const users = useSelector(state => state.usersReducer)
-    const groups = useSelector(state => state.groupeReducer)
+    const users = useSelector((state) => state.usersReducer);
+    const groups = useSelector((state) => state.groupeReducer);
 
-    const [message, setMessage] = useState("")
+    const [message, setMessage] = useState('');
 
     const handleSubmit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
-        const data = new FormData()
+        const data = new FormData();
 
         if (message && checked.length > 0) {
-            data.append("message", message)
-            data.append("users", JSON.stringify(checked))
+            data.append('message', message);
+            data.append('users', JSON.stringify(checked));
 
             if (dispatch(setMessages(data))) {
-                setSuccess(1)
-                setTimeout(() => setSuccess(0), 2000)
-                setMessage("")
-                setChecked([])
-                setCheckAll(0)
-                dispatch(getChartMonth())
-                dispatch(getChartDay())
-                setTimeout(() => navigate("/dashboard/message/sended"), 2000)
+                setSuccess(1);
+                setTimeout(() => setSuccess(0), 2000);
+                setMessage('');
+                setChecked([]);
+                setCheckAll(0);
+                dispatch(getChartMonth());
+                dispatch(getChartDay());
+                setTimeout(() => navigate('/dashboard/message/sended'), 2000);
             } else {
-                setErr(1)
-                setTimeout(() => setErr(0), 2000)
+                setErr(1);
+                setTimeout(() => setErr(0), 2000);
             }
         } else {
-            setErr(1)
-            setTimeout(() => setErr(0), 2000)
+            setErr(1);
+            setTimeout(() => setErr(0), 2000);
         }
-        setTimeout(()=>{
-            dispatch(getChartMonth())
-            dispatch(getChartDay())
-        },1500)
-    }
+        setTimeout(() => {
+            dispatch(getChartMonth());
+            dispatch(getChartDay());
+        }, 1500);
+    };
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -96,52 +96,51 @@ const SendMessage = () => {
         if (currentIndex === -1) {
             newChecked.push(value);
             if (checked.length + 1 === contacts.length) {
-                setCheckAll(1)
+                setCheckAll(1);
             }
         } else {
             newChecked.splice(currentIndex, 1);
-            setCheckAll(0)
+            setCheckAll(0);
         }
 
         setChecked(newChecked);
     };
 
     const handleToggleAll = (e) => {
-        const isCheck = e.target.checked
-        setCheckAll(isCheck)
+        const isCheck = e.target.checked;
+        setCheckAll(isCheck);
         if (!isCheck) {
-            setChecked([])
+            setChecked([]);
         } else {
-            setChecked(contacts)
+            setChecked(contacts);
         }
-        let scontacts = contacts
-        setContacts(scontacts)
-    }
+        let scontacts = contacts;
+        setContacts(scontacts);
+    };
 
     useEffect(() => {
-        setContacts(users)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+        setContacts(users);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const handleSelect = (e) => {
         //alert(e.target.value)
-        setCheckAll(0)
-        setChecked([])
-        setGroupSelected(parseInt(e.target.value))
+        setCheckAll(0);
+        setChecked([]);
+        setGroupSelected(parseInt(e.target.value));
         if (parseInt(e.target.value) !== 0) {
-            let newUsers = []
+            let newUsers = [];
             users.forEach((group, key) => {
                 if (parseInt(group.groupe_id) === parseInt(e.target.value)) {
-                    newUsers.push(group)
+                    newUsers.push(group);
                 }
-            })
+            });
 
-            setContacts(newUsers)
+            setContacts(newUsers);
         } else {
-            setContacts(users)
+            setContacts(users);
         }
-    }
-
+    };
 
     return (
         <div>
@@ -152,18 +151,17 @@ const SendMessage = () => {
             <form noValidate onSubmit={handleSubmit}>
                 <Grid container spacing={matchDownSM ? 0 : 2}>
                     <Grid item xs={12} sm={8}>
-                        <MainCard title="Nouveau message"
-                         elevation={1}
-                        secondary={
-                            <SecondaryAction
-                                title="Messages envoyés"
-                                link="/dashboard/message/sended"
-                                icon={<SendOutlinedIcon />}
-                            />}>
+                        <MainCard
+                            title="Nouveau message"
+                            elevation={1}
+                            secondary={
+                                <SecondaryAction title="Messages envoyés" link="/dashboard/message/sended" icon={<SendOutlinedIcon />} />
+                            }
+                        >
                             <div>
                                 <AdminCompose />
                             </div>
-                            <CardContent sx={{mt:0, pt:0, mb:0, pb:2}}>
+                            <CardContent sx={{ mt: 0, pt: 0, mb: 0, pb: 2 }}>
                                 <TextField
                                     fullWidth
                                     margin="normal"
@@ -176,7 +174,7 @@ const SendMessage = () => {
                                     sx={{ ...theme.typography.customInput }}
                                 />
                             </CardContent>
-                            <CardActions sx={{mt:0, pt:0}}>
+                            <CardActions sx={{ mt: 0, pt: 0 }}>
                                 <Box>
                                     <AnimateButton>
                                         <Button
@@ -197,14 +195,16 @@ const SendMessage = () => {
                     </Grid>
                     <Grid item xs={12} sm={4}>
                         <Card elevation={2}>
-                            <CardHeader title={
-                                <div>
-                                    <span>Selectionner  les contacts </span>
-                                    <Chip label={checked.length} />
-                                </div>
-                            } />
+                            <CardHeader
+                                title={
+                                    <div>
+                                        <span>Selectionner les contacts </span>
+                                        <Chip label={checked.length} />
+                                    </div>
+                                }
+                            />
                             <div>
-                                <Box sx={{ minWidth: 60, ml:3, mr:3 }}>
+                                <Box sx={{ minWidth: 60, ml: 3, mr: 3 }}>
                                     <FormControl fullWidth>
                                         <InputLabel id="demo-simple-select-label"></InputLabel>
                                         <Select
@@ -217,9 +217,12 @@ const SendMessage = () => {
                                             size="small"
                                         >
                                             <MenuItem value={0}>All contact</MenuItem>
-                                            {groups && groups.map((group, index) => (
-                                                <MenuItem key={index} value={group.id}>{group.title}</MenuItem>
-                                            ))}
+                                            {groups &&
+                                                groups.map((group, index) => (
+                                                    <MenuItem key={index} value={group.id}>
+                                                        {group.title}
+                                                    </MenuItem>
+                                                ))}
                                         </Select>
                                     </FormControl>
                                 </Box>
@@ -227,62 +230,71 @@ const SendMessage = () => {
                             <div>
                                 <br />
                                 <Box>
-                                <PerfectScrollbar style={{ height: '100%', maxHeight: '350px', overflowX: 'hidden' }}>
-                                    <Box>
-                                    <List disablePadding>
-                                        {contacts && contacts.map((value) => {
-                                            const labelId = `checkbox-list-secondary-label-${value}`;
-                                            return (
-                                                <ListItem
-                                                    key={value}
-                                                    secondaryAction={
-                                                        <Checkbox
-                                                            edge="end"
-                                                            onChange={handleToggle(value)}
-                                                            checked={checked.indexOf(value) !== -1}
-                                                            inputProps={{ 'aria-labelledby': labelId }}
-                                                        />
-                                                    }
-                                                    disablePadding
-                                                >
-                                                    <ListItemButton>
-                                                        <ListItemAvatar>
-                                                            <Avatar>{value.name[0]}</Avatar>
-                                                        </ListItemAvatar>
-                                                        <ListItemText id={labelId} primary={`+${value.pays_id}${value.phone}`} secondary={value.name + " " + value.surname} />
-                                                    </ListItemButton>
-                                                </ListItem>
-                                            );
-                                        })}
-                                    </List>
-                                    <Box sx={{ml:7}}>
-                                        {contacts.length === 0 && <EmptyImg style={{width:200,height:"auto"}} />}
-                                    </Box>
-                                    </Box>
-                                </PerfectScrollbar>
+                                    <PerfectScrollbar style={{ height: '100%', maxHeight: '350px', overflowX: 'hidden' }}>
+                                        <Box>
+                                            <List disablePadding>
+                                                {contacts &&
+                                                    contacts.map((value) => {
+                                                        const labelId = `checkbox-list-secondary-label-${value}`;
+                                                        return (
+                                                            <ListItem
+                                                                key={value}
+                                                                secondaryAction={
+                                                                    <Checkbox
+                                                                        edge="end"
+                                                                        onChange={handleToggle(value)}
+                                                                        checked={checked.indexOf(value) !== -1}
+                                                                        inputProps={{ 'aria-labelledby': labelId }}
+                                                                    />
+                                                                }
+                                                                disablePadding
+                                                            >
+                                                                <ListItemButton>
+                                                                    <ListItemAvatar>
+                                                                        <Avatar>{value.name[0]}</Avatar>
+                                                                    </ListItemAvatar>
+                                                                    <ListItemText
+                                                                        id={labelId}
+                                                                        primary={`+${value.pays_id}${value.phone}`}
+                                                                        secondary={value.name + ' ' + value.surname}
+                                                                    />
+                                                                </ListItemButton>
+                                                            </ListItem>
+                                                        );
+                                                    })}
+                                            </List>
+                                            <Box sx={{ ml: 7 }}>
+                                                {contacts.length === 0 && <EmptyImg style={{ width: 200, height: 'auto' }} />}
+                                            </Box>
+                                        </Box>
+                                    </PerfectScrollbar>
                                 </Box>
                             </div>
                             <form>
                                 <CardActions>
-                                    <Checkbox
-                                        id="all"
-                                        aria-label="dsdd"
-                                        checked={checkAll}
-                                        onChange={handleToggleAll}
-                                        key="all"
-                                    />
-                                    <label htmlFor="all">{!checkAll ? "Select all contact" : "Unselect all contact"}</label>
+                                    <Checkbox id="all" aria-label="dsdd" checked={checkAll} onChange={handleToggleAll} key="all" />
+                                    <label htmlFor="all">{!checkAll ? 'Select all contact' : 'Unselect all contact'}</label>
                                 </CardActions>
                             </form>
                         </Card>
-                        {contacts.length === 0 && <Button variant="contained" size="small" sx={{mt:2, ml:{lg:17,sm:5}}} component={RouterLink} to="/dashboard/contact/add" color="error">Ajouter un contact</Button>}
+                        {contacts.length === 0 && (
+                            <Button
+                                variant="contained"
+                                size="small"
+                                sx={{ mt: 2, ml: { lg: 17, sm: 5 } }}
+                                component={RouterLink}
+                                to="/dashboard/contact/add"
+                                color="error"
+                            >
+                                Ajouter un contact
+                            </Button>
+                        )}
                     </Grid>
-                    <Grid item xs={12} sm={4} lg={4}>
-                    </Grid>
+                    <Grid item xs={12} sm={4} lg={4}></Grid>
                 </Grid>
             </form>
-            </div>
-    )
+        </div>
+    );
 };
 
 export default SendMessage;

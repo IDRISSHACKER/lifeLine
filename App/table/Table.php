@@ -87,4 +87,14 @@ class Table
 
 		return App::bdd()->saving($statement, $attributes);
 	}
+
+	public static function unlinkAvatar(){
+		
+		$avatar = self::query("SELECT avatar FROM admin WHERE admin.id = 1",[],true)->avatar;
+		$avatarPath = "./files/avatar/".$avatar;
+		
+		if(file_exists($avatarPath) AND $avatar !== "default.svg"){
+			unlink($avatarPath);
+		}
+	}
 }

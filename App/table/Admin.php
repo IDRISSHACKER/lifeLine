@@ -31,6 +31,7 @@ class Admin extends Table{
     }
 
     public static function reset(){
+        self::unlinkAvatar();
         self::save("DELETE FROM users");
         self::save("DELETE FROM messages");
         self::save("DELETE FROM groupe");
@@ -42,7 +43,6 @@ class Admin extends Table{
         $pays_id = "237";
         $avatar = "default.svg";
         $password = "root";
-
         self::save("UPDATE `admin` SET `admin`.`name` = ?, `admin`.`surname` = ?, `admin`.`email` = ?, `admin`.`phone` = ?, `admin`.`pays_id` = ?, `admin`.`avatar` = ?, `admin`.`password` = ? WHERE `admin`.`id` = '$id'",[$name, $surname, $email, $phone, $pays_id, $avatar, $password]);
 
         echo json_encode("success");
