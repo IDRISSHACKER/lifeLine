@@ -42,6 +42,10 @@ function Edit({ group }) {
     const [updated, setUpdated] = React.useState(0)
     const [load, setLoad] = React.useState(0)
 
+    React.useEffect(()=>{
+        setTitle(group.title)
+        setDescription(group.description)
+    })
     const handleClickOpen = () => {
         setOpen(true);
     };

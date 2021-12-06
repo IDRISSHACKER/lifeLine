@@ -52,6 +52,15 @@ const Edit = ({ user }) => {
     const [pays_id, setPays_id] = React.useState(user.pays_id)
     const [groupSelected, setGroupSelected] = React.useState(user.groupe_id)
 
+    React.useEffect(()=>{
+        setEmail(user.email)
+        setName(user.name)
+        setPhone(user.phone)
+        setSurname(user.surname)
+        setPays_id(user.pays_id)
+        setGroupSelected(user.groupSelected)
+    },[user])
+
     const handleClickOpen = () => {
         setOpen(true);
     }

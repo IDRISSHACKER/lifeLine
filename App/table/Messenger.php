@@ -2,6 +2,7 @@
 
 namespace App\table;
 
+//use Twilio\Rest\Client; 
 /**
  * summary
  */
@@ -31,7 +32,20 @@ class Messenger extends Table
     }
 
     public static function setMessageInOperator($phone, $sms){
-        //
+        
+        /*$sid    = "ACe0dc493300fce94bc13c6864b1cfb91f"; 
+        $token  = "4f02807c32c8609b93a5f91f2f97301e"; 
+        $twilio = new Client($sid, $token); 
+ 
+        $message = $twilio->messages 
+                        ->create("+19472085059", // to 
+                                array(
+                                    "from" => "+237693342860",        
+                                    "body" => "Your message" 
+                                ) 
+                        ); 
+        
+        print($message->sid);*/
     }
 
    public static function sendMessage(){
@@ -44,7 +58,7 @@ class Messenger extends Table
         glob($err);
         $phone = "+".$user->pays_id.$user->phone;
         $sms   = $message;
-        //self::setMessageInOperator($phone, $sms);
+        self::setMessageInOperator($phone, $sms);
         if(self::setMessageInDb($user->id, $message)){
             $err = 0;
         }else{

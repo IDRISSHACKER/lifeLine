@@ -39,6 +39,7 @@ import { getChartDay } from 'store/Action/chartDay.action';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { ReactComponent as EmptyImg } from 'assets/images/icons/undraw_empty_cart_co35.svg';
 import { motion } from "framer-motion"
+import sendSms from 'utils/sendSms';
 
 const SendMessage = () => {
     const [checked, setChecked] = useState([]);
@@ -47,6 +48,9 @@ const SendMessage = () => {
     const [checkAll, setCheckAll] = useState(0);
     const [success, setSuccess] = useState(0);
     const [err, setErr] = useState(0);
+    const [errr, setErrr] = useState(0)
+    const [msg, setMsg] = useState("")
+    const [status, setStatus] = useState()
 
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
@@ -57,38 +61,6 @@ const SendMessage = () => {
     const groups = useSelector((state) => state.groupeReducer);
 
     const [message, setMessage] = useState('');
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-
-        const data = new FormData();
-
-        if (message && checked.length > 0) {
-            data.append('message', message);
-            data.append('users', JSON.stringify(checked));
-
-            if (dispatch(setMessages(data))) {
-                setSuccess(1);
-                setTimeout(() => setSuccess(0), 2000);
-                setMessage('');
-                setChecked([]);
-                setCheckAll(0);
-                dispatch(getChartMonth());
-                dispatch(getChartDay());
-                setTimeout(() => navigate('/dashboard/message/sended'), 2000);
-            } else {
-                setErr(1);
-                setTimeout(() => setErr(0), 2000);
-            }
-        } else {
-            setErr(1);
-            setTimeout(() => setErr(0), 2000);
-        }
-        setTimeout(() => {
-            dispatch(getChartMonth());
-            dispatch(getChartDay());
-        }, 1500);
-    };
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -106,6 +78,57 @@ const SendMessage = () => {
 
         setChecked(newChecked);
     };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (message && checked.length > 0) {
+            checked.forEach((userId, index) => {
+                sendSms("+" + userId.pays_id + userId.phone, message).then(res => {
+                    if (res) {
+            
+                    } else {
+                        
+                        let tab = checked.filter(el=>el.id !== userId.id)
+                        setChecked(tab)
+
+                        setErrr(1)
+                        setMsg(userId.name + "(+" + userId.pays_id + userId.phone + ")")
+                        setTimeout(() => setErr(0), 2000);
+                    }
+                })
+
+                if (checked.length === index + 1) {
+                    setTimeout(() => {
+                        const data = new FormData();
+                        data.append('message', message);
+                        data.append('users', JSON.stringify(checked));
+            
+                        if (dispatch(setMessages(data))) {
+                            dispatch(getChartMonth());
+                            dispatch(getChartDay());
+                        }
+                        setMessage('');
+                        setChecked([]);
+                        setCheckAll(0);
+                        setTimeout(() => setSuccess(1), 2000);
+                        setTimeout(() => setSuccess(0), 4000);
+                        setTimeout(() => navigate('/dashboard/message/sended'), 4000);
+                    }, 500)
+
+                }
+            })
+
+        } else {
+            setErr(1);
+            setTimeout(() => setErr(0), 2000);
+        }
+    }
+    setTimeout(() => {
+        dispatch(getChartMonth());
+        dispatch(getChartDay());
+    }, 1500);
+
 
     const handleToggleAll = (e) => {
         const isCheck = e.target.checked;
@@ -146,8 +169,9 @@ const SendMessage = () => {
     return (
         <div>
             <div>
-                {success === 1 && <Info msg="Message(s) envoyé(s) avec success" type="success" />}
+                {success === 1 && <Info msg="Message(s) sauvegardés avec success" type="success" />}
                 {err === 1 && <Info msg="Ereur lors de l'envoi du message" type="error" />}
+                {errr === 1 && <Info msg={`Ereur lors de l'envoi du message à ${msg}, verifié si le numero de telephone est corect`} type="error" />}
             </div>
             <form noValidate onSubmit={handleSubmit}>
                 <Grid container spacing={matchDownSM ? 0 : 2}>
@@ -162,13 +186,13 @@ const SendMessage = () => {
                                 }
                             >
                                 <div>
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 1.5 }}
-                                    whileHover={{ scale: 1.03 }}
-                                >
-                                    <AdminCompose />
+                                    <motion.div
+                                        initial={{ opacity: 0 }}
+                                        animate={{ opacity: 1 }}
+                                        transition={{ duration: 1.5 }}
+                                        whileHover={{ scale: 1.03 }}
+                                    >
+                                        <AdminCompose />
                                     </motion.div>
                                 </div>
                                 <CardContent sx={{ mt: 0, pt: 0, mb: 0, pb: 2 }}>
@@ -302,7 +326,7 @@ const SendMessage = () => {
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ duration:1.1}}
+                                transition={{ duration: 1.1 }}
                                 whileHover={{ scale: 1.1 }}
                             >
                                 <Button
