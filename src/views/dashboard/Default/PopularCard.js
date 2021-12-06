@@ -11,9 +11,11 @@ import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined';
 import CellWifiIcon from '@mui/icons-material/CellWifi';
 import GitHubIcon from '@mui/icons-material/GitHub';
+import {useSelector} from "react-redux"
 
 const PopularCard = ({ isLoading }) => {
     const theme = useTheme();
+    const lang = useSelector(state => state.languageReducer)
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -36,7 +38,7 @@ const PopularCard = ({ isLoading }) => {
                             <Grid item xs={12}>
                                 <Grid container alignContent="center" justifyContent="space-between">
                                     <Grid item>
-                                        <Typography variant="h4">Statistique</Typography>
+                                        <Typography variant="h4">{lang.textes.stat[lang.id]}</Typography>
                                     </Grid>
                                 </Grid>
                             </Grid>
@@ -45,16 +47,16 @@ const PopularCard = ({ isLoading }) => {
                             </Grid>
                             <Grid item xs={12}>
                                 <Typography variant="h4" color="inherit">
-                                    Racourcis utiles
+                                {lang.textes.chortCut[lang.id]}
                                 </Typography>
                             </Grid>
                             <Grid item xs={12}>
                                 <Grid container direction="column">
                                    <Grid item>
-                                       <Button component={RouterLink} target="_blank" to="https://github.com/idriss-coder/lifeline" startIcon={<CellWifiIcon/>} color="error">Recharger mes messages</Button>
+                                       <Button component={RouterLink} target="_blank" to="https://github.com/idriss-coder/lifeline" startIcon={<CellWifiIcon/>} color="error">{lang.textes.reloadMsg[lang.id]}</Button>
                                    </Grid>
                                    <Grid item>
-                                       <Button target="_blank"  href="https://github.com/idriss-coder/lifeline"  startIcon={<GitHubIcon/>} color="secondary">Depot github</Button>
+                                       <Button target="_blank"  href="https://github.com/idriss-coder/lifeline"  startIcon={<GitHubIcon/>} color="secondary">{lang.textes.github[lang.id]}</Button>
                                    </Grid>
                                 </Grid>
                                 <Divider sx={{ my: 1.5 }} />
@@ -63,7 +65,7 @@ const PopularCard = ({ isLoading }) => {
                     </CardContent>
                     <CardActions sx={{ p: 1.25, pt: 0, justifyContent: 'center' }}>
                         <Button component={RouterLink} to="/dashboard/message/sended" size="small" disableElevation>
-                            View All Messages
+                            {lang.textes.viewAllMsg[lang.id]}
                             <ChevronRightOutlinedIcon />
                         </Button>
                     </CardActions>

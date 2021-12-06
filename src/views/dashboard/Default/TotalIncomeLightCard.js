@@ -43,6 +43,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 const TotalIncomeLightCard = ({ isLoading }) => {
     const theme = useTheme();
     const groupes = useSelector(state=>state.groupeReducer)
+    const lang = useSelector(state => state.languageReducer)
 
     return (
         <>
@@ -83,7 +84,7 @@ const TotalIncomeLightCard = ({ isLoading }) => {
                                                 mt: 0.5
                                             }}
                                         >
-                                            Groupes
+                                            {lang.textes.groupe[lang.id]}
                                         </Typography>
                                     }
                                 />

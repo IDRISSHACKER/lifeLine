@@ -11,24 +11,25 @@ import MainCard from 'ui-component/cards/MainCard';
 import { gridSpacing } from 'store/constant';
 
 
-const status = [
-    {
-        value: 'all',
-        label: 'All time'
-    },
-];
-
 const TotalGrowthBarChart = ({ isLoading }) => {
     const [value, setValue] = useState('all');
     const theme = useTheme();
     const customization = useSelector((state) => state.customization);
-    const chartDay = useSelector(state=>state.chartDayReducer)
+    const chartDay = useSelector(state => state.chartDayReducer)
+    const lang = useSelector(state => state.languageReducer)
     const month = []
     const data = []
-    chartDay.forEach((chart)=>{
+    chartDay.forEach((chart) => {
         month.push(chart.created_at)
         data.push(chart.nb)
     })
+
+    const status = [
+        {
+            value: 'all',
+            label: lang.textes.allTime[lang.id]
+        },
+    ];
 
     const { navType } = customization;
     const { primary } = theme.palette.text;
@@ -50,9 +51,9 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                 type: 'area',
                 height: 350,
                 zoom: {
-                  enabled: false
+                    enabled: false
                 }
-              },
+            },
             responsive: [
                 {
                     breakpoint: 480,
@@ -71,7 +72,7 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                     columnWidth: '50%'
                 }
             },
-            
+
             xaxis: {
                 type: 'datetime',
                 categories: month
@@ -162,10 +163,10 @@ const TotalGrowthBarChart = ({ isLoading }) => {
                                 <Grid item>
                                     <Grid container direction="column" spacing={1}>
                                         <Grid item>
-                                            <Typography variant="subtitle2">Statitiques d'envoi de message</Typography>
+                                            <Typography variant="subtitle2">{lang.textes.statVente[lang.id]}</Typography>
                                         </Grid>
                                         <Grid item>
-                                            <Typography variant="h3">Group by Day</Typography>
+                                            <Typography variant="h3">{lang.textes.groupByDay[lang.id]}</Typography>
                                         </Grid>
                                     </Grid>
                                 </Grid>

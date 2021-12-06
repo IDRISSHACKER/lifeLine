@@ -54,6 +54,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 const TotalOrderLineChartCard = ({ isLoading }) => {
     const theme = useTheme();
     const msg = useSelector(state=>state.messengerReducer)
+    const lang = useSelector(state => state.languageReducer)
 
     const [timeValue, setTimeValue] = useState(false);
     const handleChangeTime = (event, newValue) => {
@@ -95,7 +96,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                                             component={RouterLink}
                                             to="/dashboard/message/sended"
                                         >
-                                            Consult messages
+                                            {lang.textes.consultMsg[lang.id]}
                                         </Button>
                                     </Grid>
                                 </Grid>
@@ -135,7 +136,7 @@ const TotalOrderLineChartCard = ({ isLoading }) => {
                                                         color: theme.palette.primary[200]
                                                     }}
                                                 >
-                                                    Messages envoyés
+                                                    {lang.textes.msgSend[lang.id]}
                                                 </Typography>
                                             </Grid>
                                         </Grid>

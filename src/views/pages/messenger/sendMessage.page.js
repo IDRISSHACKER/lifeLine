@@ -59,6 +59,7 @@ const SendMessage = () => {
 
     const users = useSelector((state) => state.usersReducer);
     const groups = useSelector((state) => state.groupeReducer);
+    const lang = useSelector(state => state.languageReducer)
 
     const [message, setMessage] = useState('');
 
@@ -169,9 +170,9 @@ const SendMessage = () => {
     return (
         <div>
             <div>
-                {success === 1 && <Info msg="Message(s) sauvegardés avec success" type="success" />}
-                {err === 1 && <Info msg="Ereur lors de l'envoi du message" type="error" />}
-                {errr === 1 && <Info msg={`Ereur lors de l'envoi du message à ${msg}, verifié si le numero de telephone est corect`} type="error" />}
+                {success === 1 && <Info msg={lang.textes.msgSaveSuccess[lang.id]} type="success" />}
+                {err === 1 && <Info msg={lang.textes.errorSendSms[lang.id]} type="error" />}
+                {errr === 1 && <Info msg={lang.textes.errorSendSmsNumber[lang.id]} type="error" />}
             </div>
             <form noValidate onSubmit={handleSubmit}>
                 <Grid container spacing={matchDownSM ? 0 : 2}>
@@ -179,10 +180,10 @@ const SendMessage = () => {
                         <motion.div
                         >
                             <MainCard
-                                title="Nouveau message"
+                                title={lang.textes.titleNewMsg[lang.id]}
                                 elevation={1}
                                 secondary={
-                                    <SecondaryAction title="Messages envoyés" link="/dashboard/message/sended" icon={<SendOutlinedIcon />} />
+                                    <SecondaryAction title={lang.textes.msgSend[lang.id]} link="/dashboard/message/sended" icon={<SendOutlinedIcon />} />
                                 }
                             >
                                 <div>
@@ -221,7 +222,7 @@ const SendMessage = () => {
                                                 variant="contained"
                                                 color="secondary"
                                             >
-                                                Envoyer le message
+                                                {lang.textes.sendMsg[lang.id]}
                                             </Button>
                                         </AnimateButton>
                                     </Box>
@@ -241,7 +242,7 @@ const SendMessage = () => {
                                     title={
                                         <div>
                                             <span>
-                                                Selectionner les contacts
+                                            {lang.textes.allContact[lang.id]}
                                                 <Chip label={checked.length} />
                                             </span>
                                         </div>
@@ -260,7 +261,7 @@ const SendMessage = () => {
                                                 label="Qtt"
                                                 size="small"
                                             >
-                                                <MenuItem value={0}>All contact</MenuItem>
+                                                <MenuItem value={0}>{lang.textes.allContact[lang.id]}</MenuItem>
                                                 {groups &&
                                                     groups.map((group, index) => (
                                                         <MenuItem key={index} value={group.id}>
@@ -317,7 +318,7 @@ const SendMessage = () => {
                                 <form>
                                     <CardActions>
                                         <Checkbox id="all" aria-label="dsdd" checked={checkAll} onChange={handleToggleAll} key="all" />
-                                        <label htmlFor="all">{!checkAll ? 'Select all contact' : 'Unselect all contact'}</label>
+                                        <label htmlFor="all">{!checkAll ? lang.textes.selectAllContact[lang.id] : lang.textes.unselectAllContact[lang.id]}</label>
                                     </CardActions>
                                 </form>
                             </Card>
@@ -337,7 +338,7 @@ const SendMessage = () => {
                                     to="/dashboard/contact/add"
                                     color="error"
                                 >
-                                    Ajouter un contact
+                                    {lang.textes.addContact[lang.id]}
                                 </Button>
                             </motion.div>
                         )}

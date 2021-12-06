@@ -45,6 +45,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 const TotalIncomeDarkCard = ({ isLoading }) => {
     const theme = useTheme();
     const contacts = useSelector(state=>state.usersReducer)
+    const lang = useSelector(state => state.languageReducer)
     return (
         <>
             {isLoading ? (
@@ -82,7 +83,7 @@ const TotalIncomeDarkCard = ({ isLoading }) => {
                                     }
                                     secondary={
                                         <Typography variant="subtitle2" sx={{ color: 'primary.light', mt: 0.25 }}>
-                                            Contacts
+                                            {lang.textes.contact[lang.id]}
                                         </Typography>
                                     }
                                 />

@@ -50,6 +50,7 @@ const CardWrapper = styled(MainCard)(({ theme }) => ({
 
 const EarningCard = ({ isLoading }) => {
     const admin = useSelector(state => state.adminReducer)
+    const lang = useSelector(state => state.languageReducer)
     const theme = useTheme();
     const User1 = `${set.APP_FOLDER}/files/avatar/${admin.avatar}`
 
@@ -127,7 +128,7 @@ const EarningCard = ({ isLoading }) => {
                                         color: theme.palette.secondary[200]
                                     }}
                                 >
-                                    <Chip sx={{ color: "white" }} label={<span>Administrator</span>} />
+                                    <Chip sx={{ color: "white" }} label={<span>{lang.textes.admin[lang.id]}</span>} />
                                 </Typography>
                             </Grid>
                         </Grid>
