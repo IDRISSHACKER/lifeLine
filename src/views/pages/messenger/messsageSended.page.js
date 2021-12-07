@@ -9,6 +9,7 @@ import { motion } from "framer-motion"
 
 const MessageSended = () => {
     const messages = useSelector((state) => state.messengerReducer);
+    const lang = useSelector(state => state.languageReducer)
 
     return (
         <div>
@@ -17,20 +18,20 @@ const MessageSended = () => {
                     <MainCard
                         title={
                             <div>
-                                <span>Message envoyés </span>
+                                <span>{lang.textes.msgSend[lang.id]}</span>
                                 <Chip label={messages.length} variant="filled" />
                             </div>
                         }
-                        secondary={<SecondaryAction title="Nouveau message " link="/dashboard/message/send" icon={<MessageOutlinedIcon />} />}
+                        secondary={<SecondaryAction title={lang.textes.msgSend[lang.id]} link="/dashboard/message/send" icon={<MessageOutlinedIcon />} />}
                     >
                         <TableContainer component={Paper}>
                             <Table aria-label="simple table">
                                 <TableHead>
                                     <TableRow>
-                                        <TableCell>Receiver</TableCell>
-                                        <TableCell>message</TableCell>
-                                        <TableCell>sended at</TableCell>
-                                        <TableCell align="right">Action</TableCell>
+                                        <TableCell>{lang.textes.receiver[lang.id]}</TableCell>
+                                        <TableCell>{lang.textes.message[lang.id]}</TableCell>
+                                        <TableCell>{lang.textes.sendedAt[lang.id]}</TableCell>
+                                        <TableCell align="right">{lang.textes.action[lang.id]}</TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>{messages.length > 0 && messages.map((msg, index) => <RowMsg msg={msg} key={index} />
@@ -43,8 +44,8 @@ const MessageSended = () => {
             )}
             {messages.length === 0 && (
                 <Empty
-                    text="Aucun messages à afficher dans votre boite de messages envoyés"
-                    buttonText="Envoyer un message"
+                    text={lang.textes.noSms[lang.id]}
+                    buttonText={lang.textes.sendSms[lang.id]}
                     buttonUrl="/dashboard/message/send"
                 />
             )}

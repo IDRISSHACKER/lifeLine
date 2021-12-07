@@ -29,7 +29,13 @@ export const initialState = {
         selectContact: ["Selectionner les contacts","Select contacts"],
         selectAllContact: ["Selectionner tout les contacts","Select all contacts"],
         unselectAllContact: ["Deselectionner tout les contacts", "Unselect all contact"],
-        addContact: ["Ajouter un contact", "Add contact"]
+        addContact: ["Ajouter un contact", "Add contact"],
+        noMsg: ["Aucun messages à afficher dans votre boite de messages envoyés", "No sms to show on your sms sended"],
+        sendSms: ["Envoyer un message", "Send new message"],
+        receiver: ["Destinateur", "Receiver"],
+        msg: ["Messages", "Messages"],
+        sendedAt: ["Date d'envoie", "Sended at"],
+        action: ["Actions", "Actions"]
 
     }
 };
