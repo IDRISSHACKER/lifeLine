@@ -21,6 +21,7 @@ import Backdrop from '@mui/material/Backdrop';
 import CircularProgress from '@mui/material/CircularProgress';
 import { ReactComponent as Logo } from "assets/images/icons/undraw_blank_canvas_re_2hwy.svg"
 import { motion } from "framer-motion"
+import { useSelector } from "react-redux";
 
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
@@ -30,6 +31,7 @@ const Reset = () => {
     const [load, setLoad] = useState(false);
     const [open, setOpen] = useState(false);
     const [delsuccess, setDelsuccess] = useState(false)
+    const lang = useSelector(state => state.languageReducer)
     const theme = useTheme();
 
     const fullScreen = useMediaQuery(theme.breakpoints.down('md'));
@@ -78,9 +80,9 @@ const Reset = () => {
                 open={load}
             >
                 <CircularProgress color="inherit" /><br />
-                <Typography> Renitialisation....</Typography>
+                <Typography> Reseting...</Typography>
             </Backdrop>
-            <Button onClick={handleClickOpen} size="large" variant="text" color="error">Renitialiser</Button>
+            <Button onClick={handleClickOpen} size="large" variant="text" color="error">{lang.textes.reset[lang.id]}</Button>
             <Dialog
                 TransitionComponent={Transition}
                 fullScreen={fullScreen}
@@ -89,19 +91,19 @@ const Reset = () => {
                 aria-labelledby="responsive-dialog-title"
             >
                 <DialogTitle id="responsive-dialog-title">
-                    {"Voulez vous restorer les parametres d'usines de votre application ?"}
+                    {lang.textes.resetConfirm[lang.id]}
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        {msg}
+                    {lang.textes.msg[lang.id]}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus variant="outlined" color="secondary" onClick={handleClose}>
-                        Annuler
+                        Cancel
                     </Button>
                     <Button variant="contained" color="error" onClick={handleRemove} autoFocus>
-                        Renitialiser
+                        Reset
                     </Button>
                 </DialogActions>
             </Dialog>
@@ -110,7 +112,7 @@ const Reset = () => {
 }
 
 export default function ResetStat() {
-
+    const lang = useSelector(state => state.languageReducer)
     return (
         <Card>
             <Grid container>
@@ -134,9 +136,9 @@ export default function ResetStat() {
                             transition={{ duration: 3 }}
                             whileHover={{ scale: 1.02 }}
                         >
-                            <Typography variant="h4">Restorer l'application</Typography>
+                            <Typography variant="h4">{lang.textes.reset[lang.id]}</Typography>
                             <Typography variant="body1">
-                                <p>{msg}</p>
+                                <p>{lang.textes.msg[lang.id]}</p>
                             </Typography>
                             <br />
                         </motion.div>

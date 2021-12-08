@@ -10,9 +10,9 @@ class settings extends Component{
 
 	init = function(){
 		return {
-			APP_URL : 'http://localhost/lifeline/public/server.php',
-			APP_FOLDER : 'http://localhost/lifeline/public',
-			APP_NAME : 'LifelineBox' 
+			APP_URL : 'https://lifelinesms.org/server.php',
+			APP_FOLDER : 'https://lifelinesms.org/',
+			APP_NAME : 'lifelinesms' 
 		}
 	}
 

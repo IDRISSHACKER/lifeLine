@@ -13,6 +13,7 @@ import { setGroup } from 'store/Action/goupe.action';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
 import { motion } from "framer-motion"
+import { useSelector } from 'react-redux';
 
 const NewCtg = () => {
     const theme = useTheme();
@@ -24,6 +25,7 @@ const NewCtg = () => {
     const [description, setDescription] = useState('');
     const [createSuccessed, setCreateSuccessed] = useState(false);
     const [errored, setErrored] = useState(false);
+    const lang = useSelector(state => state.languageReducer)
 
     const resetErr = () => setTimeout(() => setErrored(false), 6000);
     const handleSubmit = (e) => {
@@ -52,13 +54,13 @@ const NewCtg = () => {
 
     return (
         <MainCard
-            title="Ajouter un groupe"
+            title={lang.textes.addGroup[lang.id]}
             secondary={<SecondaryAction title="List group" link="/dashboard/users/groups" icon={<ListAltOutlinedIcon />} />}
         >
             <form noValidate onSubmit={handleSubmit}>
                 <div>
-                    {createSuccessed && <Info msg="Groupe créer avec success" type="success" />}
-                    {errored && <Info msg="Erreur lors de l'ajout du groupe" type="error" />}
+                    {createSuccessed && <Info msg={lang.textes.groupeAddSuccess[lang.id]} type="success" />}
+                    {errored && <Info msg={lang.textes.groupeAddErr[lang.id]} type="error" />}
                 </div>
                 <motion.div
                     initial={{ opacity: 0 }}
@@ -71,7 +73,7 @@ const NewCtg = () => {
                             <TextField
                                 autoFocus
                                 fullWidth
-                                label="Titre du group "
+                                label={lang.textes.groupTitle[lang.id]}
                                 margin="normal"
                                 name="title"
                                 type="text"
@@ -85,7 +87,7 @@ const NewCtg = () => {
                                 multiline
                                 rows={6}
                                 fullWidth
-                                label="Description (optionel)"
+                                label={lang.textes.description[lang.id]}
                                 margin="normal"
                                 name="description"
                                 type="text"
@@ -106,7 +108,7 @@ const NewCtg = () => {
                                         color="secondary"
                                         startIcon={<CloudDoneOutlinedIcon />}
                                     >
-                                        Ajouter le groupe
+                                        {lang.textes.addTheGroup[lang.id]}
                                     </Button>
                                 </AnimateButton>
                             </Box>

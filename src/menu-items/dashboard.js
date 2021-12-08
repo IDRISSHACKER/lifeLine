@@ -8,35 +8,34 @@ const icons = { IconDashboard, IconUser, IconUserPlus, GroupAddOutlinedIcon, Gro
 
 const dashboard = {
     id: 'dashboard',
-    title: 'Dashboard',
     type: 'group',
     children: [
         {
             id: 'default',
-            title: 'Tableau de bord',
+            title: 'Dashboard',
             type: 'item',
             url: '/dashboard/default',
             icon: icons.IconDashboard,
             breadcrumbs: false
         },
         {
-            id: 'sendMsg',
-            title: 'Nouveau message',
+            id: 'send',
+            title: 'New sms',
             type: 'item',
             url: '/dashboard/message/send',
             icon: icons.MessageOutlinedIcon,
             breadcrumbs: false
         },
         {
-            id: 'sendedMsg',
-            title: 'Messages envoyés',
+            id: 'sended',
+            title: 'Sended',
             type: 'item',
             url: '/dashboard/message/sended',
             icon: icons.SendOutlinedIcon,
             breadcrumbs: false
         },
         {
-            id: 'user',
+            id: 'list',
             title: 'Contacts',
             type: 'item',
             url: '/dashboard/contact/list',
@@ -44,8 +43,8 @@ const dashboard = {
             breadcrumbs: false
         },
         {
-            id: 'addUser',
-            title: 'Ajouter un contact',
+            id: 'add',
+            title: 'add contact',
             type: 'item',
             url: '/dashboard/contact/add',
             icon: icons.IconUserPlus,
@@ -60,15 +59,15 @@ const dashboard = {
             breadcrumbs: false
         },
         {
-            id: 'addCtg',
-            title: 'Ajouter un groupe',
+            id: 'newCtg',
+            title: 'add group',
             type: 'item',
             url: '/dashboard/users/newCtg',
             icon: icons.GroupAddOutlinedIcon,
             breadcrumbs: false
         },
         {
-            id: 'setting',
+            id: 'settings',
             title: 'Settings',
             type: 'item',
             url: '/dashboard/settings',

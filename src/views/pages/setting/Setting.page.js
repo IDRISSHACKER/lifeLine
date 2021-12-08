@@ -28,6 +28,7 @@ const set = new settings().init()
 
 const Setting = () => {
     const admin = useSelector(state => state.adminReducer)
+    const lang = useSelector(state => state.languageReducer)
     const dispatch = useDispatch()
     const imgCont = useRef("")
     let User1 = `${set.APP_FOLDER}/files/avatar/${admin.avatar}`
@@ -94,14 +95,14 @@ const Setting = () => {
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} md={6} lg={!edit ? 4 : 6}>
-                {success === 1 && <Info msg="Profil mise à jour" />}
-                {successAvatar === 1 && <Info msg="Votre avatar à été mise à jour !" />}
+                {success === 1 && <Info msg={lang.textes.profilUpdated[lang.id]}  />}
+                {successAvatar === 1 && <Info msg={lang.textes.profilUpdated[lang.id]} />}
                 <form onSubmit={handleUpdate} autocomplete="off">
                     <MainCard title={<div>
                         <span>Profil </span>
                     </div>} secondary={
                         <SecondaryAction
-                            title="Tableau de board"
+                            title={lang.textes.board[lang.id]}
                             link="/dashboard/default"
                             icon={<GridViewIcon />}
                         />}
@@ -182,7 +183,7 @@ const Setting = () => {
                                     <Grid container direction="row" spacing={2}>
                                         <Grid item xs={12} sm={12} lg={12} >
                                             <TextField name="password" id="pass" type="password" onChange={(e) => setPassword(e.target.value)} value={password} fullWidth />
-                                            <Typography sx={{ pt: 1 }} color="error" variant="subtitle2">! Laisser vide si vous ne voulez pas modifier</Typography>
+                                            <Typography sx={{ pt: 1 }} color="error" variant="subtitle2">{lang.textes.empty[lang.id]} </Typography>
                                         </Grid>
                                     </Grid>
                                 }
@@ -223,7 +224,7 @@ const Setting = () => {
                                             startIcon={
                                                 <BeenhereIcon />
                                             }
-                                        >Sauvegarder</Button>}
+                                        >{lang.textes.saving[lang.id]}</Button>}
                                         {success === 1 && <LoadingButton
                                             fullWidth
                                             loading
@@ -231,7 +232,7 @@ const Setting = () => {
                                             startIcon={<BeenhereIcon />}
                                             variant="outlined"
                                         >
-                                            Sauvegarde en cour...
+                                            {lang.textes.saving[lang.id]}
                                         </LoadingButton>}
                                     </Grid>
                                 </Grid>
@@ -252,7 +253,7 @@ const Setting = () => {
                             transition={{ duration: 1.5 }}
                             whileHover={{ scale: 1.02 }}
                         >
-                            <OtherSettings />
+                           {/*  <OtherSettings />*/}
                         </motion.div>
                     </Grid>
                     <Grid item xs={12} lg={12}>

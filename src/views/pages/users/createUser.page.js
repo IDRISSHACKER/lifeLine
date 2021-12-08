@@ -33,7 +33,8 @@ const CreateUser = () => {
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const groups = useSelector((state) => state.groupeReducer);
+    const groups = useSelector((state) => state.groupeReducer)
+    const lang = useSelector(state => state.languageReducer)
 
     const [nom, setNom] = useState('');
     const [prenom, setPrenom] = useState('');
@@ -80,22 +81,22 @@ const CreateUser = () => {
         <Grid container spacing={2}>
             <Grid item sx={12} lg={8}>
                 <MainCard
-                    title="Ajouter un contact"
+                    title={lang.textes.addContact[lang.id]}
                     secondary={
-                        <SecondaryAction title="liste des contacts" link="/dashboard/contact/list" icon={<VerifiedUserOutlinedIcon />} />
+                        <SecondaryAction title={lang.textes.userList[lang.id]} link="/dashboard/contact/list" icon={<VerifiedUserOutlinedIcon />} />
                     }
                 >
                     <form noValidate onSubmit={handleSubmit}>
                         <div>
-                            {createSuccessed && <Info msg="Contact ajouté avec success" type="success" />}
-                            {errored && <Info msg="Erreur lors de l'ajout du contact" type="error" />}
+                            {createSuccessed && <Info msg={lang.textes.contactAddSuccess[lang.id]} type="success" />}
+                            {errored && <Info msg={lang.textes.contactAddErr[lang.id]} type="error" />}
                         </div>
                         <Grid container spacing={matchDownSM ? 0 : 2}>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     autoFocus
                                     fullWidth
-                                    label="Nom"
+                                    label={lang.textes.nameSingle[lang.id]}
                                     margin="normal"
                                     name="nom"
                                     type="text"
@@ -107,7 +108,7 @@ const CreateUser = () => {
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     fullWidth
-                                    label="Prenom"
+                                    label={lang.textes.prenom[lang.id]}
                                     margin="normal"
                                     name="prenom"
                                     type="text"
@@ -119,7 +120,7 @@ const CreateUser = () => {
                             <Grid item xs={12} sm={4}>
                                 <TextField
                                     fullWidth
-                                    label="Code du pays (+237)"
+                                    label={lang.textes.paysId[lang.id]}
                                     margin="normal"
                                     name="code"
                                     type="text"
@@ -131,7 +132,7 @@ const CreateUser = () => {
                             <Grid item xs={12} sm={8}>
                                 <TextField
                                     fullWidth
-                                    label="Numero de telephone"
+                                    label={lang.textes.numTel[lang.id]}
                                     margin="normal"
                                     name="phone"
                                     type="number"
@@ -143,7 +144,7 @@ const CreateUser = () => {
                             <Grid item xs={12} sm={12}>
                                 <TextField
                                     fullWidth
-                                    label="Adresse Email (optionel)"
+                                    label={lang.textes.emailAdress[lang.id]}
                                     margin="normal"
                                     name="email"
                                     type="email"
@@ -156,7 +157,7 @@ const CreateUser = () => {
                             <Grid item xs={12} sm={12}>
                                 <Box sx={{ minWidth: 60 }}>
                                     <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">Select one group</InputLabel>
+                                        <InputLabel id="demo-simple-select-label">{lang.textes.selectGroupe[lang.id]}</InputLabel>
                                         <Select
                                             sx={{ p: 1 }}
                                             labelId="demo-simple-select-label"
@@ -184,7 +185,7 @@ const CreateUser = () => {
                                             color="secondary"
                                             startIcon={<CloudDoneOutlinedIcon />}
                                         >
-                                            Ajouter le contact
+                                           {lang.textes.addContact[lang.id]}
                                         </Button>
                                     </AnimateButton>
                                 </Box>
@@ -206,14 +207,14 @@ const CreateUser = () => {
                                 <div>
                                     <img style={{ maxWidth: 300 }} src={imgSvg} alt="" />
                                     <Typography variant="subtitle2" sx={{ mt: 2 }}>
-                                        Veillez remplir minitieusement les informations, elle seront utilisées lors de l'envoi des messages.
+                                    {lang.textes.userInfo[lang.id]}
                                     </Typography>
                                 </div>
                             </Box>
                         </CardContent>
                         <CardActions sx={{ mt: 10 }}>
                             <Button component={RouterLink} to="/dashboard/users/newCtg" fullWidth color="error">
-                                Ajouter un groupe
+                            {lang.textes.addGroup[lang.id]}
                             </Button>
                         </CardActions>
                     </Card>

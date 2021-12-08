@@ -9,7 +9,8 @@ const RowUser = React.lazy(() => import('./usersComponent/rowUser'));
 const AddBusinessOutlinedIcon = React.lazy(() => import('@mui/icons-material/AddBusinessOutlined'));
 const MainCard = React.lazy(() => import('ui-component/cards/MainCard'));
 const ListUser = () => {
-    const users = useSelector((state) => state.usersReducer);
+    const users = useSelector((state) => state.usersReducer)
+    const lang = useSelector(state => state.languageReducer)
 
     return (
         <React.Suspense fallback={<p>loading</p>}>
@@ -18,13 +19,13 @@ const ListUser = () => {
                         <MainCard
                             title={
                                 <div>
-                                    <span>Vos Contacts </span>
+                                    <span>{lang.textes.contact[lang.id]}</span>
                                     <Chip label={users.length} variant="filled" />
                                 </div>
                             }
                             secondary={
                                 <SecondaryAction
-                                    title="Ajouter un utilisateur"
+                                    title={lang.textes.addContact[lang.id]}
                                     link="/dashboard/contact/add"
                                     icon={<AddBusinessOutlinedIcon />}
                                 />
@@ -34,11 +35,11 @@ const ListUser = () => {
                                 <Table aria-label="simple table">
                                     <TableHead>
                                         <TableRow>
-                                            <TableCell>Nom</TableCell>
-                                            <TableCell>Telephone</TableCell>
-                                            <TableCell>Email</TableCell>
-                                            <TableCell>Groupe</TableCell>
-                                            <TableCell align="right">Action</TableCell>
+                                            <TableCell>{lang.textes.name[lang.id]}</TableCell>
+                                            <TableCell>{lang.textes.phone[lang.id]}</TableCell>
+                                            <TableCell>{lang.textes.email[lang.id]}</TableCell>
+                                            <TableCell>{lang.textes.groupe[lang.id]}</TableCell>
+                                            <TableCell align="right">{lang.textes.action[lang.id]}</TableCell>
                                         </TableRow>
                                     </TableHead>
                                     <TableBody>{users.length > 0 && users.map((user, index) => <RowUser user={user} key={index} />)}</TableBody>
@@ -49,8 +50,8 @@ const ListUser = () => {
                 )}
                 {users.length === 0 && (
                     <Empty
-                        text="Vous n'avez aucun utilisateur à aficher dans votre repertoire !"
-                        buttonText="Ajouter un utilisateur"
+                        text={lang.textes.emptyUsers[lang.id]}
+                        buttonText={lang.textes.addContact[lang.id]}
                         buttonUrl="/dashboard/contact/add"
                     />
                 )}
