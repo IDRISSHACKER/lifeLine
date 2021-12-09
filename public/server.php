@@ -7,11 +7,11 @@ header('Access-Control-Max-Age: 86400');
 header("Access-Control-Allow-Methods: *");
 
 define("ROOT", dirname(__DIR__));
-require ROOT.'/'.'App/autoload.php';
+require(ROOT.'/App/autoload.php');
 autoload::register();
 
 use App\Table\Admin;
-use App\table\Chart;
+use App\Table\Chart;
 use App\Table\Users;
 use App\Table\Groupe;
 use App\Table\Image;

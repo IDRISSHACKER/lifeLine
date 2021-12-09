@@ -6,9 +6,9 @@
 */
 return [
 
-	"APP_NAME" 		=> "lifeLineMessenger",
+	"APP_NAME" 		=> "lifeLineSMS",
 	"APP_URL"       => "http://localhost/lifeline/public/server.php",
-	"APP_AUTHOR"	=> "IDRISS-HACKER",
+	"APP_AUTHOR"	=> "",
 	"APP_VERSION"   => "1.0.0",
 	"APP_YEAR"      => "2021",
 	"APP_TEMPLATE"  => "react",

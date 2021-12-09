@@ -14,8 +14,8 @@ class Autoload
 
 	}
 
-	static function load($class){
 
+	static function load($class){
 		$class = dirname(__DIR__)."/".$class.".php";
 
 		$class = str_replace("\\", "/", $class);

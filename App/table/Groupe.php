@@ -1,6 +1,6 @@
 <?php
 
-namespace App\table;
+namespace App\Table;
 
 /**
  * summary

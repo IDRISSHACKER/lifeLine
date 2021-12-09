@@ -193,7 +193,9 @@ const SendMessage = () => {
                                         transition={{ duration: 1.5 }}
                                         whileHover={{ scale: 1.03 }}
                                     >
-                                        <AdminCompose />
+                                        <Grid>
+                                            <AdminCompose />
+                                        </Grid>
                                     </motion.div>
                                 </div>
                                 <CardContent sx={{ mt: 0, pt: 0, mb: 0, pb: 2 }}>
@@ -317,6 +319,7 @@ const SendMessage = () => {
                                 </div>
                                 <form>
                                     <CardActions>
+                                        
                                         <Checkbox id="all" aria-label="dsdd" checked={checkAll} onChange={handleToggleAll} key="all" />
                                         <label htmlFor="all">{!checkAll ? lang.textes.selectAllContact[lang.id] : lang.textes.unselectAllContact[lang.id]}</label>
                                     </CardActions>
