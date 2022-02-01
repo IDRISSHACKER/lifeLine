@@ -52,7 +52,6 @@ const SendMessage = () => {
     const [errr, setErrr] = useState(0)
     const [showWriteContact, setShowWriteContact] = useState(0)
     const [msg, setMsg] = useState("")
-    const [status, setStatus] = useState()
     const [contact, setContact] = useState()
 
     const theme = useTheme();
