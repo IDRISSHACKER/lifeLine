@@ -120,9 +120,18 @@ const SendMessage = () => {
     };
 
     useEffect(() => {
-        setContacts(users);
+        const LIMIT = 10
+        let current_users = []
+
+        for(let i = 0; i<LIMIT; i++){
+            current_users.push(users[i])
+        }
+        setContacts(current_users);
+        /*setTimeout(()=>{
+            setContacts(users)
+        },3000)*/
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [users]);
 
     const handleSelect = (e) => {
         //alert(e.target.value)
@@ -253,7 +262,7 @@ const SendMessage = () => {
                                         <PerfectScrollbar style={{ height: '100%', maxHeight: '350px', overflowX: 'hidden' }}>
                                             <Box>
                                                 <List disablePadding>
-                                                    {contacts &&
+                                                    {contacts[0] !== undefined &&
                                                         contacts.map((value) => {
                                                             const labelId = `checkbox-list-secondary-label-${value}`;
                                                             return (
@@ -271,12 +280,12 @@ const SendMessage = () => {
                                                                 >
                                                                     <ListItemButton>
                                                                         <ListItemAvatar>
-                                                                            <Avatar>{value.name[0]}</Avatar>
+                                                                            <Avatar>{value !== undefined && value.name[0]}</Avatar>
                                                                         </ListItemAvatar>
                                                                         <ListItemText
                                                                             id={labelId}
-                                                                            primary={`+${value.pays_id}${value.phone}`}
-                                                                            secondary={value.name + ' ' + value.surname}
+                                                                            primary={`+${value !== undefined && value.pays_id}${value !== undefined && value.phone}`}
+                                                                            secondary={value !== undefined && value.name + ' ' + value.surname}
                                                                         />
                                                                     </ListItemButton>
                                                                 </ListItem>
