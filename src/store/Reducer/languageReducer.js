@@ -78,7 +78,9 @@ export const initialState = {
         notGroupToShow: ["Aucun groupe à afficher", "No group to show"],
         noSms: ["Aucun sms à afficher", "No sms to show on this page"],
         sendSms: ["Envoyer un nouveau sms", "Send new sms"],
-        notInDir: ["saisir le contact", "write contact"]
+        notInDir: ["saisir le contact", "write contact"],
+        showAll: ["Afficher plus de contact", "Show more contact "],
+        loadNewContact: ["Chargement des nouveau contact", "Loading new contacts"]
 
     }
 };

@@ -1,16 +1,48 @@
 import * as React from 'react';
 import { useSelector } from 'react-redux';
-import { TableContainer, Table, TableHead, TableCell, TableBody, TableRow, Paper, Chip } from '@mui/material';
+import { TableContainer, Table, TableHead, TableCell, TableBody, TableRow, Paper, Chip, Button } from '@mui/material';
 import Empty from '../utils/Empty';
-import { motion } from 'framer-motion';
+import { LoadingButton } from '@mui/lab';
 
 const SecondaryAction = React.lazy(() => import('ui-component/cards/CardSecondaryAction'));
 const RowUser = React.lazy(() => import('./usersComponent/rowUser'));
 const AddBusinessOutlinedIcon = React.lazy(() => import('@mui/icons-material/AddBusinessOutlined'));
 const MainCard = React.lazy(() => import('ui-component/cards/MainCard'));
 const ListUser = () => {
-    const users = useSelector((state) => state.usersReducer)
+    const usersTabs = useSelector((state) => state.usersReducer)
     const lang = useSelector(state => state.languageReducer)
+
+    const [users, setUsers] = React.useState([])
+    const [loadUsers, setLoadUsers] = React.useState(false)
+    const CONTACT_VISIBLE = 30
+
+    React.useEffect(()=>{
+        let counter = 0
+        let local_Users = []
+        usersTabs.forEach(user => {
+            if(counter < CONTACT_VISIBLE){
+                local_Users.push(user)
+                counter += 1
+            }
+        });
+        setUsers(local_Users)
+    },[usersTabs])
+
+    const showAllContact = ()=>{
+        setLoadUsers(true)
+        let counter = 0
+        let local_Users = []
+        const newSize = users.length+CONTACT_VISIBLE
+        for(counter = 0; counter < newSize; counter++){
+            local_Users.push(usersTabs[counter])
+
+        }
+        setUsers(local_Users);
+        setTimeout(()=>{
+            setLoadUsers(false)
+        },2000)
+    }
+
 
     return (
         <React.Suspense fallback={<p>loading</p>}>
@@ -20,7 +52,7 @@ const ListUser = () => {
                             title={
                                 <div>
                                     <span>{lang.textes.contact[lang.id]}</span>
-                                    <Chip label={users.length} variant="filled" />
+                                    <Chip label={` ${users.length}/${usersTabs.length} `} variant="filled" />
                                 </div>
                             }
                             secondary={
@@ -54,6 +86,18 @@ const ListUser = () => {
                         buttonText={lang.textes.addContact[lang.id]}
                         buttonUrl="/dashboard/contact/add"
                     />
+                )}
+                {usersTabs.length > users.length && (
+                    <div>
+                        <br />
+                        {!loadUsers && (
+                        <Button mt={20} variant="contained" disableElevation onClick={showAllContact}>
+                            {lang.textes.showAll[lang.id]}
+                        </Button>)}
+                        {loadUsers && (<LoadingButton loading loadingIndicator={lang.textes.loadNewContact[lang.id]} variant="outlined">
+                            {lang.textes.loadNewContact[lang.id]}.............................................
+                        </LoadingButton>)}
+                    </div>
                 )}
             </div>
         </React.Suspense>
