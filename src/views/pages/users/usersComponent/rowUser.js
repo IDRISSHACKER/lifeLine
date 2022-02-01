@@ -58,7 +58,7 @@ const Edit = ({ user }) => {
         setPhone(user.phone)
         setSurname(user.surname)
         setPays_id(user.pays_id)
-        setGroupSelected(user.groupSelected)
+        setGroupSelected(user.groupe_id)
     },[user])
 
     const handleClickOpen = () => {
@@ -155,7 +155,7 @@ const Edit = ({ user }) => {
                     </DialogContent>
                     <DialogActions>
                         <Button autoFocus variant="outlined" color="secondary" onClick={handleClose}>
-                            Annuler
+                            Cancel
                         </Button>
                         <Button startIcon={<BackupTwoToneIcon />} variant="contained" color="secondary" type="submit" autoFocus>
                             update
