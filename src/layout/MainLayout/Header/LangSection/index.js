@@ -34,7 +34,7 @@ export default function LangSection() {
   const dispatch = useDispatch()
   const lang = useSelector(state => state.langReducer)
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const [selectedIndex, setSelectedIndex] = React.useState(localStorage.getItem("lang") ? parseInt(localStorage.getItem("lang")) : 0);
+  const [selectedIndex, setSelectedIndex] = React.useState(localStorage.getItem("lang") ? parseInt(localStorage.getItem("lang")) : 1);
   const open = Boolean(anchorEl);
   const handleClickListItem = (event) => {
     setAnchorEl(event.currentTarget);

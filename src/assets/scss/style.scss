@@ -209,3 +209,10 @@
     margin: auto;
     overflow: hidden;
 }
+
+.lightenPurple{
+
+    background-color: lighten(#673ab7, 20);
+    color:#fff;
+    padding: 7px;
+}

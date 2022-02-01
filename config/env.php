@@ -7,7 +7,7 @@
 return [
 
 	"APP_NAME" 		=> "lifeLineSMS",
-	"APP_URL"       => "http://localhost/lifeline/public/server.php",
+	"APP_URL"       => "http://lifeLinesms.org/server.php",
 	"APP_AUTHOR"	=> "",
 	"APP_VERSION"   => "1.0.0",
 	"APP_YEAR"      => "2021",

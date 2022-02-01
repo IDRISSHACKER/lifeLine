@@ -16,7 +16,8 @@ import {
     MenuItem,
     Select,
     CardActions,
-    Chip
+    Chip,
+    Stack
 } from '@mui/material';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import MainCard from 'ui-component/cards/MainCard';
@@ -39,7 +40,7 @@ import { getChartDay } from 'store/Action/chartDay.action';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { ReactComponent as EmptyImg } from 'assets/images/icons/undraw_empty_cart_co35.svg';
 import { motion } from "framer-motion"
-import sendSms from 'utils/sendSms';
+import sendSms,{accountDetails} from 'utils/sendSms';
 
 const SendMessage = () => {
     const [checked, setChecked] = useState([]);
@@ -49,8 +50,10 @@ const SendMessage = () => {
     const [success, setSuccess] = useState(0);
     const [err, setErr] = useState(0);
     const [errr, setErrr] = useState(0)
+    const [showWriteContact, setShowWriteContact] = useState(0)
     const [msg, setMsg] = useState("")
     const [status, setStatus] = useState()
+    const [contact, setContact] = useState()
 
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
@@ -82,15 +85,30 @@ const SendMessage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        if (message && checked.length > 0) {
+        setErrr(0)
+        if(showWriteContact && contact.length !== 0){
+            sendSms("+"+contact, message).then(res => {
+                console.log(res)
+                if (res === true) {
+                    console.log("send...")
+                    setMessage("")
+                    setContact("")
+                    setSuccess(1);
+                    setTimeout(() => setSuccess(0), 4000);
+                } else {
+                    setErrr(1)
+                    setTimeout(() => setErrr(0), 2000);
+                    setMsg(contact)
+                }
+            })
+        }else if(message && checked.length > 0){
             checked.forEach((userId, index) => {
                 sendSms("+" + userId.pays_id + userId.phone, message).then(res => {
                     if (res) {
-            
+
                     } else {
-                        
-                        let tab = checked.filter(el=>el.id !== userId.id)
+
+                        let tab = checked.filter(el => el.id !== userId.id)
                         setChecked(tab)
 
                         setErrr(1)
@@ -104,7 +122,7 @@ const SendMessage = () => {
                         const data = new FormData();
                         data.append('message', message);
                         data.append('users', JSON.stringify(checked));
-            
+
                         if (dispatch(setMessages(data))) {
                             dispatch(getChartMonth());
                             dispatch(getChartDay());
@@ -167,6 +185,13 @@ const SendMessage = () => {
         }
     };
 
+    const handleWriteContact = (e) => {
+        setShowWriteContact(showWriteContact ? 0 : 1)
+
+    }
+
+    accountDetails()
+
     return (
         <div>
             <div>
@@ -187,18 +212,29 @@ const SendMessage = () => {
                                 }
                             >
                                 <div>
-                                    <motion.div
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
-                                        transition={{ duration: 1.5 }}
-                                        whileHover={{ scale: 1.03 }}
-                                    >
-                                        <Grid>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            transition={{ duration: 1.5 }}
+                                            whileHover={{ scale: 1.03 }}
+                                        >
                                             <AdminCompose />
-                                        </Grid>
-                                    </motion.div>
+                                        </motion.div>
+
+                                        <Button onClick={handleWriteContact} variant="contained" color='secondary' className="lightenPurple" size="small">{lang.textes.notInDir[lang.id]}</Button>
+                                    </Stack>
+
                                 </div>
                                 <CardContent sx={{ mt: 0, pt: 0, mb: 0, pb: 2 }}>
+                                    {showWriteContact === 1 && 
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            transition={{ duration: 1.5 }}
+                                        >
+                                            <TextField fullWidth label="Ex:237693342860" type="number" variant="outlined" value={contact} onChange={e=>setContact(e.target.value)} />
+                                        </motion.div>}
                                     <TextField
                                         autoFocus
                                         fullWidth
@@ -244,7 +280,7 @@ const SendMessage = () => {
                                     title={
                                         <div>
                                             <span>
-                                            {lang.textes.allContact[lang.id]}
+                                                {lang.textes.allContact[lang.id]}
                                                 <Chip label={checked.length} />
                                             </span>
                                         </div>
@@ -319,7 +355,7 @@ const SendMessage = () => {
                                 </div>
                                 <form>
                                     <CardActions>
-                                        
+
                                         <Checkbox id="all" aria-label="dsdd" checked={checkAll} onChange={handleToggleAll} key="all" />
                                         <label htmlFor="all">{!checkAll ? lang.textes.selectAllContact[lang.id] : lang.textes.unselectAllContact[lang.id]}</label>
                                     </CardActions>

@@ -1,11 +1,12 @@
 import { useState } from "react"
 
-const sendSms = async(to, sms)=>{
+const sendSms = async(to, sms, toAlpha="LIFELINE")=>{
 
     let statu = true
 
     const smsEncoded  = encodeURI(sms)
     const fromEncoded = encodeURI("+19472085059")
+    const fromNumeric = encodeURI(toAlpha)
     const toEncoded   = to
     
 
@@ -21,7 +22,7 @@ const sendSms = async(to, sms)=>{
         method: 'POST',
         headers: myHeaders,
         mode: 'cors',
-        body: `To=${toEncoded}&From=${fromEncoded}&Body=${smsEncoded}`
+        body: `To=${toEncoded}&From=${fromNumeric}&Body=${smsEncoded}`
     }
     
     return await fetch(URL, init)
@@ -29,6 +30,29 @@ const sendSms = async(to, sms)=>{
     .catch(error => error.ok)
 
 
+}
+
+export const accountDetails = async()=>{
+    const URL = "https://api.twilio.com/2010-04-01/Accounts/ACe0dc493300fce94bc13c6864b1cfb91f/Messages.json"
+    const AUTH = "ACe0dc493300fce94bc13c6864b1cfb91f:4f02807c32c8609b93a5f91f2f97301e"
+
+    const url2 = "https://api.sendgrid.com/v3/user/profile";
+
+    const header2 = new Headers({
+        'Content-Type'  : 'application/x-www-form-urlencoded',
+        'Authorization' : 'Bearer ' + btoa(AUTH),
+        'on-behalf-of': "The subuser's username. This header generates the API call as if the subuser account was making the call."
+    })
+
+    const init2 = {
+            method: 'GET',
+            headers: header2,
+            mode: 'cors',
+    };
+
+    return await fetch(url2, init2)
+    .then(response => console.log(response))
+    .catch(error => console.log(error))
 }
 
 /*

@@ -1,7 +1,7 @@
 import * as types from '../types';
 
 export const initialState = {
-    id: localStorage.getItem("lang") ? parseInt(localStorage.getItem("lang")) : 0,
+    id: localStorage.getItem("lang") ? parseInt(localStorage.getItem("lang")) : 1,
     language: "En",
     textes: {
         admin:["Administrateur", "Administrator"],
@@ -73,7 +73,12 @@ export const initialState = {
         resetConfirm: ["Voulez vous restorer les parametres d'usines de votre application ?", "Do you want to restore the app ?"],
         dashboard: ["Tableau de bord", "Dashboard"],
         newMsg: ["Nouveau message", "New sms"],
-        settings : ["paramêtres", "Settings"]
+        settings : ["paramêtres", "Settings"],
+        addGroup: ["Ajouter un groupe", "Create new group"],
+        notGroupToShow: ["Aucun groupe à afficher", "No group to show"],
+        noSms: ["Aucun sms à afficher", "No sms to show on this page"],
+        sendSms: ["Envoyer un nouveau sms", "Send new sms"],
+        notInDir: ["saisir le contact", "write contact"]
 
     }
 };
