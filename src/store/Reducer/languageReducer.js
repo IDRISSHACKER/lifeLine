@@ -33,6 +33,7 @@ export const initialState = {
         noMsg: ["Aucun messages à afficher dans votre boite de messages envoyés", "No sms to show on your sms sended"],
         sendSms: ["Envoyer un message", "Send new message"],
         receiver: ["Destinateur", "Receiver"],
+        msg: ["Messages", "Messages"],
         sendedAt: ["Date d'envoie", "Sended at"],
         action: ["Actions", "Actions"],
         message: ["Messages envoyés", "SMS sended"],
@@ -60,6 +61,7 @@ export const initialState = {
         groupeAddSuccess: ["Groupe créer avec success !", "Groupe created success !"],
         groupeAddErr: ["Erreur lors de l'ajout du groupe", "Error !"],
         groupTitle: ["Titre du groupe ", "Title of group"],
+        description: ["Description", "Description"],
         addTheGroup: ["Ajouter le groupe", "Add group"],
         profilUpdated: ["Profil mise à jour", "Profil updated"],
         avatarUpdated: ["Votre avatar à été mise à jour !", "Avatar updated"],
@@ -72,11 +74,13 @@ export const initialState = {
         dashboard: ["Tableau de bord", "Dashboard"],
         newMsg: ["Nouveau message", "New sms"],
         settings : ["paramêtres", "Settings"],
+        addGroup: ["Ajouter un groupe", "Create new group"],
         notGroupToShow: ["Aucun groupe à afficher", "No group to show"],
         noSms: ["Aucun sms à afficher", "No sms to show on this page"],
+        sendSms: ["Envoyer un nouveau sms", "Send new sms"],
         notInDir: ["saisir le contact", "write contact"],
-        showAll: ["Afficher plus de contact", "Show more contact "],
-        loadNewContact: ["Chargement des nouveau contact", "Loading new contacts"]
+        showAll: ["Afficher plus de contact", "Show more contact"],
+        loadNewContact: ["chargement en cour..", "loading..."]
 
     }
 };

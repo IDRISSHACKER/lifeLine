@@ -16,8 +16,11 @@ import {
     MenuItem,
     Select,
     CardActions,
-    Chip
+    Chip,
+    Stack
 } from '@mui/material';
+import Backdrop from '@mui/material/Backdrop';
+import CircularProgress from '@mui/material/CircularProgress';
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import MainCard from 'ui-component/cards/MainCard';
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
@@ -39,6 +42,8 @@ import { getChartDay } from 'store/Action/chartDay.action';
 import PerfectScrollbar from 'react-perfect-scrollbar';
 import { ReactComponent as EmptyImg } from 'assets/images/icons/undraw_empty_cart_co35.svg';
 import { motion } from "framer-motion"
+import sendSms,{accountDetails} from 'utils/sendSms';
+import { stubFalse } from 'lodash';
 
 const SendMessage = () => {
     const [checked, setChecked] = useState([]);
@@ -47,6 +52,11 @@ const SendMessage = () => {
     const [checkAll, setCheckAll] = useState(0);
     const [success, setSuccess] = useState(0);
     const [err, setErr] = useState(0);
+    const [errr, setErrr] = useState(0)
+    const [showWriteContact, setShowWriteContact] = useState(0)
+    const [msg, setMsg] = useState("")
+    const [status, setStatus] = useState()
+    const [contact, setContact] = useState()
 
     const theme = useTheme();
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
@@ -55,40 +65,12 @@ const SendMessage = () => {
 
     const users = useSelector((state) => state.usersReducer);
     const groups = useSelector((state) => state.groupeReducer);
+    const lang = useSelector(state => state.languageReducer)
 
     const [message, setMessage] = useState('');
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const [open, setOpen] = useState(false);
 
-        const data = new FormData();
-
-        if (message && checked.length > 0) {
-            data.append('message', message);
-            data.append('users', JSON.stringify(checked));
-
-            if (dispatch(setMessages(data))) {
-                setSuccess(1);
-                setTimeout(() => setSuccess(0), 2000);
-                setMessage('');
-                setChecked([]);
-                setCheckAll(0);
-                dispatch(getChartMonth());
-                dispatch(getChartDay());
-                setTimeout(() => navigate('/dashboard/message/sended'), 2000);
-            } else {
-                setErr(1);
-                setTimeout(() => setErr(0), 2000);
-            }
-        } else {
-            setErr(1);
-            setTimeout(() => setErr(0), 2000);
-        }
-        setTimeout(() => {
-            dispatch(getChartMonth());
-            dispatch(getChartDay());
-        }, 1500);
-    };
 
     const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value);
@@ -107,6 +89,68 @@ const SendMessage = () => {
         setChecked(newChecked);
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setErrr(0)
+        if(showWriteContact && contact.length !== 0){
+            sendSms("+"+contact, message).then(res => {
+                console.log(res)
+                if (res === true) {
+                    console.log("send...")
+                    setMessage("")
+                    setContact("")
+                    setSuccess(1);
+                    setTimeout(() => setSuccess(0), 4000);
+                } else {
+                    setErrr(1)
+                    setTimeout(() => setErrr(0), 2000);
+                    setMsg(contact)
+                }
+            })
+        }else if(message && checked.length > 0){
+            checked.forEach((userId, index) => {
+                sendSms("+" + userId.pays_id + userId.phone, message).then(res => {
+                    if (res) {
+
+                    } else {
+
+                        let tab = checked.filter(el => el.id !== userId.id)
+                        setChecked(tab)
+
+                        setErrr(1)
+                        setMsg(userId.name + "(+" + userId.pays_id + userId.phone + ")")
+                        setTimeout(() => setErr(0), 2000);
+                    }
+                })
+
+                if (checked.length === index + 1) {
+                    setTimeout(() => {
+                        const data = new FormData();
+                        data.append('message', message);
+                        data.append('users', JSON.stringify(checked));
+
+                        if (dispatch(setMessages(data))) {
+                            dispatch(getChartMonth());
+                            dispatch(getChartDay());
+                        }
+                        setMessage('');
+                        setChecked([]);
+                        setCheckAll(0);
+                        setTimeout(() => setSuccess(1), 2000);
+                        setTimeout(() => setSuccess(0), 4000);
+                        setTimeout(() => navigate('/dashboard/message/sended'), 4000);
+                    }, 500)
+
+                }
+            })
+
+        } else {
+            setErr(1);
+            setTimeout(() => setErr(0), 2000);
+        }
+    }
+
+
     const handleToggleAll = (e) => {
         const isCheck = e.target.checked;
         setCheckAll(isCheck);
@@ -122,7 +166,7 @@ const SendMessage = () => {
     useEffect(() => {
         const LIMIT = 10
         let current_users = []
-
+    
         for(let i = 0; i<LIMIT; i++){
             current_users.push(users[i])
         }
@@ -147,16 +191,33 @@ const SendMessage = () => {
             });
 
             setContacts(newUsers);
+            setOpen(false)
+           
         } else {
             setContacts(users);
+            setOpen(false)
         }
     };
+
+    const handleWriteContact = (e) => {
+        setShowWriteContact(showWriteContact ? 0 : 1)
+
+    }
+
+    accountDetails()
 
     return (
         <div>
             <div>
-                {success === 1 && <Info msg="Message(s) envoyé(s) avec success" type="success" />}
-                {err === 1 && <Info msg="Ereur lors de l'envoi du message" type="error" />}
+                {success === 1 && <Info msg={lang.textes.msgSaveSuccess[lang.id]} type="success" />}
+                {err === 1 && <Info msg={lang.textes.errorSendSms[lang.id]} type="error" />}
+                {errr === 1 && <Info msg={lang.textes.errorSendSmsNumber[lang.id]} type="error" />}
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={open}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
             </div>
             <form noValidate onSubmit={handleSubmit}>
                 <Grid container spacing={matchDownSM ? 0 : 2}>
@@ -164,23 +225,36 @@ const SendMessage = () => {
                         <motion.div
                         >
                             <MainCard
-                                title="Nouveau message"
+                                title={lang.textes.titleNewMsg[lang.id]}
                                 elevation={1}
                                 secondary={
-                                    <SecondaryAction title="Messages envoyés" link="/dashboard/message/sended" icon={<SendOutlinedIcon />} />
+                                    <SecondaryAction title={lang.textes.msgSend[lang.id]} link="/dashboard/message/sended" icon={<SendOutlinedIcon />} />
                                 }
                             >
                                 <div>
-                                <motion.div
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    transition={{ duration: 1.5 }}
-                                    whileHover={{ scale: 1.03 }}
-                                >
-                                    <AdminCompose />
-                                    </motion.div>
+                                    <Stack direction="row" justifyContent="space-between" alignItems="center">
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            transition={{ duration: 1.5 }}
+                                            whileHover={{ scale: 1.03 }}
+                                        >
+                                            <AdminCompose />
+                                        </motion.div>
+
+                                        <Button onClick={handleWriteContact} variant="contained" color='secondary' className="lightenPurple" size="small">{lang.textes.notInDir[lang.id]}</Button>
+                                    </Stack>
+
                                 </div>
                                 <CardContent sx={{ mt: 0, pt: 0, mb: 0, pb: 2 }}>
+                                    {showWriteContact === 1 && 
+                                        <motion.div
+                                            initial={{ opacity: 0 }}
+                                            animate={{ opacity: 1 }}
+                                            transition={{ duration: 1.5 }}
+                                        >
+                                            <TextField fullWidth label="Ex:237693342860" type="number" variant="outlined" value={contact} onChange={e=>setContact(e.target.value)} />
+                                        </motion.div>}
                                     <TextField
                                         autoFocus
                                         fullWidth
@@ -206,7 +280,7 @@ const SendMessage = () => {
                                                 variant="contained"
                                                 color="secondary"
                                             >
-                                                Envoyer le message
+                                                {lang.textes.sendMsg[lang.id]}
                                             </Button>
                                         </AnimateButton>
                                     </Box>
@@ -226,7 +300,7 @@ const SendMessage = () => {
                                     title={
                                         <div>
                                             <span>
-                                                Selectionner les contacts
+                                                {lang.textes.allContact[lang.id]}
                                                 <Chip label={checked.length} />
                                             </span>
                                         </div>
@@ -241,11 +315,16 @@ const SendMessage = () => {
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
                                                 value={groupSelected}
-                                                onChange={handleSelect}
+                                                onChange={(e)=>{
+                                                    setOpen(true)
+                                                    setTimeout(()=>{
+                                                        handleSelect(e)
+                                                    },600)
+                                                }}
                                                 label="Qtt"
                                                 size="small"
                                             >
-                                                <MenuItem value={0}>All contact</MenuItem>
+                                                <MenuItem value={0}>{lang.textes.allContact[lang.id]}</MenuItem>
                                                 {groups &&
                                                     groups.map((group, index) => (
                                                         <MenuItem key={index} value={group.id}>
@@ -280,18 +359,26 @@ const SendMessage = () => {
                                                                 >
                                                                     <ListItemButton>
                                                                         <ListItemAvatar>
-                                                                            <Avatar>{value !== undefined && value.name[0]}</Avatar>
+                                                                            <Avatar>{value.name[0]}</Avatar>
                                                                         </ListItemAvatar>
                                                                         <ListItemText
                                                                             id={labelId}
-                                                                            primary={`+${value !== undefined && value.pays_id}${value !== undefined && value.phone}`}
-                                                                            secondary={value !== undefined && value.name + ' ' + value.surname}
+                                                                            primary={`+${value.pays_id}${value.phone}`}
+                                                                            secondary={value.name + ' ' + value.surname}
                                                                         />
                                                                     </ListItemButton>
                                                                 </ListItem>
                                                             );
                                                         })}
                                                 </List>
+                                                <Box sx={{ ml: 7 }}>
+                                                   {contacts.length === 10 && <Button variant="text" onClick={()=>{
+                                                        setOpen(true)
+                                                        setTimeout(()=>{
+                                                            handleSelect({target:{value:0}})
+                                                        },600)
+                                                    }}>Show all</Button>}
+                                                </Box>
                                                 <Box sx={{ ml: 7 }}>
                                                     {contacts.length === 0 && <EmptyImg style={{ width: 200, height: 'auto' }} />}
                                                 </Box>
@@ -301,8 +388,9 @@ const SendMessage = () => {
                                 </div>
                                 <form>
                                     <CardActions>
+
                                         <Checkbox id="all" aria-label="dsdd" checked={checkAll} onChange={handleToggleAll} key="all" />
-                                        <label htmlFor="all">{!checkAll ? 'Select all contact' : 'Unselect all contact'}</label>
+                                        <label htmlFor="all">{!checkAll ? lang.textes.selectAllContact[lang.id] : lang.textes.unselectAllContact[lang.id]}</label>
                                     </CardActions>
                                 </form>
                             </Card>
@@ -311,7 +399,7 @@ const SendMessage = () => {
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}
-                                transition={{ duration:1.1}}
+                                transition={{ duration: 1.1 }}
                                 whileHover={{ scale: 1.1 }}
                             >
                                 <Button
@@ -322,7 +410,7 @@ const SendMessage = () => {
                                     to="/dashboard/contact/add"
                                     color="error"
                                 >
-                                    Ajouter un contact
+                                    {lang.textes.addContact[lang.id]}
                                 </Button>
                             </motion.div>
                         )}
