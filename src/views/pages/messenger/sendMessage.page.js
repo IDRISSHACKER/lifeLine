@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback, useLayoutEffect } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTheme } from '@mui/material/styles'
 import SendIcon from '@mui/icons-material/Send'
@@ -45,6 +45,7 @@ import { ReactComponent as EmptyImg } from 'assets/images/icons/undraw_empty_car
 import { motion } from 'framer-motion'
 import sendSms, { accountDetails } from 'utils/sendSms'
 import { stubFalse } from 'lodash'
+import { forwardRef, useMemo } from 'react';
 
 const SendMessage = () => {
     const [checked, setChecked] = useState([])
@@ -58,6 +59,7 @@ const SendMessage = () => {
     const [msg, setMsg] = useState('')
     const [status, setStatus] = useState()
     const [contact, setContact] = useState()
+    const [page, setPage] = useState(1)
 
     const theme = useTheme()
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'))
@@ -70,10 +72,10 @@ const SendMessage = () => {
 
     const [message, setMessage] = useState('')
 
-    const [open, setOpen] = useState()
+    const [open, setOpen] = useState(false)
 
 
-    const handleToggle = (value) => () => {
+    const handleToggle = useMemo(() => (value) => () => {
         const currentIndex = checked.indexOf(value)
         const newChecked = [...checked]
 
@@ -88,7 +90,7 @@ const SendMessage = () => {
         }
 
         setChecked(newChecked)
-    }
+    }, [])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -152,7 +154,7 @@ const SendMessage = () => {
     }
 
 
-    const handleToggleAll = (e) => {
+    const handleToggleAll = useCallback((e) => {
         const isCheck = e.target.checked
         setCheckAll(isCheck)
         if (!isCheck) {
@@ -162,10 +164,10 @@ const SendMessage = () => {
         }
         let scontacts = contacts
         setContacts(scontacts)
-    }
+    })
 
     useEffect(() => {
-        const LIMIT = 10
+        const LIMIT = 10 * page
         let current_users = []
 
         for (let i = 0; i < LIMIT; i++) {
@@ -179,7 +181,7 @@ const SendMessage = () => {
             setContacts(users)
         },3000)*/
         // eslint-disable-next-line
-    }, [users])
+    }, [page, users])
 
     const handleSelect = (e) => {
         //alert(e.target.value)
@@ -218,9 +220,13 @@ const SendMessage = () => {
 
         }
         setContacts(local_Users)
-        setTimeout(() => {
+        let timer = setTimeout(() => {
 
         }, 2000)
+
+        return () => {
+            clearTimeout(timer)
+        }
     }
 
     //accountDetails()
@@ -360,45 +366,56 @@ const SendMessage = () => {
                                 <div>
                                     <br />
                                     <Box>
-                                        <PerfectScrollbar style={{ height: '100%', maxHeight: '350px', overflowX: 'hidden' }}>
-                                            <Box>
-                                                <List disablePadding>
-                                                    {contacts[0] !== undefined &&
-                                                        contacts.map((value) => {
-                                                            const labelId = `checkbox-list-secondary-label-${value}`
-                                                            return (
-                                                                <ListItem
-                                                                    key={value}
-                                                                    secondaryAction={
-                                                                        <Checkbox
-                                                                            edge="end"
-                                                                            onChange={handleToggle(value)}
-                                                                            checked={checked.indexOf(value) !== -1}
-                                                                            inputProps={{ 'aria-labelledby': labelId }}
-                                                                        />
-                                                                    }
 
-                                                                    disablePadding
-                                                                >
-                                                                    <ListItemButton>
-                                                                        <ListItemAvatar>
-                                                                            <Avatar>{value.name[0]}</Avatar>
-                                                                        </ListItemAvatar>
-                                                                        <ListItemText
-                                                                            id={labelId}
-                                                                            primary={`+${value.pays_id}${value.phone}`}
-                                                                            secondary={value.name + ' ' + value.surname}
-                                                                        />
-                                                                    </ListItemButton>
-                                                                </ListItem>
-                                                            )
-                                                        })}
+                                        <Box>
+                                            
+                                                <List disablePadding>
+                                                    <div id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
+                                                        <InfiniteScroll
+                                                            dataLength={contacts.length}
+                                                            next={() => setPage(page + 10)}
+                                                            hasMore={true}
+                                                            loader={<h4>Loading...</h4>}
+                                                            scrollableTarget="scrollableDiv"
+                                                        >
+                                                            {contacts[0] !== undefined &&
+                                                                contacts.map((value) => {
+                                                                    const labelId = `checkbox-list-secondary-label-${value}`
+                                                                    return (
+                                                                        <ListItem
+                                                                            key={value}
+                                                                            secondaryAction={
+                                                                                <Checkbox
+                                                                                    edge="end"
+                                                                                    onChange={handleToggle(value)}
+                                                                                    checked={checked.indexOf(value) !== -1}
+                                                                                    inputProps={{ 'aria-labelledby': labelId }}
+                                                                                />
+                                                                            }
+
+                                                                            disablePadding
+                                                                        >
+                                                                            <ListItemButton>
+                                                                                <ListItemAvatar>
+                                                                                    <Avatar>{value.name[0]}</Avatar>
+                                                                                </ListItemAvatar>
+                                                                                <ListItemText
+                                                                                    id={labelId}
+                                                                                    primary={`+${value.pays_id}${value.phone}`}
+                                                                                    secondary={value.name + ' ' + value.surname}
+                                                                                />
+                                                                            </ListItemButton>
+                                                                        </ListItem>
+                                                                    )
+                                                                })}
+                                                        </InfiniteScroll>
+                                                    </div>
                                                 </List>
-                                                <Box sx={{ ml: 7 }}>
-                                                    {contacts.length === 0 && <EmptyImg style={{ width: 200, height: 'auto' }} />}
-                                                </Box>
+                                            
+                                            <Box sx={{ ml: 7 }}>
+                                                {contacts.length === 0 && <EmptyImg style={{ width: 200, height: 'auto' }} />}
                                             </Box>
-                                        </PerfectScrollbar>
+                                        </Box>
                                     </Box>
                                 </div>
                                 <form>

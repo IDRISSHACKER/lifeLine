@@ -16,31 +16,38 @@ const ListUser = () => {
     const [loadUsers, setLoadUsers] = React.useState(false)
     const CONTACT_VISIBLE = 30
 
-    React.useEffect(()=>{
-        let counter = 0
-        let local_Users = []
-        usersTabs.forEach(user => {
-            if(counter < CONTACT_VISIBLE){
-                local_Users.push(user)
-                counter += 1
-            }
-        });
-        setUsers(local_Users)
-    },[usersTabs])
+    React.useEffect(() => {
 
-    const showAllContact = ()=>{
+        let timer = setTimeout(() => {
+            let counter = 0
+            let local_Users = []
+            usersTabs.forEach(user => {
+                if (counter < CONTACT_VISIBLE) {
+                    local_Users.push(user)
+                    counter += 1
+                }
+            });
+            setUsers(local_Users)
+        },1)
+
+        return ()=>{
+            clearTimeout(timer)
+        }
+    }, [usersTabs])
+
+    const showAllContact = () => {
         setLoadUsers(true)
         let counter = 0
         let local_Users = []
-        const newSize = users.length+CONTACT_VISIBLE
-        for(counter = 0; counter < newSize; counter++){
+        const newSize = users.length + CONTACT_VISIBLE
+        for (counter = 0; counter < newSize; counter++) {
             local_Users.push(usersTabs[counter])
 
         }
         setUsers(local_Users);
-        setTimeout(()=>{
+        setTimeout(() => {
             setLoadUsers(false)
-        },2000)
+        }, 2000)
     }
 
 
@@ -48,37 +55,37 @@ const ListUser = () => {
         <React.Suspense fallback={<p>loading</p>}>
             <div>
                 {users.length > 0 && (
-                        <MainCard
-                            title={
-                                <div>
-                                    <span>{lang.textes.contact[lang.id]}</span>
-                                    <Chip label={` ${users.length}/${usersTabs.length} `} variant="filled" />
-                                </div>
-                            }
-                            secondary={
-                                <SecondaryAction
-                                    title={lang.textes.addContact[lang.id]}
-                                    link="/dashboard/contact/add"
-                                    icon={<AddBusinessOutlinedIcon />}
-                                />
-                            }
-                        >
-                            <TableContainer component={Paper}>
-                                <Table aria-label="simple table">
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>{lang.textes.name[lang.id]}</TableCell>
-                                            <TableCell>{lang.textes.phone[lang.id]}</TableCell>
-                                            <TableCell>{lang.textes.email[lang.id]}</TableCell>
-                                            <TableCell>{lang.textes.groupe[lang.id]}</TableCell>
-                                            <TableCell align="right">{lang.textes.action[lang.id]}</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>{users.length > 0 && users.map((user, index) => <RowUser user={user} key={index} />)}</TableBody>
-                                </Table>
-                            </TableContainer>
-                            <div></div>
-                        </MainCard>
+                    <MainCard
+                        title={
+                            <div>
+                                <span>{lang.textes.contact[lang.id]}</span>
+                                <Chip label={` ${users.length}/${usersTabs.length} `} variant="filled" />
+                            </div>
+                        }
+                        secondary={
+                            <SecondaryAction
+                                title={lang.textes.addContact[lang.id]}
+                                link="/dashboard/contact/add"
+                                icon={<AddBusinessOutlinedIcon />}
+                            />
+                        }
+                    >
+                        <TableContainer component={Paper}>
+                            <Table aria-label="simple table">
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>{lang.textes.name[lang.id]}</TableCell>
+                                        <TableCell>{lang.textes.phone[lang.id]}</TableCell>
+                                        <TableCell>{lang.textes.email[lang.id]}</TableCell>
+                                        <TableCell>{lang.textes.groupe[lang.id]}</TableCell>
+                                        <TableCell align="right">{lang.textes.action[lang.id]}</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>{users.length > 0 && users.map((user, index) => <RowUser user={user} key={index} />)}</TableBody>
+                            </Table>
+                        </TableContainer>
+                        <div></div>
+                    </MainCard>
                 )}
                 {users.length === 0 && (
                     <Empty
@@ -91,9 +98,9 @@ const ListUser = () => {
                     <div>
                         <br />
                         {!loadUsers && (
-                        <Button mt={20} variant="contained" disableElevation onClick={showAllContact}>
-                            {lang.textes.showAll[lang.id]}
-                        </Button>)}
+                            <Button mt={20} variant="contained" disableElevation onClick={showAllContact}>
+                                {`${lang.textes.showAll[lang.id]} +${usersTabs.length-users.length}`}
+                            </Button>)}
                         {loadUsers && (<LoadingButton loading loadingIndicator={lang.textes.loadNewContact[lang.id]} variant="outlined">
                             {lang.textes.loadNewContact[lang.id]}.............................................
                         </LoadingButton>)}
