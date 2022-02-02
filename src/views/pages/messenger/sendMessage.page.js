@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
-import SendIcon from '@mui/icons-material/Send';
+import { useState, useEffect } from 'react'
+import { Link as RouterLink } from 'react-router-dom'
+import { useTheme } from '@mui/material/styles'
+import SendIcon from '@mui/icons-material/Send'
+import InfiniteScroll from 'react-infinite-scroll-component'
 import {
     Grid,
     TextField,
@@ -18,98 +19,98 @@ import {
     CardActions,
     Chip,
     Stack
-} from '@mui/material';
-import Backdrop from '@mui/material/Backdrop';
-import CircularProgress from '@mui/material/CircularProgress';
-import AnimateButton from 'ui-component/extended/AnimateButton';
-import MainCard from 'ui-component/cards/MainCard';
-import SecondaryAction from 'ui-component/cards/CardSecondaryAction';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListItemAvatar from '@mui/material/ListItemAvatar';
-import Checkbox from '@mui/material/Checkbox';
-import Avatar from '@mui/material/Avatar';
-import { useDispatch, useSelector } from 'react-redux';
-import { setMessages } from 'store/Action/message.action';
-import Info from '../utils/Info';
-import AdminCompose from '../utils/AdminCompose';
-import { useNavigate } from 'react-router-dom';
-import SendOutlinedIcon from '@mui/icons-material/SendOutlined';
-import { getChartMonth } from 'store/Action/chartMonth.action';
-import { getChartDay } from 'store/Action/chartDay.action';
-import PerfectScrollbar from 'react-perfect-scrollbar';
-import { ReactComponent as EmptyImg } from 'assets/images/icons/undraw_empty_cart_co35.svg';
-import { motion } from "framer-motion"
-import sendSms,{accountDetails} from 'utils/sendSms';
-import { stubFalse } from 'lodash';
+} from '@mui/material'
+import Backdrop from '@mui/material/Backdrop'
+import CircularProgress from '@mui/material/CircularProgress'
+import AnimateButton from 'ui-component/extended/AnimateButton'
+import MainCard from 'ui-component/cards/MainCard'
+import SecondaryAction from 'ui-component/cards/CardSecondaryAction'
+import List from '@mui/material/List'
+import ListItem from '@mui/material/ListItem'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
+import ListItemAvatar from '@mui/material/ListItemAvatar'
+import Checkbox from '@mui/material/Checkbox'
+import Avatar from '@mui/material/Avatar'
+import { useDispatch, useSelector } from 'react-redux'
+import { setMessages } from 'store/Action/message.action'
+import Info from '../utils/Info'
+import AdminCompose from '../utils/AdminCompose'
+import { useNavigate } from 'react-router-dom'
+import SendOutlinedIcon from '@mui/icons-material/SendOutlined'
+import { getChartMonth } from 'store/Action/chartMonth.action'
+import { getChartDay } from 'store/Action/chartDay.action'
+import PerfectScrollbar from 'react-perfect-scrollbar'
+import { ReactComponent as EmptyImg } from 'assets/images/icons/undraw_empty_cart_co35.svg'
+import { motion } from 'framer-motion'
+import sendSms, { accountDetails } from 'utils/sendSms'
+import { stubFalse } from 'lodash'
 
 const SendMessage = () => {
-    const [checked, setChecked] = useState([]);
-    const [groupSelected, setGroupSelected] = useState(0);
-    const [contacts, setContacts] = useState([]);
-    const [checkAll, setCheckAll] = useState(0);
-    const [success, setSuccess] = useState(0);
-    const [err, setErr] = useState(0);
+    const [checked, setChecked] = useState([])
+    const [groupSelected, setGroupSelected] = useState(0)
+    const [contacts, setContacts] = useState([])
+    const [checkAll, setCheckAll] = useState(0)
+    const [success, setSuccess] = useState(0)
+    const [err, setErr] = useState(0)
     const [errr, setErrr] = useState(0)
     const [showWriteContact, setShowWriteContact] = useState(0)
-    const [msg, setMsg] = useState("")
+    const [msg, setMsg] = useState('')
     const [status, setStatus] = useState()
     const [contact, setContact] = useState()
 
-    const theme = useTheme();
-    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
+    const theme = useTheme()
+    const matchDownSM = useMediaQuery(theme.breakpoints.down('md'))
+    const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-    const users = useSelector((state) => state.usersReducer);
-    const groups = useSelector((state) => state.groupeReducer);
+    const users = useSelector((state) => state.usersReducer)
+    const groups = useSelector((state) => state.groupeReducer)
     const lang = useSelector(state => state.languageReducer)
 
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState('')
 
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false)
 
 
     const handleToggle = (value) => () => {
-        const currentIndex = checked.indexOf(value);
-        const newChecked = [...checked];
+        const currentIndex = checked.indexOf(value)
+        const newChecked = [...checked]
 
         if (currentIndex === -1) {
-            newChecked.push(value);
+            newChecked.push(value)
             if (checked.length + 1 === contacts.length) {
-                setCheckAll(1);
+                setCheckAll(1)
             }
         } else {
-            newChecked.splice(currentIndex, 1);
-            setCheckAll(0);
+            newChecked.splice(currentIndex, 1)
+            setCheckAll(0)
         }
 
-        setChecked(newChecked);
-    };
+        setChecked(newChecked)
+    }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         setErrr(0)
-        if(showWriteContact && contact.length !== 0){
-            sendSms("+"+contact, message).then(res => {
+        if (showWriteContact && contact.length !== 0) {
+            sendSms('+' + contact, message).then(res => {
                 console.log(res)
                 if (res === true) {
-                    console.log("send...")
-                    setMessage("")
-                    setContact("")
-                    setSuccess(1);
-                    setTimeout(() => setSuccess(0), 4000);
+                    console.log('send...')
+                    setMessage('')
+                    setContact('')
+                    setSuccess(1)
+                    setTimeout(() => setSuccess(0), 4000)
                 } else {
                     setErrr(1)
-                    setTimeout(() => setErrr(0), 2000);
+                    setTimeout(() => setErrr(0), 2000)
                     setMsg(contact)
                 }
             })
-        }else if(message && checked.length > 0){
+        } else if (message && checked.length > 0) {
             checked.forEach((userId, index) => {
-                sendSms("+" + userId.pays_id + userId.phone, message).then(res => {
+                sendSms('+' + userId.pays_id + userId.phone, message).then(res => {
                     if (res) {
 
                     } else {
@@ -118,91 +119,106 @@ const SendMessage = () => {
                         setChecked(tab)
 
                         setErrr(1)
-                        setMsg(userId.name + "(+" + userId.pays_id + userId.phone + ")")
-                        setTimeout(() => setErr(0), 2000);
+                        setMsg(userId.name + '(+' + userId.pays_id + userId.phone + ')')
+                        setTimeout(() => setErr(0), 2000)
                     }
                 })
 
                 if (checked.length === index + 1) {
                     setTimeout(() => {
-                        const data = new FormData();
-                        data.append('message', message);
-                        data.append('users', JSON.stringify(checked));
+                        const data = new FormData()
+                        data.append('message', message)
+                        data.append('users', JSON.stringify(checked))
 
                         if (dispatch(setMessages(data))) {
-                            dispatch(getChartMonth());
-                            dispatch(getChartDay());
+                            dispatch(getChartMonth())
+                            dispatch(getChartDay())
                         }
-                        setMessage('');
-                        setChecked([]);
-                        setCheckAll(0);
-                        setTimeout(() => setSuccess(1), 2000);
-                        setTimeout(() => setSuccess(0), 4000);
-                        setTimeout(() => navigate('/dashboard/message/sended'), 4000);
+                        setMessage('')
+                        setChecked([])
+                        setCheckAll(0)
+                        setTimeout(() => setSuccess(1), 2000)
+                        setTimeout(() => setSuccess(0), 4000)
+                        setTimeout(() => navigate('/dashboard/message/sended'), 4000)
                     }, 500)
 
                 }
             })
 
         } else {
-            setErr(1);
-            setTimeout(() => setErr(0), 2000);
+            setErr(1)
+            setTimeout(() => setErr(0), 2000)
         }
     }
 
 
     const handleToggleAll = (e) => {
-        const isCheck = e.target.checked;
-        setCheckAll(isCheck);
+        const isCheck = e.target.checked
+        setCheckAll(isCheck)
         if (!isCheck) {
-            setChecked([]);
+            setChecked([])
         } else {
-            setChecked(contacts);
+            setChecked(contacts)
         }
-        let scontacts = contacts;
-        setContacts(scontacts);
-    };
+        let scontacts = contacts
+        setContacts(scontacts)
+    }
 
     useEffect(() => {
         const LIMIT = 10
         let current_users = []
-    
-        for(let i = 0; i<LIMIT; i++){
+
+        for (let i = 0; i < LIMIT; i++) {
             current_users.push(users[i])
         }
-        setContacts(current_users);
+        setContacts(current_users)
         /*setTimeout(()=>{
             setContacts(users)
         },3000)*/
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [users]);
+        // eslint-disable-next-line
+    }, [users])
 
     const handleSelect = (e) => {
         //alert(e.target.value)
-        setCheckAll(0);
-        setChecked([]);
-        setGroupSelected(parseInt(e.target.value));
+        setCheckAll(0)
+        setChecked([])
+        setGroupSelected(parseInt(e.target.value))
         if (parseInt(e.target.value) !== 0) {
-            let newUsers = [];
+            let newUsers = []
             users.forEach((group, key) => {
                 if (parseInt(group.groupe_id) === parseInt(e.target.value)) {
-                    newUsers.push(group);
+                    newUsers.push(group)
                 }
-            });
+            })
 
-            setContacts(newUsers);
+            setContacts(newUsers)
             setOpen(false)
-           
+
         } else {
-            setContacts(users);
+            setContacts(users)
             setOpen(false)
         }
-    };
+    }
 
     const handleWriteContact = (e) => {
         setShowWriteContact(showWriteContact ? 0 : 1)
 
     }
+
+    const fetchMoreData = () => {
+        let counter = 0
+        let local_Users = []
+        const newSize = users.length+10
+        for(counter = 0; counter < newSize; counter++){
+            local_Users.push(contacts[counter])
+            
+
+        }
+        setContacts(local_Users)
+        setTimeout(()=>{
+            
+        },2000)
+      }
 
     accountDetails()
 
@@ -247,13 +263,13 @@ const SendMessage = () => {
 
                                 </div>
                                 <CardContent sx={{ mt: 0, pt: 0, mb: 0, pb: 2 }}>
-                                    {showWriteContact === 1 && 
+                                    {showWriteContact === 1 &&
                                         <motion.div
                                             initial={{ opacity: 0 }}
                                             animate={{ opacity: 1 }}
                                             transition={{ duration: 1.5 }}
                                         >
-                                            <TextField fullWidth label="Ex:237693342860" type="number" variant="outlined" value={contact} onChange={e=>setContact(e.target.value)} />
+                                            <TextField fullWidth label="Ex:237693342860" type="number" variant="outlined" value={contact} onChange={e => setContact(e.target.value)} />
                                         </motion.div>}
                                     <TextField
                                         autoFocus
@@ -308,7 +324,7 @@ const SendMessage = () => {
                                             </span>
                                         </div>
                                     }
-                                />
+                                /> 
                                 <div>
                                     <Box sx={{ minWidth: 60, ml: 3, mr: 3 }}>
                                         <FormControl fullWidth>
@@ -318,11 +334,11 @@ const SendMessage = () => {
                                                 labelId="demo-simple-select-label"
                                                 id="demo-simple-select"
                                                 value={groupSelected}
-                                                onChange={(e)=>{
+                                                onChange={(e) => {
                                                     setOpen(true)
-                                                    setTimeout(()=>{
+                                                    setTimeout(() => {
                                                         handleSelect(e)
-                                                    },600)
+                                                    }, 600)
                                                 }}
                                                 label="Qtt"
                                                 size="small"
@@ -344,44 +360,49 @@ const SendMessage = () => {
                                         <PerfectScrollbar style={{ height: '100%', maxHeight: '350px', overflowX: 'hidden' }}>
                                             <Box>
                                                 <List disablePadding>
-                                                    {contacts[0] !== undefined &&
-                                                        contacts.map((value) => {
-                                                            const labelId = `checkbox-list-secondary-label-${value}`;
-                                                            return (
-                                                                <ListItem
-                                                                    key={value}
-                                                                    secondaryAction={
-                                                                        <Checkbox
-                                                                            edge="end"
-                                                                            onChange={handleToggle(value)}
-                                                                            checked={checked.indexOf(value) !== -1}
-                                                                            inputProps={{ 'aria-labelledby': labelId }}
-                                                                        />
-                                                                    }
-                                                                    disablePadding
-                                                                >
-                                                                    <ListItemButton>
-                                                                        <ListItemAvatar>
-                                                                            <Avatar>{value.name[0]}</Avatar>
-                                                                        </ListItemAvatar>
-                                                                        <ListItemText
-                                                                            id={labelId}
-                                                                            primary={`+${value.pays_id}${value.phone}`}
-                                                                            secondary={value.name + ' ' + value.surname}
-                                                                        />
-                                                                    </ListItemButton>
-                                                                </ListItem>
-                                                            );
-                                                        })}
+                                                    <InfiniteScroll
+                                                        dataLength={contacts.length} //This is important field to render the next data
+                                                        next={fetchMoreData}
+                                                        hasMore={true}
+                                                        loader={<h4>Loading....</h4>}
+                                                        endMessage={
+                                                            <p style={{ textAlign: 'center' }}>
+                                                                <b>Yay! You have seen it all</b>
+                                                            </p>
+                                                        }
+                                                    >
+                                                        {contacts[0] !== undefined &&
+                                                            contacts.map((value) => {
+                                                                const labelId = `checkbox-list-secondary-label-${value}`
+                                                                return ( 
+                                                                    <ListItem
+                                                                        key={value}
+                                                                        secondaryAction={
+                                                                            <Checkbox
+                                                                                edge="end"
+                                                                                onChange={handleToggle(value)}
+                                                                                checked={checked.indexOf(value) !== -1}
+                                                                                inputProps={{ 'aria-labelledby': labelId }}
+                                                                            />
+                                                                        }
+                                                                        
+                                                                        disablePadding
+                                                                    >
+                                                                        <ListItemButton>
+                                                                            <ListItemAvatar>
+                                                                                <Avatar>{value.name[0]}</Avatar>
+                                                                            </ListItemAvatar>
+                                                                            <ListItemText
+                                                                                id={labelId}
+                                                                                primary={`+${value.pays_id}${value.phone}`}
+                                                                                secondary={value.name + ' ' + value.surname}
+                                                                            />
+                                                                        </ListItemButton>
+                                                                    </ListItem>
+                                                                )
+                                                            })}
+                                                    </InfiniteScroll>
                                                 </List>
-                                                <Box sx={{ ml: 7 }}>
-                                                   {contacts.length === 10 && <Button variant="text" onClick={()=>{
-                                                        setOpen(true)
-                                                        setTimeout(()=>{
-                                                            handleSelect({target:{value:0}})
-                                                        },600)
-                                                    }}>Show all</Button>}
-                                                </Box>
                                                 <Box sx={{ ml: 7 }}>
                                                     {contacts.length === 0 && <EmptyImg style={{ width: 200, height: 'auto' }} />}
                                                 </Box>
@@ -422,7 +443,7 @@ const SendMessage = () => {
                 </Grid>
             </form>
         </div>
-    );
-};
+    )
+}
 
-export default SendMessage;
+export default SendMessage
