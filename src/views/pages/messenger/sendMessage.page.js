@@ -265,7 +265,6 @@ const SendMessage = () => {
                                         rows={12}
                                         onBlur={
                                             (e) => {
-                                                alert(e.target.value)
                                                 setMessage(e.target.value)
                                             }
                                         }
