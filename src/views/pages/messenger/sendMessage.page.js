@@ -70,7 +70,7 @@ const SendMessage = () => {
 
     const [message, setMessage] = useState('')
 
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState()
 
 
     const handleToggle = (value) => () => {
@@ -172,6 +172,9 @@ const SendMessage = () => {
             current_users.push(users[i])
         }
         setContacts(current_users)
+        return () => {
+            setContact([])
+        }
         /*setTimeout(()=>{
             setContacts(users)
         },3000)*/
@@ -208,19 +211,19 @@ const SendMessage = () => {
     const fetchMoreData = () => {
         let counter = 0
         let local_Users = []
-        const newSize = users.length+10
-        for(counter = 0; counter < newSize; counter++){
+        const newSize = users.length + 10
+        for (counter = 0; counter < newSize; counter++) {
             local_Users.push(contacts[counter])
-            
+
 
         }
         setContacts(local_Users)
-        setTimeout(()=>{
-            
-        },2000)
-      }
+        setTimeout(() => {
 
-    accountDetails()
+        }, 2000)
+    }
+
+    //accountDetails()
 
     return (
         <div>
@@ -324,7 +327,7 @@ const SendMessage = () => {
                                             </span>
                                         </div>
                                     }
-                                /> 
+                                />
                                 <div>
                                     <Box sx={{ minWidth: 60, ml: 3, mr: 3 }}>
                                         <FormControl fullWidth>
@@ -360,48 +363,36 @@ const SendMessage = () => {
                                         <PerfectScrollbar style={{ height: '100%', maxHeight: '350px', overflowX: 'hidden' }}>
                                             <Box>
                                                 <List disablePadding>
-                                                    <InfiniteScroll
-                                                        dataLength={contacts.length} //This is important field to render the next data
-                                                        next={fetchMoreData}
-                                                        hasMore={true}
-                                                        loader={<h4>Loading....</h4>}
-                                                        endMessage={
-                                                            <p style={{ textAlign: 'center' }}>
-                                                                <b>Yay! You have seen it all</b>
-                                                            </p>
-                                                        }
-                                                    >
-                                                        {contacts[0] !== undefined &&
-                                                            contacts.map((value) => {
-                                                                const labelId = `checkbox-list-secondary-label-${value}`
-                                                                return ( 
-                                                                    <ListItem
-                                                                        key={value}
-                                                                        secondaryAction={
-                                                                            <Checkbox
-                                                                                edge="end"
-                                                                                onChange={handleToggle(value)}
-                                                                                checked={checked.indexOf(value) !== -1}
-                                                                                inputProps={{ 'aria-labelledby': labelId }}
-                                                                            />
-                                                                        }
-                                                                        
-                                                                        disablePadding
-                                                                    >
-                                                                        <ListItemButton>
-                                                                            <ListItemAvatar>
-                                                                                <Avatar>{value.name[0]}</Avatar>
-                                                                            </ListItemAvatar>
-                                                                            <ListItemText
-                                                                                id={labelId}
-                                                                                primary={`+${value.pays_id}${value.phone}`}
-                                                                                secondary={value.name + ' ' + value.surname}
-                                                                            />
-                                                                        </ListItemButton>
-                                                                    </ListItem>
-                                                                )
-                                                            })}
-                                                    </InfiniteScroll>
+                                                    {contacts[0] !== undefined &&
+                                                        contacts.map((value) => {
+                                                            const labelId = `checkbox-list-secondary-label-${value}`
+                                                            return (
+                                                                <ListItem
+                                                                    key={value}
+                                                                    secondaryAction={
+                                                                        <Checkbox
+                                                                            edge="end"
+                                                                            onChange={handleToggle(value)}
+                                                                            checked={checked.indexOf(value) !== -1}
+                                                                            inputProps={{ 'aria-labelledby': labelId }}
+                                                                        />
+                                                                    }
+
+                                                                    disablePadding
+                                                                >
+                                                                    <ListItemButton>
+                                                                        <ListItemAvatar>
+                                                                            <Avatar>{value.name[0]}</Avatar>
+                                                                        </ListItemAvatar>
+                                                                        <ListItemText
+                                                                            id={labelId}
+                                                                            primary={`+${value.pays_id}${value.phone}`}
+                                                                            secondary={value.name + ' ' + value.surname}
+                                                                        />
+                                                                    </ListItemButton>
+                                                                </ListItem>
+                                                            )
+                                                        })}
                                                 </List>
                                                 <Box sx={{ ml: 7 }}>
                                                     {contacts.length === 0 && <EmptyImg style={{ width: 200, height: 'auto' }} />}
