@@ -263,8 +263,12 @@ const SendMessage = () => {
                                         type="text"
                                         multiline
                                         rows={12}
-                                        value={message}
-                                        onChange={(e) => setMessage(e.target.value)}
+                                        onBlur={
+                                            (e) => {
+                                                alert(e.target.value)
+                                                setMessage(e.target.value)
+                                            }
+                                        }
                                         sx={{ ...theme.typography.customInput }}
                                     />
                                 </CardContent>

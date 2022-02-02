@@ -68,12 +68,11 @@ const MainLayout = () => {
     const handleLeftDrawerToggle = () => {
         dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
     };
-    const navigate = useNavigate()
-
+    const navigate = useNavigate();
+    
     useEffect(() => {
         dispatch({ type: SET_MENU, opened: !matchDownMd });
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [matchDownMd]);
+    }, [dispatch, matchDownMd]);
 
     return (
         <Box sx={{ display: 'flex' }}>
