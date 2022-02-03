@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useLayoutEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import { useTheme } from '@mui/material/styles'
 import SendIcon from '@mui/icons-material/Send'
@@ -26,12 +26,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton'
 import MainCard from 'ui-component/cards/MainCard'
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction'
 import List from '@mui/material/List'
-import ListItem from '@mui/material/ListItem'
-import ListItemButton from '@mui/material/ListItemButton'
-import ListItemText from '@mui/material/ListItemText'
-import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Checkbox from '@mui/material/Checkbox'
-import Avatar from '@mui/material/Avatar'
 import { useDispatch, useSelector } from 'react-redux'
 import { setMessages } from 'store/Action/message.action'
 import Info from '../utils/Info'
@@ -43,10 +38,9 @@ import { getChartDay } from 'store/Action/chartDay.action'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 import { ReactComponent as EmptyImg } from 'assets/images/icons/undraw_empty_cart_co35.svg'
 import { motion } from 'framer-motion'
-import sendSms, { accountDetails } from 'utils/sendSms'
-import { stubFalse } from 'lodash'
-import { forwardRef, useMemo } from 'react';
-
+import sendSms from 'utils/sendSms'
+import { useMemo } from 'react';
+import MsgList from './messengerComponent/RowListUser';
 const SendMessage = () => {
     const [checked, setChecked] = useState([])
     const [groupSelected, setGroupSelected] = useState(0)
@@ -177,16 +171,9 @@ const SendMessage = () => {
         return () => {
             setContact([])
         }
-        /*setTimeout(()=>{
-            setContacts(users)
-        },3000)*/
-        // eslint-disable-next-line
     }, [page, users])
 
     const handleSelect = (e) => {
-        //alert(e.target.value)
-        setCheckAll(0)
-        setChecked([])
         setGroupSelected(parseInt(e.target.value))
         if (parseInt(e.target.value) !== 0) {
             let newUsers = []
@@ -210,26 +197,6 @@ const SendMessage = () => {
 
     }
 
-    const fetchMoreData = () => {
-        let counter = 0
-        let local_Users = []
-        const newSize = users.length + 10
-        for (counter = 0; counter < newSize; counter++) {
-            local_Users.push(contacts[counter])
-
-
-        }
-        setContacts(local_Users)
-        let timer = setTimeout(() => {
-
-        }, 2000)
-
-        return () => {
-            clearTimeout(timer)
-        }
-    }
-
-    //accountDetails()
 
     return (
         <div>
@@ -368,50 +335,26 @@ const SendMessage = () => {
                                     <Box>
 
                                         <Box>
-                                            
-                                                <List disablePadding>
-                                                    <div id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
-                                                        <InfiniteScroll
-                                                            dataLength={contacts.length}
-                                                            next={() => setPage(page + 10)}
-                                                            hasMore={true}
-                                                            loader={<h4>Loading...</h4>}
-                                                            scrollableTarget="scrollableDiv"
-                                                        >
-                                                            {contacts[0] !== undefined &&
-                                                                contacts.map((value) => {
-                                                                    const labelId = `checkbox-list-secondary-label-${value}`
-                                                                    return (
-                                                                        <ListItem
-                                                                            key={value}
-                                                                            secondaryAction={
-                                                                                <Checkbox
-                                                                                    edge="end"
-                                                                                    onChange={handleToggle(value)}
-                                                                                    checked={checked.indexOf(value) !== -1}
-                                                                                    inputProps={{ 'aria-labelledby': labelId }}
-                                                                                />
-                                                                            }
 
-                                                                            disablePadding
-                                                                        >
-                                                                            <ListItemButton>
-                                                                                <ListItemAvatar>
-                                                                                    <Avatar>{value.name[0]}</Avatar>
-                                                                                </ListItemAvatar>
-                                                                                <ListItemText
-                                                                                    id={labelId}
-                                                                                    primary={`+${value.pays_id}${value.phone}`}
-                                                                                    secondary={value.name + ' ' + value.surname}
-                                                                                />
-                                                                            </ListItemButton>
-                                                                        </ListItem>
-                                                                    )
-                                                                })}
-                                                        </InfiniteScroll>
-                                                    </div>
-                                                </List>
-                                            
+                                            <List disablePadding>
+                                                <PerfectScrollbar id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
+                                                    <InfiniteScroll
+                                                        dataLength={contacts.length}
+                                                        next={() => setPage(page + 10)}
+                                                        hasMore={true}
+                                                        loader={<h4>Loading...</h4>}
+                                                        scrollableTarget="scrollableDiv"
+                                                    >
+                                                        {contacts[0] !== undefined &&
+                                                            contacts.map((value, key) => (
+                                                                <div key={key} id={key}>
+                                                                    <MsgList checked={checked} value={value} handleToggle={handleToggle} />
+                                                                </div>
+                                                            ))}
+                                                    </InfiniteScroll>
+                                                </PerfectScrollbar>
+                                            </List>
+
                                             <Box sx={{ ml: 7 }}>
                                                 {contacts.length === 0 && <EmptyImg style={{ width: 200, height: 'auto' }} />}
                                             </Box>

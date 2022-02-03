@@ -14,11 +14,11 @@ const ListUser = () => {
 
     const [users, setUsers] = React.useState([])
     const [loadUsers, setLoadUsers] = React.useState(false)
-    const CONTACT_VISIBLE = 30
+    const CONTACT_VISIBLE = 10
 
     React.useEffect(() => {
 
-        let timer = setTimeout(() => {
+        
             let counter = 0
             let local_Users = []
             usersTabs.forEach(user => {
@@ -28,11 +28,7 @@ const ListUser = () => {
                 }
             });
             setUsers(local_Users)
-        },1)
-
-        return ()=>{
-            clearTimeout(timer)
-        }
+        
     }, [usersTabs])
 
     const showAllContact = () => {
