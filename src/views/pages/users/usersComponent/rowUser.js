@@ -52,14 +52,14 @@ const Edit = ({ user }) => {
     const [pays_id, setPays_id] = React.useState(user.pays_id)
     const [groupSelected, setGroupSelected] = React.useState(user.groupe_id)
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
         setEmail(user.email)
         setName(user.name)
         setPhone(user.phone)
         setSurname(user.surname)
         setPays_id(user.pays_id)
         setGroupSelected(user.groupe_id)
-    },[user])
+    }, [user])
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -248,45 +248,18 @@ export default function RowUser({ user }, props) {
         <TableRow {...props}>
             <TableCell>
                 <Stack direction="row" spacing={2}>
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ duration: 1 }}
-                        whileHover={{ scale: 1.3 }}
-                    >
-                        <Avatar sx={{ bgcolor: selected, color: "white" }}>{user.name[0]}</Avatar>
-                    </motion.div>
+                    <Avatar sx={{ bgcolor: selected, color: "white" }}>{user.name[0]}</Avatar>
                     <Typography sx={{ pt: { xs: 2, sm: 2, xl: 2 } }}>{user.name} {user.surname}</Typography>
                 </Stack>
             </TableCell>
             <TableCell>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 2 }}
-                    whileHover={{ scale: 1.2 }}
-                >
-                    +{user.pays_id}{user.phone}
-                </motion.div>
+                +{user.pays_id}{user.phone}
             </TableCell>
             <TableCell>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1 }}
-                    whileHover={{ scale: 1.2 }}
-                >
-                    {user.email && user.email}
-                </motion.div>
+                {user.email && user.email}{!user.email && "-"}
             </TableCell>
             <TableCell>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 2 }}
-                    transition={{ duration: 1 }}
-                    whileHover={{ scale: 1.2 }}
-                >{user.title}
-                </motion.div>
+                {user.title}
             </TableCell>
             <TableCell align="right">
                 <Stack direction="row" justifyContent="flex-end" alignItems="center" spacing={2}>

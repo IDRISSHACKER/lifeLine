@@ -15,7 +15,7 @@ use App\Table\Chart;
 use App\Table\Users;
 use App\Table\Groupe;
 use App\Table\Image;
-use App\Table\Messenger;
+use App\Table\Messenger;    
 
 $page = !empty($_GET["page"]) ? $_GET["page"] : "home/";
 

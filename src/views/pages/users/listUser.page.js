@@ -3,35 +3,39 @@ import { useSelector } from 'react-redux';
 import { TableContainer, Table, TableHead, TableCell, TableBody, TableRow, Paper, Chip, Button } from '@mui/material';
 import Empty from '../utils/Empty';
 import { LoadingButton } from '@mui/lab';
+import Backdrop from '@mui/material/Backdrop'
+import CircularProgress from '@mui/material/CircularProgress';
 
 const SecondaryAction = React.lazy(() => import('ui-component/cards/CardSecondaryAction'));
 const RowUser = React.lazy(() => import('./usersComponent/rowUser'));
 const AddBusinessOutlinedIcon = React.lazy(() => import('@mui/icons-material/AddBusinessOutlined'));
 const MainCard = React.lazy(() => import('ui-component/cards/MainCard'));
 const ListUser = () => {
+
     const usersTabs = useSelector((state) => state.usersReducer)
     const lang = useSelector(state => state.languageReducer)
 
     const [users, setUsers] = React.useState([])
     const [loadUsers, setLoadUsers] = React.useState(false)
+    const [loading, setLoading] = React.useState(false)
     const CONTACT_VISIBLE = 10
 
     React.useEffect(() => {
 
-        
-            let counter = 0
-            let local_Users = []
-            usersTabs.forEach(user => {
-                if (counter < CONTACT_VISIBLE) {
-                    local_Users.push(user)
-                    counter += 1
-                }
-            });
-            setUsers(local_Users)
-        
+
+        let counter = 0
+        let local_Users = []
+        usersTabs.forEach(user => {
+            if (counter < CONTACT_VISIBLE) {
+                local_Users.push(user)
+                counter += 1
+            }
+        });
+        setUsers(local_Users)
+
     }, [usersTabs])
 
-    const showAllContact = () => {
+    const showMoreContact = () => {
         setLoadUsers(true)
         let counter = 0
         let local_Users = []
@@ -46,10 +50,24 @@ const ListUser = () => {
         }, 2000)
     }
 
+    const showAllContact = () => {
+        setLoading(true)
+        timer = setTimeout(()=>{
+            setUsers(usersTabs)
+            setLoading(false)
+            clearTimeout(timer)
+        },200)
+    }
 
     return (
         <React.Suspense fallback={<p>loading</p>}>
             <div>
+                <Backdrop
+                    sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
+                    open={loading}
+                >
+                    <CircularProgress color="inherit" />
+                </Backdrop>
                 {users.length > 0 && (
                     <MainCard
                         title={
@@ -94,9 +112,14 @@ const ListUser = () => {
                     <div>
                         <br />
                         {!loadUsers && (
-                            <Button mt={20} variant="contained" disableElevation onClick={showAllContact}>
-                                {`${lang.textes.showAll[lang.id]} +${usersTabs.length-users.length}`}
-                            </Button>)}
+                            <div>
+                                <Button mt={20} variant="contained" disableElevation onClick={showMoreContact}>
+                                    {`${lang.textes.showAll[lang.id]} +${usersTabs.length - users.length}`}
+                                </Button>
+                                <Button mt={20} variant="outlined" disableElevation onClick={showAllContact}>
+                                    Show all
+                                </Button>
+                            </div>)}
                         {loadUsers && (<LoadingButton loading loadingIndicator={lang.textes.loadNewContact[lang.id]} variant="outlined">
                             {lang.textes.loadNewContact[lang.id]}.............................................
                         </LoadingButton>)}

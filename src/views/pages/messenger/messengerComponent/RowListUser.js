@@ -6,19 +6,23 @@ import ListItemAvatar from '@mui/material/ListItemAvatar'
 import Checkbox from '@mui/material/Checkbox'
 import Avatar from '@mui/material/Avatar'
 
-class MsgList extends React.PureComponent {
+class MsgList extends React.Component {
+    shouldComponentUpdate(newProps){
+        return [ 'value', 'checked', 'handleToggle'].some(
+            prop => this.props[prop] !== newProps[prop]
+        )
+    }
     render() {
-        const { value, checked, handleToggle } = this.props;
-        const labelId = `checkbox-list-secondary-label-${value}`;
+        const labelId = `checkbox-list-secondary-label-${this.props.value}`;
         return (
             <div>
                 <ListItem
-                    key={value}
+                    key={this.props.value}
                     secondaryAction={
                         <Checkbox
                             edge="end"
-                            onChange={handleToggle(value)}
-                            checked={checked.indexOf(value) !== -1}
+                            onChange={this.props.handleToggle(this.props.value)}
+                            checked={this.props.checked.indexOf(this.props.value) !== -1}
                             inputProps={{ 'aria-labelledby': labelId }}
                         />
                     }
@@ -27,12 +31,12 @@ class MsgList extends React.PureComponent {
                 >
                     <ListItemButton>
                         <ListItemAvatar>
-                            <Avatar>{value.name[0]}</Avatar>
+                            <Avatar>{this.props.value.name[0]}</Avatar>
                         </ListItemAvatar>
                         <ListItemText
                             id={labelId}
-                            primary={`+${value.pays_id}${value.phone}`}
-                            secondary={value.name + ' ' + value.surname}
+                            primary={`+${this.props.value.pays_id}${this.props.value.phone}`}
+                            secondary={this.props.value.name + ' ' + this.props.value.surname}
                         />
                     </ListItemButton>
                 </ListItem>

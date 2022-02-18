@@ -41,6 +41,8 @@ import { motion } from 'framer-motion'
 import sendSms from 'utils/sendSms'
 import { useMemo } from 'react';
 import MsgList from './messengerComponent/RowListUser';
+import ItemMenu from './messengerComponent/ItemMenu'
+import { random } from 'lodash';
 const SendMessage = () => {
     const [checked, setChecked] = useState([])
     const [groupSelected, setGroupSelected] = useState(0)
@@ -53,7 +55,10 @@ const SendMessage = () => {
     const [msg, setMsg] = useState('')
     const [status, setStatus] = useState()
     const [contact, setContact] = useState()
-    const [page, setPage] = useState(1)
+    const [tContact, setTContact] = useState([])
+    const [page, setPage] = useState(10)
+    const [tmp, setTmp] = useState(0)
+    const [notConnexion, setNotConnexion] = useState(false)
 
     const theme = useTheme()
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'))
@@ -67,9 +72,10 @@ const SendMessage = () => {
     const [message, setMessage] = useState('')
 
     const [open, setOpen] = useState(false)
+    const [sizeContact, setsizeContact] = useState(contacts.length)
 
 
-    const handleToggle = useMemo(() => (value) => () => {
+    const handleToggle = (value) => () => {
         const currentIndex = checked.indexOf(value)
         const newChecked = [...checked]
 
@@ -84,7 +90,7 @@ const SendMessage = () => {
         }
 
         setChecked(newChecked)
-    }, [])
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -106,37 +112,51 @@ const SendMessage = () => {
             })
         } else if (message && checked.length > 0) {
             checked.forEach((userId, index) => {
-                sendSms('+' + userId.pays_id + userId.phone, message).then(res => {
-                    if (res) {
 
-                    } else {
+                try {
+                    sendSms('+' + userId.pays_id + userId.phone, message).then(res => {
+                        if (res) {
 
-                        let tab = checked.filter(el => el.id !== userId.id)
-                        setChecked(tab)
+                        } else {
+                            let tab = []
+                            checked.forEach((value) => {
+                                alert(JSON.stringify(value))
+                                if (value.id !== userId.id) {
+                                    tab.push(value)
+                                }
+                            })
+                            setChecked(tab)
 
-                        setErrr(1)
-                        setMsg(userId.name + '(+' + userId.pays_id + userId.phone + ')')
-                        setTimeout(() => setErr(0), 2000)
-                    }
-                })
-
-                if (checked.length === index + 1) {
-                    setTimeout(() => {
-                        const data = new FormData()
-                        data.append('message', message)
-                        data.append('users', JSON.stringify(checked))
-
-                        if (dispatch(setMessages(data))) {
-                            dispatch(getChartMonth())
-                            dispatch(getChartDay())
+                            setErrr(1)
+                            setNotConnexion(true)
+                            setMsg(userId.name + '(+' + userId.pays_id + userId.phone + ')')
+                            setTimeout(() => setErr(0), 2000)
+                            throw new Error('Erreur d\'envoie de sms');
                         }
-                        setMessage('')
-                        setChecked([])
-                        setCheckAll(0)
-                        setTimeout(() => setSuccess(1), 2000)
-                        setTimeout(() => setSuccess(0), 4000)
-                        setTimeout(() => navigate('/dashboard/message/sended'), 4000)
-                    }, 500)
+                    })
+                    if (!notConnexion) {
+                        if (checked.length === index + 1) {
+                            setTimeout(() => {
+                                const data = new FormData()
+                                data.append('message', message)
+                                data.append('users', JSON.stringify(checked))
+
+                                if (dispatch(setMessages(data))) {
+                                    dispatch(getChartMonth())
+                                    dispatch(getChartDay())
+                                }
+                                setMessage('')
+                                setChecked([])
+                                setCheckAll(0)
+                                setTimeout(() => setSuccess(1), 2000)
+                                setTimeout(() => setSuccess(0), 4000)
+                                setTimeout(() => navigate('/dashboard/message/sended'), 4000)
+                            }, 500)
+
+                        }
+                    }
+                } catch (e) {
+                    alert("error")
 
                 }
             })
@@ -160,34 +180,43 @@ const SendMessage = () => {
         setContacts(scontacts)
     })
 
-    useEffect(() => {
-        const LIMIT = 10 * page
-        let current_users = []
-
-        for (let i = 0; i < LIMIT; i++) {
-            current_users.push(users[i])
-        }
-        setContacts(current_users)
-        return () => {
-            setContact([])
-        }
-    }, [page, users])
 
     const handleSelect = (e) => {
+        setTmp(tmp + 1)
+
+        const LIMIT = 10
         setGroupSelected(parseInt(e.target.value))
         if (parseInt(e.target.value) !== 0) {
             let newUsers = []
             users.forEach((group, key) => {
+
                 if (parseInt(group.groupe_id) === parseInt(e.target.value)) {
                     newUsers.push(group)
                 }
-            })
 
-            setContacts(newUsers)
+            })
+            let current_users = []
+            if (newUsers.length >= LIMIT) {
+                for (let i = 0; i < LIMIT; i++) {
+                    current_users.push(newUsers[i])
+                }
+            } else {
+                current_users = newUsers
+            }
+            setContacts(current_users)
+
+            setsizeContact(newUsers.length)
+            setTContact(newUsers)
             setOpen(false)
 
         } else {
-            setContacts(users)
+            let current_users = []
+            for (let i = 0; i < LIMIT; i++) {
+                current_users.push(users[i])
+            }
+            setContacts(current_users)
+            setTContact(users)
+            setsizeContact(users.length)
             setOpen(false)
         }
     }
@@ -197,6 +226,48 @@ const SendMessage = () => {
 
     }
 
+    useEffect(() => {
+        setTContact(users)
+        let LIMIT = 10
+        let current_users = []
+
+        if (users.length > LIMIT) {
+            for (let counter = 0; counter < 10; counter++) {
+                current_users.push(users[counter])
+            }
+        } else {
+            current_users = users
+        }
+        setContacts(current_users)
+        let timer = setTimeout(() => {
+            setContacts(current_users)
+        }, 200)
+        return () => clearTimeout(timer)
+    }, [users])
+
+
+    useEffect(() => {
+        let current_users = [...contacts]
+        let newSize = contacts.length + 40
+
+        if (tContact.length > newSize) {
+            for (let counter = 0; counter < newSize; counter++) {
+                current_users.push(tContact[counter])
+            }
+        } else {
+            current_users = tContact
+        }
+        setContacts(current_users)
+
+        return (() => {
+            current_users = []
+        })
+    }, [tmp, page])
+
+    const next = () => {
+        setTmp(random())
+        setPage(page + 20)
+    }
 
     return (
         <div>
@@ -314,7 +385,7 @@ const SendMessage = () => {
                                                     setOpen(true)
                                                     setTimeout(() => {
                                                         handleSelect(e)
-                                                    }, 600)
+                                                    }, 10)
                                                 }}
                                                 label="Qtt"
                                                 size="small"
@@ -322,9 +393,9 @@ const SendMessage = () => {
                                                 <MenuItem value={0}>{lang.textes.allContact[lang.id]}</MenuItem>
                                                 {groups &&
                                                     groups.map((group, index) => (
-                                                        <MenuItem key={index} value={group.id}>
+                                                        <MenuItem value={group.id} >
                                                             {group.title}
-                                                        </MenuItem>
+                                                        </MenuItem >
                                                     ))}
                                             </Select>
                                         </FormControl>
@@ -333,19 +404,25 @@ const SendMessage = () => {
                                 <div>
                                     <br />
                                     <Box>
-
                                         <Box>
-
                                             <List disablePadding>
-                                                <PerfectScrollbar id="scrollableDiv" style={{ height: 300, overflow: "auto" }}>
+                                                <PerfectScrollbar id="scrollableDiv" style={{ height: 350, overflow: "auto" }}>
                                                     <InfiniteScroll
-                                                        dataLength={contacts.length}
-                                                        next={() => setPage(page + 10)}
+                                                        dataLength={sizeContact}
+                                                        next={next}
                                                         hasMore={true}
-                                                        loader={<h4>Loading...</h4>}
+                                                        loader={
+                                                            <Box sx={{ ml: 8, mt: 1 }}>
+                                                                {tContact.length - contacts.length > 0 && (
+                                                                    <Button variant='contained' onClick={() => {
+                                                                        setContacts(tContact)
+                                                                    }}>Load all contacts {`+${tContact.length - contacts.length} `}</Button>
+                                                                )}
+                                                            </Box>
+                                                        }
                                                         scrollableTarget="scrollableDiv"
                                                     >
-                                                        {contacts[0] !== undefined &&
+                                                        {contacts.length > 0 && contacts[0].name !== undefined &&
                                                             contacts.map((value, key) => (
                                                                 <div key={key} id={key}>
                                                                     <MsgList checked={checked} value={value} handleToggle={handleToggle} />
