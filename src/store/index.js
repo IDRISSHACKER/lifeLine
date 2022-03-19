@@ -9,7 +9,8 @@ import { getAdmin } from './Action/admin.action';
 import { getChartMonth } from './Action/chartMonth.action';
 import { getChartDay } from './Action/chartDay.action';
 
-const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
+// const store = createStore(reducer, composeWithDevTools(applyMiddleware(thunk)));
+const store = createStore(reducer, applyMiddleware(thunk));
 const persister = 'Store';
 
 store.dispatch(getGroups())

@@ -4,7 +4,7 @@ export const initialState = {
     id: localStorage.getItem("lang") ? parseInt(localStorage.getItem("lang")) : 1,
     language: "En",
     textes: {
-        admin:["Administrateur", "Administrator"],
+        admin: ["Administrateur", "Administrator"],
         msgSend: ["Messages envoyés", "messages sended"],
         consultMsg: ["Consulter les messages", "Consult message"],
         statMsgSend: ["statistiques des messages envoyés", "stats of messages sended"],
@@ -25,11 +25,11 @@ export const initialState = {
         errorSendSmsNumber: ["Numero de téléphone incorrect ou erreur de reseau !", "The phone number is invalid or error network !"],
         titleNewMsg: ["Nouveau message", "New message"],
         sendMsg: ["Envoyer le message", "Send message"],
-        allContact: ["Tout les Contacts","All contacts"],
-        selectContact: ["Selectionner les contacts","Select contacts"],
-        selectAllContact: ["Selectionner tout les contacts","Select all contacts"],
+        allContact: ["Tout les Contacts", "All contacts"],
+        selectContact: ["Selectionner les contacts", "Select contacts"],
+        selectAllContact: ["Selectionner tout les contacts", "Select all contacts"],
         unselectAllContact: ["Deselectionner tout les contacts", "Unselect all contact"],
-        addContact: ["Ajouter un contact", "Add contact"],
+        addContact: ["Ajouter le contact", "Add contact"],
         noMsg: ["Aucun messages à afficher dans votre boite de messages envoyés", "No sms to show on your sms sended"],
         sendSms: ["Envoyer un message", "Send new message"],
         receiver: ["Destinateur", "Receiver"],
@@ -49,14 +49,14 @@ export const initialState = {
         surname: ["Prenom", "Surname"],
         paysId: ["Code du pays (ex:237)", "Country code(ex:237)"],
         numTel: ["Numero de telephone ", "Phone number"],
-        selectGroupe: ["Selectionner un groupe ","Select one group"],
+        selectGroupe: ["Selectionner un groupe ", "Select one group"],
         userInfo: ["Veillez remplir minitieusement les informations, elle seront utilisées lors de l'envoi des messages.", "Enter corectly you're informations"],
         emailAdress: ["Adresse Email (optionel)", "Email adress(optional)"],
         prenom: ["Prenom", "Surname"],
         groupContact: ["Groupe des contacts", "Group of contacts"],
         groupName: ["Groupe des contacts", "contacts groups"],
-        description:["Description", "Description"],
-        nbContact:["Nombre de contact", "Number of contact"],
+        description: ["Description", "Description"],
+        nbContact: ["Nombre de contact", "Number of contact"],
         notGroupeToShow: ["Vous n'avez aucun groupe à afficher !", "Not group to show !"],
         groupeAddSuccess: ["Groupe créer avec success !", "Groupe created success !"],
         groupeAddErr: ["Erreur lors de l'ajout du groupe", "Error !"],
@@ -73,7 +73,7 @@ export const initialState = {
         resetConfirm: ["Voulez vous restorer les parametres d'usines de votre application ?", "Do you want to restore the app ?"],
         dashboard: ["Tableau de bord", "Dashboard"],
         newMsg: ["Nouveau message", "New sms"],
-        settings : ["paramêtres", "Settings"],
+        settings: ["paramêtres", "Settings"],
         addGroup: ["Ajouter un groupe", "Create new group"],
         notGroupToShow: ["Aucun groupe à afficher", "No group to show"],
         noSms: ["Aucun sms à afficher", "No sms to show on this page"],
@@ -88,9 +88,9 @@ export const initialState = {
 const languageReducer = (state = initialState, action) => {
     switch (action.type) {
         case types.SET_LANGUAGE:
-            return { 
+            return {
                 ...state,
-                id:action.id
+                id: action.id
             }
         default:
             return state;
