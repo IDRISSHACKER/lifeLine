@@ -10,6 +10,8 @@ import chartMonthReducer from './Reducer/ChartMonth.reducer';
 import chartDayReducer from "./Reducer/ChartDay.reducer"
 import imageReducer from './Reducer/image.reducer';
 import languageReducer from './Reducer/languageReducer';
+import champReducer from './Reducer/champ.reducer';
+import msgReducer from './Reducer/allMsg.reducer';
 
 const reducer = combineReducers({
     customization: customizationReducer,
@@ -20,7 +22,9 @@ const reducer = combineReducers({
     chartMonthReducer: chartMonthReducer,
     chartDayReducer,
     imageReducer,
-    languageReducer
+    languageReducer,
+    champReducer,
+    msgReducer
 });
 
 export default reducer;

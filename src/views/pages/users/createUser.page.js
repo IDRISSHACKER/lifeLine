@@ -27,6 +27,11 @@ import CloudDoneOutlinedIcon from '@mui/icons-material/CloudDoneOutlined';
 import imgSvg from 'assets/images/icons/undraw_message_sent_re_q2kl.svg';
 import { Link as RouterLink } from 'react-router-dom';
 import { motion } from "framer-motion"
+import { lazy } from 'react'
+import Loadable from 'ui-component/Loadable';
+const UserManager = Loadable(lazy(() => import('./usersComponent/userManager')));
+const AddSettings = Loadable(lazy(() => import('./usersComponent/addSettings')));
+import SaveAll from './usersComponent/saveAllComponent';
 
 const CreateUser = () => {
     const theme = useTheme();
@@ -86,139 +91,25 @@ const CreateUser = () => {
                         <SecondaryAction title={lang.textes.userList[lang.id]} link="/dashboard/contact/list" icon={<VerifiedUserOutlinedIcon />} />
                     }
                 >
-                    <form noValidate onSubmit={handleSubmit}>
-                        <div>
-                            {createSuccessed && <Info msg={lang.textes.contactAddSuccess[lang.id]} type="success" />}
-                            {errored && <Info msg={lang.textes.contactAddErr[lang.id]} type="error" />}
-                        </div>
-                        <Grid container spacing={matchDownSM ? 0 : 2}>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    autoFocus
-                                    fullWidth
-                                    label={lang.textes.nameSingle[lang.id]}
-                                    margin="normal"
-                                    name="nom"
-                                    type="text"
-                                    value={nom}
-                                    onChange={(e) => setNom(e.target.value)}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={6}>
-                                <TextField
-                                    fullWidth
-                                    label={lang.textes.prenom[lang.id]}
-                                    margin="normal"
-                                    name="prenom"
-                                    type="text"
-                                    value={prenom}
-                                    onChange={(e) => setPrenom(e.target.value)}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={4}>
-                                <TextField
-                                    fullWidth
-                                    label={lang.textes.paysId[lang.id]}
-                                    margin="normal"
-                                    name="code"
-                                    type="text"
-                                    value={code}
-                                    onChange={(e) => setCode(e.target.value)}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={8}>
-                                <TextField
-                                    fullWidth
-                                    label={lang.textes.numTel[lang.id]}
-                                    margin="normal"
-                                    name="phone"
-                                    type="number"
-                                    value={phone}
-                                    onChange={(e) => setPhone(e.target.value)}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <TextField
-                                    fullWidth
-                                    label={lang.textes.emailAdress[lang.id]}
-                                    margin="normal"
-                                    name="email"
-                                    type="email"
-                                    defaultValue=""
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
-                                    sx={{ ...theme.typography.customInput }}
-                                />
-                            </Grid>
-                            <Grid item xs={12} sm={12}>
-                                <Box sx={{ minWidth: 60 }}>
-                                    <FormControl fullWidth>
-                                        <InputLabel id="demo-simple-select-label">{lang.textes.selectGroupe[lang.id]}</InputLabel>
-                                        <Select
-                                            sx={{ p: 1 }}
-                                            labelId="demo-simple-select-label"
-                                            id="demo-simple-select"
-                                            value={groupSelected}
-                                            onChange={(e) => setGroupSelected(e.target.value)}
-                                            label="Qtt"
-                                            size="small"
-                                        >
-                                            {groups && groups.map((group, index) => <MenuItem value={group.id}>{group.title}</MenuItem>)}
-                                        </Select>
-                                    </FormControl>
-                                </Box>
-                            </Grid>
-                            <Grid item xs={12} sm={8}></Grid>
-                            <Grid item xs={12} sm={4}>
-                                <Box sx={{ mt: 2 }}>
-                                    <AnimateButton>
-                                        <Button
-                                            disableElevation
-                                            fullWidth
-                                            size="large"
-                                            type="submit"
-                                            variant="contained"
-                                            color="secondary"
-                                            startIcon={<CloudDoneOutlinedIcon />}
-                                        >
-                                           {lang.textes.addContact[lang.id]}
-                                        </Button>
-                                    </AnimateButton>
-                                </Box>
-                            </Grid>
-                        </Grid>
-                    </form>
                 </MainCard>
+                <UserManager />
             </Grid>
             <Grid item sx={12} lg={4}>
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 1.5 }}
-                    whileHover={{ scale: 1.06 }}
-                >
-                    <Card>
-                        <CardContent>
-                            <Box sx={{ ml: 0 }}>
-                                <div>
-                                    <img style={{ maxWidth: 300 }} src={imgSvg} alt="" />
-                                    <Typography variant="subtitle2" sx={{ mt: 2 }}>
-                                    {lang.textes.userInfo[lang.id]}
-                                    </Typography>
-                                </div>
-                            </Box>
-                        </CardContent>
-                        <CardActions sx={{ mt: 10 }}>
-                            <Button component={RouterLink} to="/dashboard/users/newCtg" fullWidth color="error">
-                            {lang.textes.addGroup[lang.id]}
-                            </Button>
-                        </CardActions>
-                    </Card>
-                </motion.div>
+                <Card className="settingsPannel">
+                    <CardContent>
+                        <Box sx={{ ml: 0 }}>
+                            <div>
+                                <img style={{ maxWidth: 300 }} src={imgSvg} alt="" />
+                                <AddSettings />
+                            </div>
+                        </Box>
+                    </CardContent>
+                    <CardActions sx={{ mt: 10 }}>
+                        <div className="userFormSettings">
+
+                        </div>
+                    </CardActions>
+                </Card>
             </Grid>
         </Grid>
     );

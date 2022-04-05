@@ -216,3 +216,27 @@
     color:#fff;
     padding: 7px;
 }
+
+.newUserForm{
+    background: white !important;
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.settingsPannel{
+    position: fixed;
+}
+
+.customNb{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+
+    .nbBtn{
+        height: 100% !important;
+        font-weight: 600;
+        font-size: 1.3rem;
+    }
+
+}
