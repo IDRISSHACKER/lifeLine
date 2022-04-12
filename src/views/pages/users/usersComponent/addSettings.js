@@ -38,7 +38,7 @@ export default function AddSettings() {
                     variant="standard"
                     value={nbChamp}
                     sx={{ ...theme.typography.customInput }}
-                    onChange={(e) => setNbChamp(e.target.value)}
+                    onChange={(e) => setNbChamp(parseInt(e.target.value))}
                     style={{
 
                     }}

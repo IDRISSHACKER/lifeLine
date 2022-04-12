@@ -32,6 +32,7 @@ import Loadable from 'ui-component/Loadable';
 const UserManager = Loadable(lazy(() => import('./usersComponent/userManager')));
 const AddSettings = Loadable(lazy(() => import('./usersComponent/addSettings')));
 import SaveAll from './usersComponent/saveAllComponent';
+import UploadExcel from './usersComponent/uploadExcel';
 
 const CreateUser = () => {
     const theme = useTheme();
@@ -91,7 +92,9 @@ const CreateUser = () => {
                         <SecondaryAction title={lang.textes.userList[lang.id]} link="/dashboard/contact/list" icon={<VerifiedUserOutlinedIcon />} />
                     }
                 >
+                    <UploadExcel />
                 </MainCard>
+                <br />
                 <UserManager />
             </Grid>
             <Grid item sx={12} lg={4}>
