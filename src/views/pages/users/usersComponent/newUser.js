@@ -169,7 +169,7 @@ export default function NewUser() {
                                 label="Qtt"
                                 size="small"
                             >
-                                {groups && groups.map((group, index) => <MenuItem value={group.id}>{group.title}</MenuItem>)}
+                                {typeof groups != "string" && groups && groups.map((group, index) => <MenuItem value={group.id}>{group.title}</MenuItem>)}
                             </Select>
                         </FormControl>
                     </Box>

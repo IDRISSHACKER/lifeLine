@@ -1,6 +1,6 @@
-import {Component} from "react"
+import { Component } from "react"
 
-class settings extends Component{ 
+class settings extends Component {
 	state = {
 		conf: {}
 	}
@@ -8,11 +8,11 @@ class settings extends Component{
 		super();
 	}
 
-	init = function(){
+	init = function () {
 		return {
-			APP_URL : 'https://lifelinesms.org/server.php',
-			APP_FOLDER : 'https://lifelinesms.org',
-			APP_NAME : 'lifelinesms' 
+			APP_URL: 'https://lifeline.test/server.php',
+			APP_FOLDER: 'https://lifeline.test',
+			APP_NAME: 'lifeline'
 		}
 	}
 
