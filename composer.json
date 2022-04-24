@@ -1,5 +1,7 @@
 {
     "require": {
-        "twilio/sdk": "^6.31"
+        "twilio/sdk": "^6.31",
+        "phpoffice/phpspreadsheet": "^1.22",
+        "symfony/var-dumper": "^5.4"
     }
 }

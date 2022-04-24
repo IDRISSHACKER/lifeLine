@@ -15,7 +15,8 @@ use App\Table\Chart;
 use App\Table\Users;
 use App\Table\Groupe;
 use App\Table\Image;
-use App\Table\Messenger;    
+use App\Table\Messenger;
+use App\Table\Stream;   
 
 $page = !empty($_GET["page"]) ? $_GET["page"] : "home/";
 
@@ -53,4 +54,6 @@ if($page === "setUser" OR $page === "setUser/"){
   Users::updateUser();
 }else if($page === "updateGroup" OR $page ==="updateGroup/"){
   Groupe::updateGroup();
-}
+}else if($page === "setExcel" OR $page === "setExcel/"){
+  Stream::read(dirname(__DIR__)."/public/files/download/model.xls");
+};

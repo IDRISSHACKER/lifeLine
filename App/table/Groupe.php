@@ -23,15 +23,44 @@ class Groupe extends Table
 
     if(self::save("INSERT INTO groupe(title, description) VALUES(?,?)", [$title, $description])){
 
-      self::getGroups();
+      return true;
 
     }else{
 
-      self::getGroups();
+      return false;
 
     }
 
 
+   }
+
+   public static function verifyIfGroupExist($groupeName){
+
+    $group = self::query("SELECT * FROM groupe WHERE title = ?", [$groupeName],);
+
+    if(count($group) > 0){
+      $groupeId = $group[0]->id;
+      return $groupeId;
+      
+    }else{
+
+      return false;
+
+    }
+
+   }
+
+   public static function setUniqueGroup($title = "", $description = ""){
+       
+      if(self::save("INSERT INTO groupe(title, description) VALUES(?,?)", [$title, $description])){
+  
+        return true;
+  
+      }else{
+  
+        return false;
+  
+      }
    }
 
    public static function updateGroup(){

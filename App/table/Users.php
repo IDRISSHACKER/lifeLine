@@ -74,6 +74,25 @@ class Users extends Table{
         
     }
 
+    public static function setUniqueUser($name = "", $phone = "", $group = "",  $pays = 237, $surname = "", $email = ""){
+
+        if(count(self::getPhone($phone))==0){
+            if (self::save(
+                "INSERT INTO users(name, surname, phone, pays_id, email, groupe_id) VALUES(?,?,?,?,?,?)",
+                [$name, $surname, $phone, $pays, $email, $group]
+            )) {
+
+                return true;
+            } else {
+
+                return false;
+            }
+        }else{
+            return true;
+        }
+
+    }
+
     public static function updateUser(){
         $id = $_POST['id'];
         $name = $_POST['name'];
