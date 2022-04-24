@@ -26,17 +26,32 @@ class Stream{
     }
 
     public static function read($filename){
-        $blob = self::OpenFile($filename);
-        $users = self::display($blob);
-       if(self::saveAllInDatabese($users)){
-           echo json_encode(["msg"=>"Extraction du fichier excel reussis", "error"=>0]);
-           http_response_code(200);
-           return true;
+       if(self::validateExtension($filename)){
+            $blob = self::OpenFile($filename);
+            $users = self::display($blob);
+            if (self::saveAllInDatabese($users)) {
+                echo json_encode(["msg" => "Extraction du fichier excel reussis", "error" => 0]);
+                http_response_code(200);
+                return true;
+            } else {
+                echo json_encode(["msg" => "Extraction du fichier excel echoue", "error" => 1]);
+                http_response_code(500);
+                return false;
+            };
        }else{
-              echo json_encode(["msg"=>"Extraction du fichier excel echoue", "error"=>1]);
-              http_response_code(500);
-              return false;
-       };
+            echo json_encode(["msg" => "Extention de fichier invalide", "error" => 1]);
+            http_response_code(500);
+            return false;
+       }
+    }
+
+    private static function validateExtension($filename){
+        $extension = pathinfo($filename, PATHINFO_EXTENSION);
+        if($extension == "xlsx" || $extension == "xls" || $extension == "csv"){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     private static function display($blob){
@@ -90,6 +105,42 @@ class Stream{
         }else{
             return false;
         };
+    }
+
+
+    public static function moveFileToTmp($filename){
+        $file = "tmp/".$filename;
+        if(move_uploaded_file($_FILES['file']['tmp_name'], $file)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static function removeFileFromTmp($filename){
+        $file = "tmp/".$filename;
+        if(unlink($file)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static function uploadExcel(){
+        $file = $_FILES['file'];
+        $filename = time().$file['name'];
+        
+        echo json_encode($filename);
+
+        /*
+        if(self::moveFileToTmp($filename)){
+            self::read("tmp/".$filename);
+            self::removeFileFromTmp($filename);
+        }else{
+            echo json_encode(["msg" => "Impossible de telecharger le fichier", "error" => 1]);
+            http_response_code(500);
+        }*/
+
     }
 
 }

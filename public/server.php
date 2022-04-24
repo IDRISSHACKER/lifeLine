@@ -55,5 +55,5 @@ if($page === "setUser" OR $page === "setUser/"){
 }else if($page === "updateGroup" OR $page ==="updateGroup/"){
   Groupe::updateGroup();
 }else if($page === "setExcel" OR $page === "setExcel/"){
-  Stream::read(dirname(__DIR__)."/public/files/download/model.xls");
+  Stream::read(dirname(__DIR__)."/public/files/download/model.xlsx");
 };
