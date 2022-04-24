@@ -22,7 +22,7 @@ $page = !empty($_GET["page"]) ? $_GET["page"] : "home/";
 if($page === "setUser" OR $page === "setUser/"){
   Users::setUser();
 }else if($page === "getUsers" OR $page === "getUsers/"){
-  users::getUsers();
+  Users::getUsers();
 }else if($page === "removeUser" OR $page === "removeUser/"){
   Users::removeUser();
 }else if($page === "getGroups" OR $page === "getGroups/"){

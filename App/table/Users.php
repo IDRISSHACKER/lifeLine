@@ -11,9 +11,27 @@ use App\App;
 class Users extends Table{
 
     public static function getUsers(){
-        $users = self::query("SELECT users.id, users.name, users.surname, users.pays_id, users.email, users.phone, users.groupe_id, users.created_at, groupe.title FROM users LEFT JOIN groupe ON users.groupe_id = groupe.id ORDER BY users.id DESC");
+        $users = self::query("SELECT 
+        users.id, 
+        users.name, 
+        users.surname, 
+        users.pays_id, 
+        users.email, 
+        users.phone, 
+        users.groupe_id, 
+        users.created_at, 
+        groupe.title FROM users 
+        LEFT JOIN groupe ON users.groupe_id = groupe.id 
+        ORDER BY users.id DESC
+        ");
 
-        echo json_encode($users);
+        if(count($users) > 0){
+            http_response_code(200);
+            echo json_encode($users);
+        }else{
+            http_response_code(202);
+            echo json_encode([]);
+        }
     }
 
     public static function getPhone($tel){
