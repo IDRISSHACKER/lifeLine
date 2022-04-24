@@ -5,6 +5,7 @@ import { useState } from "react"
 import AnimateButton from 'ui-component/extended/AnimateButton';
 import axios from "axios";
 import settings from "utils/settings";
+import Info from "views/pages/utils/Info";
 
 const server_infos = new settings;
 
@@ -19,6 +20,9 @@ export default function UploadExcel({ props }) {
     const [detectDrop, setDetectDrop] = useState(false)
     const [fileSelected, setFileSelected] = useState(false)
     const [progess, setProgress] = useState(0);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(false);
+    const [success, setSuccess] = useState(false);
 
     const handleDrop = (event) => {
         setDetectDrop(false)
@@ -30,7 +34,16 @@ export default function UploadExcel({ props }) {
         setDetectDrop(true)
     }
 
+    const reset = () => {
+        setFileTitle("")
+        setApercu(defaultApercu)
+        setFileSelected(false)
+        setFileSize("")
+        setFileTitle(defaultFileTitle)
+    }
+
     const uploadToServer = async () => {
+        setLoading(true)
         const url = `${server_infos.init().APP_URL}?page=setExcel`;
         const formData = new FormData();
         formData.append("file", contactFile);
@@ -40,14 +53,24 @@ export default function UploadExcel({ props }) {
                 const { loaded, total } = progressEvent;
                 const percent = Math.floor((loaded * 100) / total);
                 setProgress(percent);
-                console.log(percent + "%");
 
             }
         }
         await axios.post(url, formData, config)
-        .then(res => {})
-        .catch(err => {})
+        .then(res => {
+            reset();
+            setLoading(false)
+            setSuccess(true)
+            setTimeout(() => setSuccess(false), 2000)
+        })
+       
+        .catch(err => {
+            setLoading(false)
+            setError(true)
+            setTimeout(() => setError(false), 2000)
+        })
     }
+
 
     const handleUpload = (event) => {
         const convertionNumber = 1000
@@ -66,11 +89,7 @@ export default function UploadExcel({ props }) {
             setFileSelected(true)
             return true
         } else {
-            setFileTitle("")
-            setApercu(defaultApercu)
-            setFileSelected(false)
-            setFileSize("")
-            setFileTitle(defaultFileTitle)
+            reset()
             event.preventDefault()
             return false
         }
@@ -82,9 +101,14 @@ export default function UploadExcel({ props }) {
     }
 
 
+
     return (
         <div>
             <div>
+                <div>
+                    {success && <Info msg="Importation reusis" type="success" />}
+                    {error && <Info msg="Une erreur est prevenue l'ors de l'importation" type="error" />}
+                </div>
                 <div className={`dropZone ${detectDrop ? "droping" : ""}`} {...props}>
                     <div className={`draggable`} onDrop={handleDrop} onDragOver={allowDrop} onDragLeave={endDrag}>
                         <div className="dragApercu">
@@ -102,14 +126,14 @@ export default function UploadExcel({ props }) {
                 <AnimateButton>
                     <Button
                         onClick={uploadToServer}
-                        disabled={!fileSelected}
+                        disabled={!fileSelected || loading}
                         disableElevation
                         size="small"
                         variant="contained"
                         color="secondary"
                         startIcon={<UploadFileOutlined />}
                     >
-                        Sauvegarder les contacts
+                        {loading ? progess+"%" : "Sauvegarder les contacts"}
                     </Button>
                 </AnimateButton>
             </div>

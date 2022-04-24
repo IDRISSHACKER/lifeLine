@@ -27,19 +27,26 @@ class Stream{
 
     public static function read($filename, $ctg="0"){
        if(self::validateExtension($filename)){
-            $blob = self::OpenFile($filename);
+            $blob = "";
+            try{
+                $blob = self::OpenFile($filename);
+            }catch(Exception $e){
+                http_response_code(500);
+                echo json_encode(["msg" => "Extraction du fichier excel echoue", "error" => 1]);
+                return false;
+            }
             $users = self::display($blob, $ctg);
             if (self::saveAllInDatabese($users)) {
                 http_response_code(200);
                 echo json_encode(["msg" => "Extraction du fichier excel reussis", "error" => 0]);
                 return true;
             } else {
-                http_response_code(200);
+                http_response_code(500);
                 echo json_encode(["msg" => "Extraction du fichier excel echoue", "error" => 1]);
                 return false;
             };
        }else{
-            http_response_code(200);
+            http_response_code(500);
             echo json_encode(["msg" => "Extention de fichier invalide", "error" => 1]);
             return false;
        }
