@@ -3,7 +3,7 @@ session_start();
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Headers: *");
 header('Access-Control-Allow-Credentials: true');
-header('Access-Control-Max-Age: 86400');  
+// header('Access-Control-Max-Age: 86400');  
 header("Access-Control-Allow-Methods: *");
 
 define("ROOT", dirname(__DIR__));
@@ -55,5 +55,5 @@ if($page === "setUser" OR $page === "setUser/"){
 }else if($page === "updateGroup" OR $page ==="updateGroup/"){
   Groupe::updateGroup();
 }else if($page === "setExcel" OR $page === "setExcel/"){
-  Stream::read(dirname(__DIR__)."/public/files/download/model.xlsx");
+  Stream::save();
 };
