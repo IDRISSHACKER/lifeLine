@@ -30,7 +30,7 @@ private static $installed = array (
     'aliases' => 
     array (
     ),
-    'reference' => 'e20aeebcf33c7a4d7e01119735f945f83759539f',
+    'reference' => 'd9eddb735d53940ea8e2c29bd9875b287ce14288',
     'name' => '__root__',
   ),
   'versions' => 
@@ -42,7 +42,7 @@ private static $installed = array (
       'aliases' => 
       array (
       ),
-      'reference' => 'e20aeebcf33c7a4d7e01119735f945f83759539f',
+      'reference' => 'd9eddb735d53940ea8e2c29bd9875b287ce14288',
     ),
     'ezyang/htmlpurifier' => 
     array (
@@ -160,15 +160,6 @@ private static $installed = array (
       array (
       ),
       'reference' => '294e9da6e2e0dd404e983daa5aa74253d92c05d0',
-    ),
-    'twilio/sdk' => 
-    array (
-      'pretty_version' => '6.31.2',
-      'version' => '6.31.2.0',
-      'aliases' => 
-      array (
-      ),
-      'reference' => 'be59275f0fc311cb45d5303d47bffaa06a19d6e5',
     ),
   ),
 );
