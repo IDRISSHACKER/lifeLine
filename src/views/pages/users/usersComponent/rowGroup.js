@@ -28,6 +28,7 @@ import { getUsers } from 'store/Action/users.action';
 import BackupTwoToneIcon from '@mui/icons-material/BackupTwoTone';
 import ModeEditOutlineIcon from '@mui/icons-material/ModeEditOutline';
 import { motion } from "framer-motion"
+import {useState} from "react"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
     return <Slide direction="up" ref={ref} {...props} />;
@@ -36,16 +37,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 function Edit({ group }) {
     const dispatch = useDispatch()
-    const [open, setOpen] = React.useState(false)
-    const [title, setTitle] = React.useState(group.title)
-    const [description, setDescription] = React.useState(group.description)
-    const [updated, setUpdated] = React.useState(0)
-    const [load, setLoad] = React.useState(0)
+    const [open, setOpen] = useState(false)
+    const [title, setTitle] = useState(group.title)
+    const [description, setDescription] = useState(group.description)
+    const [updated, setUpdated] = useState(0)
+    const [load, setLoad] = useState(0)
 
     React.useEffect(()=>{
         setTitle(group.title)
         setDescription(group.description)
-    })
+    },[])
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -79,6 +80,14 @@ function Edit({ group }) {
         }
     }
 
+    const handleEditTitle = (e)=>{
+        setTitle(e.target.value)
+    }
+
+    const handleEditDescription = (e)=>{
+        setDescription(e.target.value)
+    }
+
     return (
         <div>
             <IconButton color="secondary" onClick={handleClickOpen}>
@@ -109,7 +118,7 @@ function Edit({ group }) {
                                 type="text"
                                 fullWidth
                                 value={title}
-                                onChange={e => setTitle(e.target.value)}
+                                onChange={handleEditTitle}
 
                             />
                             <TextField
@@ -122,7 +131,7 @@ function Edit({ group }) {
                                 value={description}
                                 multiline
                                 rows={5}
-                                onChange={e => setDescription(e.target.value)}
+                                onChange={handleEditDescription}
 
                             />
                         </DialogContent>

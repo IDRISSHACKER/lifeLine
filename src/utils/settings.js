@@ -9,7 +9,7 @@ class settings extends Component {
 	}
 
 	init = function () {
-		const prod = true;
+		const prod = 	true;
 		if(prod) {
 			return {
 				APP_URL: 'https://lifelinesms.org/server.php',
