@@ -97,9 +97,7 @@ const SendMessage = () => {
         setErrr(0)
         if (showWriteContact && contact.length !== 0) {
             sendSms('+' + contact, message).then(res => {
-                console.log(res)
                 if (res === true) {
-                    console.log('send...')
                     setMessage('')
                     setContact('')
                     setSuccess(1)
@@ -120,7 +118,6 @@ const SendMessage = () => {
                         } else {
                             let tab = []
                             checked.forEach((value) => {
-                                alert(JSON.stringify(value))
                                 if (value.id !== userId.id) {
                                     tab.push(value)
                                 }

@@ -1,6 +1,7 @@
 import { useState } from "react"
 
 const sendSms = async (to, sms, toAlpha = "LIFELINE") => {
+    alert(JSON.stringify(to));
 
     let statu = true
 
@@ -26,8 +27,8 @@ const sendSms = async (to, sms, toAlpha = "LIFELINE") => {
     }
 
     return await fetch(URL, init)
-        .then(response => response.ok)
-        .catch(error => error.ok)
+        .then(response => console.log(response))
+        .catch(error => console.log(error))
 
 
 }
