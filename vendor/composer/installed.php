@@ -6,7 +6,7 @@
     'aliases' => 
     array (
     ),
-    'reference' => '955a9e73c505595d075de410c97ea977edebc628',
+    'reference' => '9bfda733567e02f419398f6fc5b70aa228375a48',
     'name' => '__root__',
   ),
   'versions' => 
@@ -18,7 +18,7 @@
       'aliases' => 
       array (
       ),
-      'reference' => '955a9e73c505595d075de410c97ea977edebc628',
+      'reference' => '9bfda733567e02f419398f6fc5b70aa228375a48',
     ),
     'ezyang/htmlpurifier' => 
     array (
@@ -127,6 +127,24 @@
       array (
       ),
       'reference' => '408d5eafb83c57f6365a3ca330ff23aa4a5fa39b',
+    ),
+    'symfony/deprecation-contracts' => 
+    array (
+      'pretty_version' => 'v2.5.1',
+      'version' => '2.5.1.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => 'e8b495ea28c1d97b5e0c121748d6f9b53d075c66',
+    ),
+    'symfony/dotenv' => 
+    array (
+      'pretty_version' => 'v5.4.5',
+      'version' => '5.4.5.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '83a2310904a4f5d4f42526227b5a578ac82232a9',
     ),
     'symfony/polyfill-ctype' => 
     array (

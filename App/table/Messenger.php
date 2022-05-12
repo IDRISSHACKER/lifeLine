@@ -34,12 +34,14 @@ class Messenger extends Table
     }
 
     public static function setMessageInOperator($phone, $sms){
-        $dotenv = Dotenv::createImmutable(__DIR__);
+        $dotenv = Dotenv::createImmutable(dirname(dirname(__DIR__)), ".env");
         $dotenv->load();
         
-        $sid = getenv("TWILIO_SID");
-        $token = getenv("TWILIO_TOKEN");
+        $sid = $_SERVER["TWILIO_SID"];
+        $token = $_SERVER["TWILIO_TOKEN"];
+    
         $twilio = new Client($sid, $token);
+
 
         $message = $twilio->messages
                   ->create($phone, // to
@@ -72,7 +74,7 @@ class Messenger extends Table
     if($err){
         echo json_encode("error");
     }else{
-        echo json_encode($res);
+        self::getMessages();
     }
 
    }

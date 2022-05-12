@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom'
 import { useTheme } from '@mui/material/styles'
 import SendIcon from '@mui/icons-material/Send'
 import InfiniteScroll from 'react-infinite-scroll-component'
+import LoadingButton from '@mui/lab/LoadingButton';
 import {
     Grid,
     TextField,
@@ -64,6 +65,7 @@ const SendMessage = () => {
     const [page, setPage] = useState(10)
     const [tmp, setTmp] = useState(0)
     const [notConnexion, setNotConnexion] = useState(false)
+    const [sending, setSending] = useState(false);
 
     const theme = useTheme()
     const matchDownSM = useMediaQuery(theme.breakpoints.down('md'))
@@ -104,6 +106,7 @@ const SendMessage = () => {
             
         } else if (message && checked.length > 0) {
             setOpen(true);
+            setSending(true);
 
             let usersList = checked;
             let msg = message;
@@ -112,10 +115,10 @@ const SendMessage = () => {
             data.append('message', msg)
             data.append('users', JSON.stringify(usersList))
 
-            //dispatch(setMessages(data));
-            dispatch(getMessages());
+            dispatch(setMessages(data));
             dispatch(getChartMonth());
             dispatch(getChartDay());
+            dispatch(getMessages());
 
             let timer = setTimeout(() => {
                 clearTimeout(timer);
@@ -311,7 +314,9 @@ const SendMessage = () => {
                                 <CardActions sx={{ mt: 0, pt: 0 }}>
                                     <Box>
                                         <AnimateButton>
-                                            <Button
+                                            <LoadingButton
+                                                loading={sending}
+                                                loadingPosition="start"
                                                 endIcon={<SendIcon />}
                                                 disableElevation
                                                 fullWidth
@@ -321,7 +326,7 @@ const SendMessage = () => {
                                                 color="secondary"
                                             >
                                                 {lang.textes.sendMsg[lang.id]}
-                                            </Button>
+                                            </LoadingButton>
                                         </AnimateButton>
                                     </Box>
                                 </CardActions>
