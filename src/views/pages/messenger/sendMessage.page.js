@@ -18,7 +18,8 @@ import {
     Select,
     CardActions,
     Chip,
-    Stack
+    Stack,
+    Typography
 } from '@mui/material'
 import Backdrop from '@mui/material/Backdrop'
 import CircularProgress from '@mui/material/CircularProgress'
@@ -26,6 +27,7 @@ import AnimateButton from 'ui-component/extended/AnimateButton'
 import MainCard from 'ui-component/cards/MainCard'
 import SecondaryAction from 'ui-component/cards/CardSecondaryAction'
 import List from '@mui/material/List'
+import { useRef } from 'react'
 import Checkbox from '@mui/material/Checkbox'
 import { useDispatch, useSelector } from 'react-redux'
 import { setMessages } from 'store/Action/message.action'
@@ -43,7 +45,10 @@ import { useMemo } from 'react';
 import MsgList from './messengerComponent/RowListUser';
 import ItemMenu from './messengerComponent/ItemMenu'
 import { random } from 'lodash';
+import { getMessages } from './../../../store/Action/message.action';
+
 const SendMessage = () => {
+    let fieldRef = useRef(null)
     const [checked, setChecked] = useState([])
     const [groupSelected, setGroupSelected] = useState(0)
     const [contacts, setContacts] = useState([])
@@ -96,67 +101,35 @@ const SendMessage = () => {
         e.preventDefault()
         setErrr(0)
         if (showWriteContact && contact.length !== 0) {
-            sendSms('+' + contact, message).then(res => {
-                if (res === true) {
-                    setMessage('')
-                    setContact('')
-                    setSuccess(1)
-                    setTimeout(() => setSuccess(0), 4000)
-                } else {
-                    setErrr(1)
-                    setTimeout(() => setErrr(0), 2000)
-                    setMsg(contact)
-                }
-            })
+            
         } else if (message && checked.length > 0) {
-            checked.forEach((userId, index) => {
+            setOpen(true);
 
-                try {
-                    sendSms('+' + userId.pays_id + userId.phone, message).then(res => {
-                        if (res) {
+            let usersList = checked;
+            let msg = message;
 
-                        } else {
-                            let tab = []
-                            checked.forEach((value) => {
-                                if (value.id !== userId.id) {
-                                    tab.push(value)
-                                }
-                            })
-                            setChecked(tab)
+            const data = new FormData()
+            data.append('message', msg)
+            data.append('users', JSON.stringify(usersList))
 
-                            setErrr(1)
-                            setNotConnexion(true)
-                            setMsg(userId.name + '(+' + userId.pays_id + userId.phone + ')')
-                            setTimeout(() => setErr(0), 2000)
-                            throw new Error('Erreur d\'envoie de sms');
-                        }
-                    })
-                    if (!notConnexion) {
-                        if (checked.length === index + 1) {
-                            setTimeout(() => {
-                                const data = new FormData()
-                                data.append('message', message)
-                                data.append('users', JSON.stringify(checked))
+            //dispatch(setMessages(data));
+            dispatch(getMessages());
+            dispatch(getChartMonth());
+            dispatch(getChartDay());
 
-                                if (dispatch(setMessages(data))) {
-                                    dispatch(getChartMonth())
-                                    dispatch(getChartDay())
-                                }
-                                setMessage('')
-                                setChecked([])
-                                setCheckAll(0)
-                                setTimeout(() => setSuccess(1), 2000)
-                                setTimeout(() => setSuccess(0), 4000)
-                                setTimeout(() => navigate('/dashboard/message/sended'), 4000)
-                            }, 500)
+            let timer = setTimeout(() => {
+                clearTimeout(timer);
+                setOpen(false);
+                setSuccess(1);
+                setMessage('');
+                //fieldRef.value = "";
+                let timer2 = setTimeout(() => {
+                    clearTimeout(timer2);
+                    setSuccess(0);
+                    navigate('/dashboard/message/sended', true);
+                }, 2000);
 
-                        }
-                    }
-                } catch (e) {
-                    alert("error")
-
-                }
-            })
+            }, 2000);
 
         } else {
             setErr(1)
@@ -276,7 +249,10 @@ const SendMessage = () => {
                     sx={{ color: '#fff', zIndex: (theme) => theme.zIndex.drawer + 1 }}
                     open={open}
                 >
-                    <CircularProgress color="inherit" />
+                    <Stack direction="row" spacing={2}>
+                        <CircularProgress color="inherit"/>
+                    </Stack>
+
                 </Backdrop>
             </div>
             <form noValidate onSubmit={handleSubmit}>
@@ -323,6 +299,7 @@ const SendMessage = () => {
                                         type="text"
                                         multiline
                                         rows={12}
+                                        ref = {fieldRef}
                                         onBlur={
                                             (e) => {
                                                 setMessage(e.target.value)

@@ -26,7 +26,7 @@ import { useSelector } from "react-redux";
 const Transition = forwardRef(function Transition(props, ref) {
     return <Slide direction="down" ref={ref} {...props} />;
 });
-const msg = "Cette option auras pour effet de suprimer touts les messages que vouz envoyées, suprimer vos contacts & groupe"
+const msg = "Cette option auras pour effet de suprimer tous les messages que vouz avez envoyées, suprimer vos contacts & groupe"
 const Reset = () => {
     const [load, setLoad] = useState(false);
     const [open, setOpen] = useState(false);

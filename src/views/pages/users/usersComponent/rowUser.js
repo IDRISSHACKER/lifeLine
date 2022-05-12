@@ -131,11 +131,11 @@ const Edit = ({ user }) => {
                                 <Typography>{user.name} {user.surname}</Typography>
                             </Stack>
                         </DialogContentText>
-                        <TextField margin="dense" type='email' onChange={(e) => setEmail(e.target.value)} fullWidth value={email} />
-                        <TextField margin="dense" onChange={(e) => setName(e.target.value)} value={name} fullWidth />
-                        <TextField margin="dense" onChange={(e) => setSurname(e.target.value)} value={surname} fullWidth />
-                        <TextField required margin="dense" name="phone_id" type="number" onChange={(e) => setPays_id(e.target.value)} value={pays_id} fullWidth />
-                        <TextField required margin="dense" type="number" name='telephone' id="telephone" onChange={(e) => setPhone(e.target.value)} value={phone} fullWidth />
+                        <TextField required margin="dense" label="name" onChange={(e) => setName(e.target.value)} value={name} fullWidth />
+                        <TextField margin="dense"  label="surname" onChange={(e) => setSurname(e.target.value)} value={surname} fullWidth />
+                        <TextField required margin="dense" label="country number" name="phone_id" type="number" onChange={(e) => setPays_id(e.target.value)} value={pays_id} fullWidth />
+                        <TextField required margin="dense" label="phone" type="number" name='telephone' id="telephone" onChange={(e) => setPhone(e.target.value)} value={phone} fullWidth />
+                        <TextField margin="dense" label="email" type='email' onChange={(e) => setEmail(e.target.value)} fullWidth value={email} />
                         <FormControl fullWidth sx={{ mt: 2 }}>
                             <InputLabel id="demo-simple-select-label">Select one group</InputLabel>
                             <Select

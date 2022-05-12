@@ -6,15 +6,21 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 import axios from "axios";
 import settings from "utils/settings";
 import Info from "views/pages/utils/Info";
+import { useDispatch } from "react-redux";
+import { getUsers } from './../../../../store/Action/users.action';
+import { getGroups } from './../../../../store/Action/goupe.action';
+
 
 const server_infos = new settings;
 
 export default function UploadExcel({ props }) {
+    const dispatch = useDispatch();
+
     const [defaultApercu, setDefaultApercu] = useState("https://img.icons8.com/cute-clipart/64/000000/upload.png");
     const [apercu, setApercu] = useState("https://img.icons8.com/cute-clipart/64/000000/upload.png");
     const [apercuExcel, setApercuExcel] = useState("https://img.icons8.com/color/144/000000/microsoft-excel-2019--v1.png");
-    const [defaultFileTitle, setDefaultFileTitle] = useState("Glissé deposer les contacts ou clicker pour uploader");
-    const [fileTitle, setFileTitle] = useState("Glissé deposer les contacts ou clicker pour uploader");
+    const [defaultFileTitle, setDefaultFileTitle] = useState("Drag and drop contacts or click to upload");
+    const [fileTitle, setFileTitle] = useState("Drag and drop contacts or click to upload");
     const [fileSize, setFileSize] = useState("");
     const [contactFile, setContactFile] = useState({})
     const [detectDrop, setDetectDrop] = useState(false)
@@ -61,6 +67,8 @@ export default function UploadExcel({ props }) {
             reset();
             setLoading(false)
             setSuccess(true)
+            dispatch(getUsers())
+            dispatch(getGroups())
             setTimeout(() => setSuccess(false), 2000)
         })
        
@@ -100,15 +108,14 @@ export default function UploadExcel({ props }) {
         setDetectDrop(false)
     }
 
-
-
     return (
         <div>
             <div>
                 <div>
-                    {success && <Info msg="Importation reusis" type="success" />}
-                    {error && <Info msg="Une erreur est prevenue l'ors de l'importation" type="error" />}
+                    {success && <Info msg="Import successful" type="success" />}
+                    {error && <Info msg="An error occurred while importing" type="error" />}
                 </div>
+
                 <div className={`dropZone ${detectDrop ? "droping" : ""}`} {...props}>
                     <div className={`draggable`} onDrop={handleDrop} onDragOver={allowDrop} onDragLeave={endDrag}>
                         <div className="dragApercu">
@@ -117,7 +124,7 @@ export default function UploadExcel({ props }) {
                             <p className="dragSize">{fileSize}</p>
                         </div>
                         <input type="file" name="file" className="fileDrag" onChange={handleUpload} accept=".xlsx, .xls, .csv" />
-                        <label for="fileDrag" className="fileDragLabel">{fileSelected ? "Changer le fichier" : "Importer les contacts"}</label>
+                        <label for="fileDrag" className="fileDragLabel">{fileSelected ? "Change file" : "Import Contacts"}</label>
                     </div>
                 </div>
             </div>
@@ -133,7 +140,7 @@ export default function UploadExcel({ props }) {
                         color="secondary"
                         startIcon={<UploadFileOutlined />}
                     >
-                        {loading ? progess+"%" : "Sauvegarder les contacts"}
+                        {loading ? progess + "%" : "Back up contacts"}
                     </Button>
                 </AnimateButton>
             </div>

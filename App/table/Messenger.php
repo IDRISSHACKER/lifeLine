@@ -1,8 +1,9 @@
 <?php
 
 namespace App\Table;
+require dirname(dirname(__DIR__))."/vendor/autoload.php";
 
-//use Twilio\Rest\Client; 
+use Twilio\Rest\Client; 
 /**
  * summary
  */
@@ -33,19 +34,16 @@ class Messenger extends Table
 
     public static function setMessageInOperator($phone, $sms){
         
-        /*$sid    = "ACe0dc493300fce94bc13c6864b1cfb91f"; 
-        $token  = "4f02807c32c8609b93a5f91f2f97301e"; 
-        $twilio = new Client($sid, $token); 
- 
-        $message = $twilio->messages 
-                        ->create("+19472085059", // to 
-                                array(
-                                    "from" => "+237693342860",        
-                                    "body" => "Your message" 
-                                ) 
-                        ); 
+        $sid = "ACe0dc493300fce94bc13c6864b1cfb91f";
+        $token = "994db2473cc0294d70b039105bd8f485";
+        $twilio = new Client($sid, $token);
+
+        $message = $twilio->messages
+                  ->create($phone, // to
+                           ["from" => "LIFELINE", "body" => $sms]
+                  );
         
-        print($message->sid);*/
+        return $message;
     }
 
    public static function sendMessage(){
@@ -53,20 +51,26 @@ class Messenger extends Table
     $users  = json_decode($_POST['users']);
     $message   = $_POST['message'];
     $err = 0;
+    $res = "";
 
     foreach ($users as $user) {
         glob($err);
         $phone = "+".$user->pays_id.$user->phone;
         $sms   = $message;
-        self::setMessageInOperator($phone, $sms);
-        if(self::setMessageInDb($user->id, $message)){
-            $err = 0;
+        $twilioSend = self::setMessageInOperator($phone, $sms);
+        $res = $res.$twilioSend->sid;
+        if($twilioSend->sid){
+            self::setMessageInDb($user->id, $message);
         }else{
             $err = 1;
         }
     }
 
-    self::getMessages();
+    if($err){
+        echo json_encode("error");
+    }else{
+        echo json_encode($res);
+    }
 
    }
 
