@@ -4,6 +4,7 @@ namespace App\Table;
 require dirname(dirname(__DIR__))."/vendor/autoload.php";
 
 use Twilio\Rest\Client; 
+use Dotenv\Dotenv;
 /**
  * summary
  */
@@ -33,9 +34,11 @@ class Messenger extends Table
     }
 
     public static function setMessageInOperator($phone, $sms){
+        $dotenv = Dotenv::createImmutable(__DIR__);
+        $dotenv->load();
         
-        $sid = "ACe0dc493300fce94bc13c6864b1cfb91f";
-        $token = "994db2473cc0294d70b039105bd8f485";
+        $sid = getenv("TWILIO_SID");
+        $token = getenv("TWILIO_TOKEN");
         $twilio = new Client($sid, $token);
 
         $message = $twilio->messages
