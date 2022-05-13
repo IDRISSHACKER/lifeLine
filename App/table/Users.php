@@ -11,19 +11,44 @@ use App\App;
 class Users extends Table{
 
     public static function getUsers(){
-        $users = self::query("SELECT 
-        users.id, 
-        users.name, 
-        users.surname, 
-        users.pays_id, 
-        users.email, 
-        users.phone, 
-        users.groupe_id, 
-        users.created_at, 
-        groupe.title FROM users 
-        LEFT JOIN groupe ON users.groupe_id = groupe.id 
-        ORDER BY users.id DESC
-        ");
+        $page = 1;
+        $usersPerPage = 10;
+        $usersToFetchStart = 0;
+        $usersToFetchEnd = 0;
+
+        if(!empty($_GET["p"])){
+            $page = $_GET["p"];
+            $usersToFetchEnd = $page * $usersPerPage;
+            $usersToFetchStart = $usersToFetchEnd - $usersPerPage;
+            $users = self::query("SELECT 
+                users.id, 
+                users.name, 
+                users.surname, 
+                users.pays_id, 
+                users.email, 
+                users.phone, 
+                users.groupe_id, 
+                users.created_at, 
+                groupe.title FROM users 
+                LEFT JOIN groupe ON users.groupe_id = groupe.id 
+                ORDER BY users.id DESC
+                LIMIT $usersToFetchStart,$usersToFetchEnd
+            ");
+        }else{
+            $users = self::query("SELECT 
+                users.id, 
+                users.name, 
+                users.surname, 
+                users.pays_id, 
+                users.email, 
+                users.phone, 
+                users.groupe_id, 
+                users.created_at, 
+                groupe.title FROM users 
+                LEFT JOIN groupe ON users.groupe_id = groupe.id 
+                ORDER BY users.id DESC
+            ");
+        }
 
         if(count($users) > 0){
             http_response_code(200);
