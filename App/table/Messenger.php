@@ -14,7 +14,48 @@ class Messenger extends Table
      * summary
      */
     public static function getMessages(){
-        echo json_encode(self::query("SELECT messages.id, messages.content, messages.created_at, users.name, users.surname, users.phone, users.pays_id, users.email FROM messages INNER JOIN users ON messages.receiver = users.id ORDER BY messages.id DESC"));
+        $page = 1;
+        $usersPerPage = 10;
+        $usersToFetchStart = 0;
+        $usersToFetchEnd = 0;
+
+        if (!empty($_GET["p"])) {
+            $page = $_GET["p"];
+            $usersToFetchEnd = $page * $usersPerPage;
+            $usersToFetchStart = $usersToFetchEnd - $usersPerPage;
+            echo json_encode(
+                self::query("SELECT 
+                    messages.id, 
+                    messages.content, 
+                    messages.created_at,
+                    users.name, 
+                    users.surname, 
+                    users.phone, 
+                    users.pays_id, 
+                    users.email 
+                    FROM messages 
+                    INNER JOIN users ON messages.receiver = users.id 
+                    ORDER BY messages.id DESC
+                    LIMIT $usersToFetchStart,$usersToFetchEnd
+                ")
+            );
+        }else{
+            echo json_encode(
+                self::query("SELECT 
+                    messages.id, 
+                    messages.content, 
+                    messages.created_at,
+                    users.name, 
+                    users.surname, 
+                    users.phone, 
+                    users.pays_id, 
+                    users.email 
+                    FROM messages 
+                    INNER JOIN users ON messages.receiver = users.id 
+                    ORDER BY messages.id DESC
+                ")
+            ); 
+        }
 
     }
 
